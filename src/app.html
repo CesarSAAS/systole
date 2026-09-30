@@ -810,6 +810,101 @@ button,[data-act]{touch-action:manipulation}
   .ecgline.live path{stroke-dasharray:none}
   *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; animation-delay:0s !important; transition-duration:.01ms !important}
 }
+
+/* ---------- Trousses : 5 touches, chances visibles ---------- */
+.chestscreen .rays{animation-duration:var(--rs,14s), .8s}
+.kitwrap .kit{transition:filter .25s; filter:drop-shadow(0 0 var(--kglowr,0px) var(--kglow,transparent))}
+.kitwrap.tap{animation:tapHit .34s cubic-bezier(.3,1.6,.5,1)}
+@keyframes tapHit{0%{transform:scale(1.14,.84)}22%{transform:translateX(calc(var(--amp,5px) * -1)) rotate(-4deg) scale(1.04)}48%{transform:translateX(var(--amp,5px)) rotate(4deg)}74%{transform:translateX(calc(var(--amp,5px) * -.45)) rotate(-2deg)}100%{transform:none}}
+.kitwrap.charging{animation:kitCharge .08s linear infinite}
+@keyframes kitCharge{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(-3px,1px) rotate(-2.5deg)}50%{transform:translate(3px,-2px) rotate(2deg)}75%{transform:translate(-2px,2px) rotate(-1.5deg)}100%{transform:translate(1px,0) rotate(0)}}
+.kitwrap.final .kit{filter:drop-shadow(0 0 46px var(--kglow,#fff)) brightness(1.25)}
+.kitbeam{position:absolute; left:50%; bottom:46%; width:200px; height:420px; margin-left:-100px; transform-origin:50% 100%; background:linear-gradient(to top, color-mix(in srgb, var(--gc,#FFE27A) 80%, #fff) 0%, transparent 92%); clip-path:polygon(38% 100%, 62% 100%, 100% 0, 0 0); mix-blend-mode:screen; pointer-events:none; opacity:0; animation:beamIn 1.4s ease-out forwards}
+@keyframes beamIn{0%{opacity:0; transform:scaleY(.15)}20%{opacity:1; transform:scaleY(1)}100%{opacity:.5}}
+.chsub{color:rgba(255,255,255,.85); font-weight:800; font-size:14px; margin-top:-6px}
+.oddsbox{display:grid; gap:8px; justify-items:center; min-height:64px}
+.nextodds{display:grid; justify-items:center; color:#fff}
+.nextodds b{font-family:var(--display); font-size:34px; line-height:1; font-variant-numeric:tabular-nums}
+.nextodds span{font-weight:800; font-size:13px; opacity:.85}
+.nextodds.max b{font-size:24px}
+.nextodds.bump b{animation:numPop .45s cubic-bezier(.3,1.8,.5,1)}
+.ochips{display:flex; flex-wrap:wrap; justify-content:center; gap:6px}
+.oc{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:99px; background:rgba(255,255,255,.14); border:1.5px solid rgba(255,255,255,.3); font-weight:900; font-size:12px; color:#fff; font-variant-numeric:tabular-nums}
+.oc i{width:10px; height:10px; border-radius:50%}
+.pips i.on{animation:pipOn .35s cubic-bezier(.3,1.8,.5,1) forwards}
+@keyframes pipOn{0%{transform:scale(.4)}100%{transform:scale(1.15)}}
+
+/* ---------- Trousse du jour ---------- */
+.daily{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; width:100%; padding:8px 14px 8px 8px; margin-bottom:18px; border:2px solid color-mix(in srgb, var(--dc) 45%, var(--line)); border-radius:18px; background:color-mix(in srgb, var(--dc) 9%, var(--panel)); box-shadow:0 4px 0 color-mix(in srgb, var(--dc) 35%, var(--line)); cursor:pointer; text-align:left; font:inherit; color:inherit}
+button.daily:active{transform:translateY(3px); box-shadow:0 1px 0 color-mix(in srgb, var(--dc) 35%, var(--line))}
+.daily .kit{animation:kitBob 1.3s ease-in-out infinite}
+.daily b{display:block; font-weight:900}
+.daily small{display:block; font-size:13px; font-weight:800; color:var(--muted); line-height:1.35}
+.daily .dtier{color:color-mix(in srgb, var(--dc) 80%, var(--ink))}
+.daily .dgo{background:var(--dc); color:#fff; font-weight:900; font-size:13px; letter-spacing:.06em; text-transform:uppercase; padding:9px 12px; border-radius:12px; box-shadow:0 3px 0 color-mix(in srgb, var(--dc) 60%, #000)}
+.daily.done{cursor:default; box-shadow:none; background:var(--panel); border-color:var(--line)}
+.daily.done .kit{animation:none; filter:saturate(.35) opacity(.75)}
+.rt-title{font-family:var(--display); font-size:17px; margin:16px 0 8px}
+.rtrack{display:grid; grid-template-columns:repeat(10, minmax(0,1fr)); gap:3px; width:100%}
+.rt{display:grid; justify-items:center; gap:1px; padding:4px 0; border-radius:10px}
+.rt b{font-size:10px; font-weight:900; color:var(--muted); font-variant-numeric:tabular-nums}
+.rt.past .kit{filter:grayscale(1) opacity(.4)}
+.rt.now{background:color-mix(in srgb, var(--heart) 12%, transparent); box-shadow:inset 0 0 0 2px var(--heart)}
+.rt.now b{color:var(--heart)}
+.rt-note{font-size:13px; color:var(--muted); margin-top:6px}
+.nexttrousse{font-weight:800; color:var(--muted)}
+.npop .popfiche{display:inline-flex; align-items:center; justify-content:center; gap:6px; background:none; border:none; color:#fff; font:inherit; font-weight:900; font-size:14px; letter-spacing:.04em; padding:6px; cursor:pointer; opacity:.95}
+.npop .popfiche svg{width:18px; height:18px}
+.npop.locked .popfiche{display:none}
+
+/* ---------- Fiches ---------- */
+.labo.still{animation:none}
+.fh-sp{width:40px}
+.fbody{flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:4px 16px 28px; display:flex; flex-direction:column; gap:14px}
+.fbody > *{flex:none}
+.fhead{display:grid; gap:6px}
+.fhead small{font-size:12px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; color:var(--c0)}
+.fhead h2{font-size:26px}
+.fprog{height:10px; border-radius:99px; background:var(--soft); overflow:hidden}
+.fprog i{display:block; height:100%; background:var(--c0); border-radius:99px}
+.fhead > span{font-size:13px; font-weight:800; color:var(--muted)}
+.fsec{display:grid; gap:8px}
+.fsec-h{font-size:12px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding-top:8px}
+.frow{all:unset; box-sizing:border-box; display:grid; grid-template-columns:40px minmax(0,1fr) auto; gap:12px; align-items:center; padding:10px 12px; border:2px solid var(--line); border-radius:16px; background:var(--panel); cursor:pointer; box-shadow:0 3px 0 var(--line)}
+.frow:active{transform:translateY(2px); box-shadow:0 1px 0 var(--line)}
+.frow:focus-visible{outline:3px solid var(--u4); outline-offset:2px}
+.fnum{width:40px; height:40px; border-radius:12px; display:grid; place-items:center; font-family:var(--display); font-weight:800; font-size:17px; background:color-mix(in srgb, var(--c0) 14%, var(--soft)); color:var(--c0)}
+.fnum svg{width:20px; height:20px}
+.frow.done .fnum{background:var(--c0); color:#fff}
+.frow.current{border-color:var(--c0); box-shadow:0 3px 0 color-mix(in srgb, var(--c0) 55%, transparent)}
+.frow.locked{opacity:.55; box-shadow:none}
+.frow.locked .fnum{background:var(--soft); color:var(--lock-ink)}
+.frow.shake{animation:shake .35s}
+.ftxt{display:grid; gap:2px; min-width:0}
+.ftxt b{font-weight:900; line-height:1.25}
+.ftxt small{font-size:13px; color:var(--muted); font-weight:700; line-height:1.35}
+.ftag{font-size:11px; font-weight:900; letter-spacing:.06em; text-transform:uppercase; color:#fff; background:var(--c0); padding:4px 8px; border-radius:99px}
+.fdet-h{display:grid; gap:8px}
+.fdet-h h2{font-size:26px; line-height:1.15}
+.fchips{display:flex; flex-wrap:wrap; gap:6px; align-items:center}
+.fchips .chip{grid-row:auto; grid-column:auto}
+.fpart,.fok,.fcur{display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:900; letter-spacing:.06em; text-transform:uppercase; padding:3px 8px; border-radius:99px; background:var(--soft); color:var(--muted)}
+.fok{background:var(--ok-soft); color:var(--ok-ink)}
+.fok svg{width:12px; height:12px}
+.fcur{background:color-mix(in srgb, var(--c0) 15%, transparent); color:var(--c0)}
+.fvoc{border:2px solid var(--line); border-radius:18px; overflow:hidden}
+.fvoc-h{padding:10px 16px; font-weight:900; font-size:13px; letter-spacing:.08em; text-transform:uppercase; background:var(--soft); color:var(--muted)}
+.fvoc > div:not(.fvoc-h){display:grid; gap:2px; padding:10px 16px; border-top:2px dashed var(--line)}
+.fvoc b{font-weight:900; color:color-mix(in srgb, var(--c0) 72%, var(--ink))}
+.fvoc span{font-weight:700; font-size:15px}
+.fnav{display:flex; justify-content:space-between; gap:10px}
+.ffoot{padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px)); border-top:2px solid var(--line); background:var(--bg)}
+.fvoc,.fdet-h .lead{-webkit-user-select:text; user-select:text}
+
+/* ---------- Splash : touche pour commencer ---------- */
+.sp-tap{position:absolute; left:50%; bottom:calc(64px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); color:#fff; font-weight:900; letter-spacing:.08em; text-transform:uppercase; font-size:14px; opacity:0; pointer-events:none; white-space:nowrap}
+.splash.waiting .sp-tap{animation:tapPulse 1.2s ease-in-out infinite}
+@keyframes tapPulse{0%,100%{opacity:.55; transform:translateX(-50%) scale(1)}50%{opacity:1; transform:translateX(-50%) scale(1.06)}}
 </style>
 
 <div id="app"></div>
@@ -994,9 +1089,54 @@ var SFX={
   sneeze:function(){ hiss(0,.35,{type:'bandpass', f:500, f2:1500, q:2, vol:.08, attack:.3}); hiss(.4,.18,{type:'highpass', f:1500, vol:.35}); note(58,.4,.15,{types:['sawtooth'], vol:.06, slide:.6}); },
   singPoke:function(){ SFX.voice(72,.15); setTimeout(function(){ SFX.voice(76,.15); },170); setTimeout(function(){ SFX.voice(79,.3); },340); },
   coin:function(k){ note(PENTA[Math.min(k||0,12)]+12, 0, .12, bell(.07)); },
-  chestShake:function(k){ hiss(0,.14,{type:'lowpass', f:600, vol:.35}); note(43+k*4,0,.12,{types:['square'], vol:.06}); note(79+k*3,.02,.1,bell(.06)); },
-  chestOpen:function(){ SFX.boom(true); [72,76,79,84,88].forEach(function(m,j){ note(m, .1+j*.06, .8, bell(.13)); }); hiss(.1,1,{type:'highpass', f:6000, vol:.06, echo:.4}); },
-  upgrade:function(t){ SFX.zap(true); var root=67+t*5; [0,4,7,12].forEach(function(iv,j){ note(root+iv, .12+j*.07, .8, bell(.15)); }); if(t===3){ [0,4,7,12,16,19].forEach(function(iv,j){ note(79+iv, .45+j*.06, .9, bell(.1)); }); hiss(.4,1.2,{type:'highpass', f:7000, vol:.07, echo:.5}); } },
+  /* Trousses: each tap knocks a little harder and rings a little higher */
+  chestTap:function(k){
+    note(41+k*2, 0, .14, {types:['sine'], vol:.55, slide:.55});
+    hiss(0, .045, {type:'bandpass', f:1700+k*350, q:3, vol:.2});
+    note(PENTA[Math.min(k*2,10)]+12, .025, .38, bell(.09+k*.018));
+    if(k>=2) hiss(.03, .2+k*.05, {type:'highpass', f:6500, vol:.02+k*.01, echo:.35});
+  },
+  suspense:function(d){
+    hiss(0, d, {type:'bandpass', f:260, f2:5200, q:1.3, vol:.2, attack:d*.85});
+    var n=Math.floor(d/.045); for(var i=0;i<n;i++) hiss(i*.045, .03, {type:'lowpass', f:1000, vol:.04+.24*i/n});
+    note(52, 0, d, {types:['sawtooth'], vol:.03, slide:2.2});
+  },
+  drumroll:function(d){
+    var n=Math.floor(d/.038); for(var i=0;i<n;i++) hiss(i*.038, .032, {type:'bandpass', f:1300+Math.random()*500, q:.9, vol:.05+.24*i/n});
+    note(46, 0, d, {types:['sine'], vol:.08, slide:1.6});
+  },
+  tierUp:function(t){
+    SFX.boom(t>=2); SFX.zap(t>=2);
+    var r=[72,74,77,79][t];
+    [0,4,7,12].forEach(function(iv,j){ note(r+iv, .06+j*.075, .7+j*.12, bell(.16)); });
+    hiss(.06, .8+t*.35, {type:'highpass', f:7000, vol:.04+t*.02, echo:.5});
+    if(t>=2) [0,7,12,16].forEach(function(iv){ note(r-12+iv, .34, 1.3, {types:['triangle','sine'], mults:[1,2], mix:[.5,.2], vol:.06, echo:.45, detune:7}); });
+    if(t===3){
+      [0,7,12].forEach(function(iv,j){ setTimeout(function(){ SFX.voice(r+iv, 1.1); }, 360+j*60); });
+      [0,4,7,12,16,19,24].forEach(function(iv,j){ note(r+12+iv, .55+j*.05, .9, bell(.08)); });
+    }
+  },
+  lidPop:function(){
+    note(50, 0, .14, {types:['sine'], vol:.6, slide:1.9});
+    hiss(0, .1, {type:'bandpass', f:2600, q:1, vol:.3});
+    hiss(.02, .7, {type:'bandpass', f:500, f2:6500, q:.8, vol:.16});
+  },
+  reward:function(t){
+    var up=[0,2,4,5][t]||0;
+    [72,76,79,84,88].forEach(function(m,j){ note(m+up, .12+j*.06, .9, bell(.13)); });
+    [72,79,84].forEach(function(m){ note(m+up-12, .12, 1.4, {types:['triangle','sine'], mults:[1,2], mix:[.5,.2], vol:.06, echo:.4, detune:6}); });
+    hiss(.12, 1.1, {type:'highpass', f:6000, vol:.06, echo:.4});
+  },
+  coinRain:function(n){ for(var i=0;i<n;i++) note(PENTA[4+Math.floor(Math.random()*8)]+12, .04+i*.032+Math.random()*.02, .16, bell(.045+Math.random()*.03)); },
+  /* Launch: a heartbeat, then the three-note Systole chime */
+  launch:function(){
+    SFX.thump();
+    note(84, .52, .16, bell(.12)); note(88, .63, .16, bell(.12)); note(91, .74, .6, bell(.17));
+    note(79, .74, 1.3, {types:['triangle','sine'], mults:[1,2], mix:[.5,.2], vol:.06, echo:.5, detune:6});
+    hiss(.74, .9, {type:'highpass', f:7000, vol:.045, echo:.45});
+  },
+  tab:function(i){ note(PENTA[(i||0)%5]+12, 0, .1, {types:['sine','triangle'], mix:[.7,.3], vol:.07}); hiss(0, .035, {type:'highpass', f:5000, vol:.03}); },
+  page:function(){ hiss(0, .2, {type:'bandpass', f:1400, f2:4200, q:.8, vol:.12, attack:.04}); hiss(.07, .1, {type:'highpass', f:3500, vol:.05}); },
   buy:function(){ note(88,0,.08,bell(.12)); note(95,.08,.32,bell(.15)); hiss(0,.05,{type:'highpass', f:4000, vol:.1}); }
 };
 function buzz(p){ try{ if(S.sound && navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate(p); }catch(e){} }
@@ -1071,24 +1211,41 @@ function isMilestone(n){ return n===3 || n===5 || n===8 || (n>=10 && n%5===0); }
 var BIGLOGO='<svg viewBox="0 0 120 120" aria-hidden="true"><ellipse cx="60" cy="114" rx="30" ry="5" fill="rgba(0,0,0,.14)"/><path d="M57 32C55 17 63 8 76 11" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M45 31l-2-13" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M60 107C22 83 8 61 13 42 18 23 43 18 60 36 77 18 102 23 107 42 112 61 98 83 60 107Z" fill="#fff"/><path d="M22 62h15l6-11 9 23 8-31 8 27 5-8h25" stroke="#FF4760" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function splash(short){
   if(RM || document.querySelector('.splash')) return;
-  var T=short?.55:1;
+  /* Browsers only let a page make sound after a touch. If sound is blocked on
+     launch, the splash waits for a tap and plays the launch chime then. */
+  var T=short?.55:1, ctx=ac(), needTap=!!(S.sound && !(ctx && ctx.state==='running'));
   var el=document.createElement('div'); el.className='splash'; el.setAttribute('role','img'); el.setAttribute('aria-label','Systole');
   el.innerHTML='<svg class="sp-line" viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true"><path class="flatp" pathLength="100" d="M0 60H600"/><path class="beatp" pathLength="100" d="M0 60H210l10-12 10 12h22l8 10 14-56 16 74 10-28h32l12-10 12 10H600"/></svg>'+
     '<div class="sp-stage"><div class="sp-logo">'+BIGLOGO+'</div><div class="sp-word">'+'systole'.split('').map(function(ch,i){ return '<span style="--i:'+i+'">'+ch+'</span>'; }).join('')+'</div><div class="sp-tag">Un battement par jour.</div></div>';
+  el.insertAdjacentHTML('beforeend','<div class="sp-tap">Touche pour commencer</div>');
   document.body.appendChild(el);
-  var timers=[];
+  var timers=[], closed=false, waiting=false, sounded=!needTap;
   function at(ms,fn){ timers.push(setTimeout(fn, ms*T)); }
-  function close(){ timers.forEach(clearTimeout); el.classList.add('out'); setTimeout(function(){ el.remove(); }, 400); }
+  function close(){ if(closed) return; closed=true; timers.forEach(clearTimeout); el.classList.add('out'); setTimeout(function(){ el.remove(); }, 400); }
   at(600, function(){
-    el.classList.add('zap'); SFX.zap(true); buzz(60);
+    el.classList.add('zap'); if(!needTap) SFX.zap(true); buzz(60);
     var c=center(el.querySelector('.sp-logo'));
     fxFlash('#FFFFFF',.85,320);
     if(c){ fxBolts(c.x,c.y,12,Math.min(innerWidth,innerHeight)*.42,{inner:24,life:560,w:5,colors:['#FFFFFF','#FFE27A']}); fxRing(c.x,c.y,'#FFFFFF',Math.min(innerWidth,innerHeight)*.45,{w:14,life:650}); }
   });
-  at(900, function(){ el.classList.add('beat'); SFX.thump(); });
-  at(1150, function(){ el.classList.add('word'); SFX.unlock(); });
-  at(2250, function(){ SFX.whoosh(); close(); });
-  el.addEventListener('click', close);
+  at(900, function(){ el.classList.add('beat'); if(!needTap) SFX.thump(); });
+  at(1150, function(){ el.classList.add('word'); if(!needTap) SFX.unlock(); });
+  at(2250, function(){
+    if(!needTap){ SFX.whoosh(); close(); return; }
+    waiting=true; el.classList.add('waiting');
+    timers.push(setTimeout(close, 9000));
+  });
+  el.addEventListener('pointerdown', function(){
+    if(closed) return;
+    var c2=ac(); if(c2 && c2.resume){ try{ c2.resume(); }catch(e){} }
+    if(!sounded){
+      sounded=true; SFX.launch(); buzz([30,60,30]);
+      var lg=center(el.querySelector('.sp-logo'));
+      if(lg){ fxRing(lg.x,lg.y,'#FFFFFF',Math.min(innerWidth,innerHeight)*.4,{w:12,life:600}); fxSparks(lg.x,lg.y,26,['#FFFFFF','#FFE27A','#FF9DB0'],{speed:7,life:800,star:true}); }
+    }
+    timers.forEach(clearTimeout); timers=[];
+    setTimeout(close, waiting ? 650 : 300);
+  });
 }
 
 /* ================= Icons & art ================= */
@@ -1743,13 +1900,26 @@ var TIERS=[
   {n:'épique', label:'Trousse épique', body:'#8A4DFF', lid:'#A77BFF', edge:'#5A22C8', ray:'#D9C2FF', col:'#8A4DFF', amt:[70,90]},
   {n:'légendaire', label:'Trousse légendaire', body:'#FFB300', lid:'#FFD45C', edge:'#C98200', ray:'#FFE89A', col:'#FFB300', amt:[120,160]}
 ];
-/* Chance, per tap, to jump +1 / +2 / +3 tiers. Over 4 taps from "commune":
-   ~50% commune, ~34% rare, ~13% épique, ~3.5% légendaire. */
-var UP=[[[1,.13],[2,.025],[3,.006]],[[1,.09],[2,.012]],[[1,.05]],[]];
-function rollTier(t){
-  var opts=UP[t]||[], r=Math.random(), acc=0;
-  for(var i=opts.length-1;i>=0;i--){ acc+=opts[i][1]; if(r<acc) return Math.min(3,t+opts[i][0]); }
-  return t;
+/* Five taps. Each tap may raise the rarity, and the chance grows tap after tap:
+   8 %, 12 %, 16 %, 21 %, then 30 % from "commune" (x0.8 from "rare", x0.5 from "épique").
+   A raise is +1 level (88 %), sometimes +2 (10 %), rarely +3 (2 %).
+   After 5 taps from "commune": about 38 % commune, 40 % rare, 17 % épique, 5 % légendaire. */
+var TAPS=5, TAPCH=[.08,.12,.16,.21,.30], TIERF=[1,.8,.5,0], JUMP=[[1,.88],[2,.10],[3,.02]];
+function upChance(t, k){ return (TAPCH[k]||0)*(TIERF[t]||0); }
+function nextOdds(t, k){
+  var u=upChance(t,k), out=[0,0,0,0];
+  JUMP.forEach(function(j){ out[Math.min(3,t+j[0])]+=u*j[1]; });
+  return out;
+}
+function rollTier(t, k){
+  if(Math.random()>=upChance(t,k)) return t;
+  var r=Math.random(), acc=0;
+  for(var i=0;i<JUMP.length;i++){ acc+=JUMP[i][1]; if(r<acc) return Math.min(3,t+JUMP[i][0]); }
+  return Math.min(3,t+1);
+}
+function pctStr(x){
+  var v=x*100, s = v>=10 ? String(Math.round(v)) : String(Math.max(.1, Math.round(v*10)/10));
+  return s.replace('.',',')+' %';
 }
 var KITN=0;
 function kit(open, tier, size){
@@ -1778,6 +1948,32 @@ function kit(open, tier, size){
     sparkle+'</svg>';
 }
 function chestInfo(id){ var v=S.chests[id]; if(v==null) return null; return typeof v==='number' ? {a:v, t:0} : v; }
+/* Trousse du jour: one per day, its rarity follows the series of battements.
+   Every 3rd day rare, every 7th épique, every 10th légendaire, otherwise commune.
+   It pays less than the chests on the path so the economy stays tight. */
+var DAILY_AMT=[[8,12],[15,21],[28,36],[48,64]];
+function streakDay(){
+  var t=today();
+  if(S.lastDay===t) return Math.max(1,S.streak);
+  if(S.lastDay && S.streak>0 && daysBetween(S.lastDay,t)===1) return S.streak+1;
+  return 1;
+}
+function dailyTier(n){ return n%10===0 ? 3 : (n%7===0 ? 2 : (n%3===0 ? 1 : 0)); }
+function dailyReady(){ return S.dailyChest!==today(); }
+function dailyAmount(t){ var r=DAILY_AMT[t]; return r[0]+Math.floor(Math.random()*(r[1]-r[0]+1)); }
+function rewardTrack(n){
+  var start=Math.floor((n-1)/10)*10+1, h='';
+  for(var d=start; d<start+10; d++){ var tr=dailyTier(d); h+='<div class="rt'+(d<n?' past':'')+(d===n?' now':'')+'" title="Jour '+d+' : trousse '+TIERS[tr].n+'">'+kit(false,tr,30)+'<b>J'+d+'</b></div>'; }
+  return '<div class="rtrack">'+h+'</div>';
+}
+function dailyCard(){
+  var n=streakDay(), tr=dailyTier(n), T=TIERS[tr];
+  if(dailyReady()) return '<button class="daily" data-act="daily-open" style="--dc:'+T.col+'">'+kit(false,tr,64)+
+    '<span><b>Trousse du jour</b><small>Jour '+n+' de ta série · <span class="dtier">trousse '+T.n+'</span></small></span><span class="dgo">Ouvrir</span></button>';
+  var t2=dailyTier(n+1), T2=TIERS[t2];
+  return '<div class="daily done" style="--dc:'+T2.col+'">'+kit(true,tr,64)+
+    '<span><b>Trousse du jour ouverte</b><small>Demain, jour '+(n+1)+' : <span class="dtier">trousse '+T2.n+'</span>'+(doneToday()?'':', si tu valides ton battement aujourd\'hui')+'</small></span><span></span></div>';
+}
 /* ================= Paths: one per subject, with checkpoints ================= */
 var USTART=[]; (function(){ var g=0; UNITS.forEach(function(u){ USTART.push(g); g+=u.lecons.length; }); })();
 var PATHS = UNITS.map(function(u, ui){
@@ -1903,9 +2099,10 @@ function vLearn(){
   var h=subjectsBar()+
     '<div class="coach"><button class="poke" data-act="poke" aria-label="Boum">'+boum({size:92, mood: (S.streak===0 && S.lostStreak>0)?'sad':(doneToday()?'wow':'happy')})+'</button><div class="bubble" id="coachb">'+esc(coachLine())+'</div></div>'+
     '<div class="goal"><div class="goal-row"><span>Objectif du jour'+(boostActive()?' <span class="boostchip">×2 XP · '+boostLeftMin()+' min</span>':'')+'</span><span>'+Math.min(xpToday(),S.goal)+' / '+S.goal+' XP</span></div><div class="bar"><i id="goalbar" data-to="'+(g*100)+'" style="width:'+(gFrom*100)+'%"></i></div></div>';
+  h+=dailyCard();
   var wc=wrongCount(); if(wc) h+='<button class="revcard" data-act="review"><span class="ri">'+wc+'</span><div><b>Mes erreurs à revoir</b><span>'+plural(Math.min(6,wc),'question','questions')+' au hasard, sans perdre de cœur</span></div><span class="chev">›</span></button>';
   h+='<section class="unit">';
-  h+='<div class="banner" style="--uc:'+uc(ui)+';--uce:'+uce(ui)+'"><div><small>'+esc(u.matiere)+'</small><h2>'+esc(u.titre)+'</h2></div><button data-act="m-guide" data-v="'+ui+'">'+I.book+'Fiche</button></div>';
+  h+='<div class="banner" style="--uc:'+uc(ui)+';--uce:'+uce(ui)+'"><div><small>'+esc(u.matiere)+'</small><h2>'+esc(u.titre)+'</h2></div><button data-act="m-guide" data-v="'+ui+'">'+I.book+'Fiches</button></div>';
   h+='<div class="path">';
   var offs=[0,-46,-70,-46,0,46,70,46];
   PATHS[ui].forEach(function(it, pi){
@@ -1935,7 +2132,8 @@ function vPop(idx, st){
   var o=ORDER[idx];
   if(st==='locked') return '<div class="npop locked" data-act="noop" style="--c0:'+uc(o.ui)+'"><h3>'+esc(o.l.titre)+'</h3><p>Termine les leçons d\'avant pour débloquer celle-ci.</p></div>';
   return '<div class="npop" data-act="noop" style="--c0:'+uc(o.ui)+'"><h3>'+esc(o.l.titre)+'</h3><p>'+esc(o.l.objectif)+'</p><p>Leçon '+(o.li+1)+' sur '+o.u.lecons.length+' · '+LV[o.l.niveau]+'</p>'+
-    '<button class="btn" data-act="start" data-v="'+idx+'">'+(st==='done'?'Refaire · +5 XP':'Commencer · +10 XP')+'</button></div>';
+    '<button class="btn" data-act="start" data-v="'+idx+'">'+(st==='done'?'Refaire · +5 XP':'Commencer · +10 XP')+'</button>'+
+    '<button class="popfiche" data-act="fiche-node" data-v="'+idx+'">'+I.book+'Lire la fiche</button></div>';
 }
 function vChestPop(it, cs){
   var t = it.big ? 'Trophée de matière' : 'Checkpoint';
@@ -2004,11 +2202,12 @@ function vShop(){
       '<div><span>Leçon terminée</span><b>1 gélule pour 2 XP</b></div>'+
       '<div><span>Objectif du jour atteint</span><b>+'+GOAL_BONUS+'</b></div>'+
       '<div><span>Trousse de checkpoint</span><b>20 à 160</b></div>'+
+      '<div><span>Trousse du jour</span><b>8 à 64</b></div>'+
       '<div><span>Trophée de fin de matière</span><b>Commence en rare</b></div>'+
     '</div>'+
     '<div class="section-t">Les trousses</div>'+
-    '<div class="card odds">'+TIERS.map(function(T,i){ return '<div><span class="odot" style="background:'+T.col+'"></span><b>'+T.label+'</b><span>'+T.amt[0]+' à '+T.amt[1]+' gélules</span><em>'+['50 %','34 %','13 %','3,5 %'][i]+'</em></div>'; }).join('')+
-      '<p>Chances pour une trousse de checkpoint, après tes 4 touches. Chaque touche peut la faire monter d\'un ou plusieurs niveaux.</p></div>';
+    '<div class="card odds">'+TIERS.map(function(T,i){ return '<div><span class="odot" style="background:'+T.col+'"></span><b>'+T.label+'</b><span>'+T.amt[0]+' à '+T.amt[1]+' gélules</span><em>'+['38 %','40 %','17 %','5 %'][i]+'</em></div>'; }).join('')+
+      '<p>Chances pour une trousse de checkpoint après tes 5 touches. À chaque touche, la chance qu\'elle monte augmente : 8 %, 12 %, 16 %, 21 %, puis 30 %. La trousse du jour suit ta série : rare tous les 3 jours, épique tous les 7, légendaire tous les 10.</p></div>';
 }
 function buy(id, fromModal){
   var price=PRICE[id]; if(S.gel<price) return;
@@ -2581,19 +2780,36 @@ function sprayGel(p, n){
 function openChest(id, demoTier){
   var demo = demoTier!=null, it;
   if(demo) it={id:'demo', big:false, ui:S.subject};
+  else if(id==='daily'){ if(!dailyReady()) return; it={id:'daily', big:false, ui:S.subject, daily:true}; }
   else { it=findChest(id); if(!it || chestState(it)!=='ready') return; }
-  R.chest={id:it.id, big:it.big, ui:it.ui, tier: demo ? demoTier : (it.big?1:0), taps:0, busy:false, opened:false, demo:demo, amount:0};
+  var n=streakDay();
+  R.chest={id:it.id, big:it.big, daily:!!it.daily, day:n, ui:it.ui, tier: demo ? demoTier : (it.daily ? dailyTier(n) : (it.big?1:0)), taps:0, busy:false, opened:false, demo:demo, amount:0};
   R.pop=null; go('chest');
+}
+function oddsHTML(c){
+  if(c.taps>=TAPS) return '';
+  if(c.tier>=3) return '<div class="nextodds max"><b>Niveau maximum !</b><span>Rien ne peut faire mieux.</span></div>';
+  var o=nextOdds(c.tier,c.taps), chips='';
+  for(var t=c.tier+1;t<=3;t++) chips+='<span class="oc"><i style="background:'+TIERS[t].col+'"></i>'+TIERS[t].n+' '+pctStr(o[t])+'</span>';
+  return '<div class="nextodds"><b>'+pctStr(upChance(c.tier,c.taps))+'</b><span>de chances qu\'elle monte à la touche '+(c.taps+1)+'</span></div><div class="ochips">'+chips+'</div>';
+}
+function refreshOdds(){
+  var c=R.chest, el=document.getElementById('odds'); if(!c || !el) return;
+  el.innerHTML=oddsHTML(c);
+  var n=el.querySelector('.nextodds'); if(n) n.classList.add('bump');
 }
 function vChest(){
   var c=R.chest, T=TIERS[c.tier];
+  var title = c.daily ? 'Trousse du jour !' : (c.big ? 'Trophée de matière !' : 'Checkpoint !');
   return '<div class="screen chestscreen t'+c.tier+'" id="chs"><div></div><div class="body"><div class="inner center endwrap">'+
     '<span class="tierpill" id="tierpill">'+T.label+'</span>'+
+    (c.daily?'<p class="chsub">Jour '+c.day+' de ta série de battements</p>':'')+
     '<div class="hero chest-hero"><div class="rays" id="chrays" style="--rc:'+T.ray+'"></div>'+
       '<button class="kitwrap tappable'+(RM?'':' drop')+'" id="kitw" data-act="kit-tap" aria-label="Toucher la trousse">'+kit(false,c.tier,250)+'</button></div>'+
-    '<div class="chmid" id="chmid"><div class="pips" id="pips">'+[0,1,2,3].map(function(i){ return '<i'+(i<c.taps?' class="on"':'')+'></i>'; }).join('')+'</div>'+
-      '<p class="taphint">Touche la trousse 4 fois. À chaque touche, elle peut s\'améliorer.</p></div>'+
-    '<h1 class="end-title" id="chtitle">'+(c.big?'Trophée de matière !':'Checkpoint !')+'</h1>'+
+    '<div class="chmid" id="chmid"><div class="pips" id="pips">'+Array.apply(null,{length:TAPS}).map(function(_,i){ return '<i'+(i<c.taps?' class="on"':'')+'></i>'; }).join('')+'</div>'+
+      '<div class="oddsbox" id="odds">'+oddsHTML(c)+'</div>'+
+      '<p class="taphint">Touche la trousse '+TAPS+' fois. À chaque touche, ses chances de monter augmentent.</p></div>'+
+    '<h1 class="end-title" id="chtitle">'+title+'</h1>'+
     '<div class="gain" id="gain"><span class="gain-n">'+GEL+'<b id="gainn">+0</b></span><span class="gain-t">gélules</span></div>'+
     '<p class="chtotal" id="chtotal"></p>'+
     '</div></div><div class="foot"><div class="foot-in"><button class="btn" data-act="chest-done" id="primary" disabled>Récupérer</button></div></div></div>';
@@ -2605,17 +2821,30 @@ function chestSequence(){
   later(400, function(){ SFX.boom(false); quake(); var w=document.getElementById('kitw'), p=center(w); if(p) fxRing(p.x,p.y+60,TIERS[c.tier].ray,130,{w:8,life:450}); if(w) w.classList.remove('drop'); });
 }
 function kitTap(){
-  var c=R.chest; if(!c || c.busy || c.opened || c.taps>=4) return;
-  c.taps++; c.busy=true;
-  var w=document.getElementById('kitw'), pips=document.querySelectorAll('#pips i');
-  if(pips[c.taps-1]) pips[c.taps-1].classList.add('on');
+  var c=R.chest; if(!c || c.busy || c.opened || c.taps>=TAPS) return;
+  var k=c.taps; c.taps++; c.busy=true;
+  var w=document.getElementById('kitw'), pips=document.querySelectorAll('#pips i'), T=TIERS[c.tier];
+  if(pips[k]) pips[k].classList.add('on');
+  w.style.setProperty('--amp',(5+k*3)+'px'); w.style.setProperty('--kglow',T.ray); w.style.setProperty('--kglowr',(6+k*7)+'px');
+  var rays=document.getElementById('chrays'); if(rays) rays.style.setProperty('--rs',Math.max(3,14-k*2.6)+'s');
   w.classList.remove('drop','tap','morph'); void w.offsetWidth; w.classList.add('tap');
-  SFX.chestShake(c.taps-1); buzz(20);
-  var p=center(w); if(p) fxSparks(p.x,p.y,8+c.taps*4,[TIERS[c.tier].ray,'#FFFFFF'],{speed:3+c.taps,life:450,star:true});
-  var nt=rollTier(c.tier), steps=[];
+  SFX.chestTap(k); buzz(14+k*8); if(k>=3) quake();
+  var p=center(w); if(p) fxSparks(p.x,p.y,10+k*6,[T.ray,'#FFFFFF','#FFE27A'],{speed:3.5+k,life:500,star:true});
+  var nt=rollTier(c.tier,k), steps=[];
   for(var t=c.tier+1;t<=nt;t++) steps.push(t);
-  steps.forEach(function(t,i){ later(280+i*560, function(){ upgradeTo(t); }); });
-  later(steps.length ? 280+steps.length*560+200 : 230, function(){ c.busy=false; if(c.taps>=4) burstOpen(); });
+  if(steps.length){
+    later(120, function(){ w.classList.add('charging'); SFX.suspense(.42); });
+    steps.forEach(function(t,i){ later(560+i*640, function(){ w.classList.remove('charging'); upgradeTo(t); }); });
+  }
+  later(steps.length ? 560+steps.length*640+160 : 260, function(){ c.busy=false; refreshOdds(); if(c.taps>=TAPS) finalOpen(); });
+}
+function finalOpen(){
+  var c=R.chest, w=document.getElementById('kitw'); if(!c || c.opened) return;
+  c.busy=true;
+  var mid=document.getElementById('chmid'); if(mid) mid.classList.add('gone');
+  if(w){ w.style.setProperty('--kglow',TIERS[c.tier].ray); w.classList.add('charging','final'); }
+  SFX.drumroll(.85); buzz([20,30,20,30,20,30,40]);
+  later(900, function(){ if(w) w.classList.remove('charging','final'); burstOpen(); });
 }
 function upgradeTo(t){
   var c=R.chest; c.tier=t; var T=TIERS[t];
@@ -2623,22 +2852,28 @@ function upgradeTo(t){
   var w=document.getElementById('kitw'); if(w){ w.innerHTML=kit(false,t,250); w.classList.remove('tap','morph'); void w.offsetWidth; w.classList.add('morph'); }
   var pill=document.getElementById('tierpill'); if(pill){ pill.textContent=T.label; pill.classList.remove('slam'); void pill.offsetWidth; pill.classList.add('slam'); }
   var rays=document.getElementById('chrays'); if(rays){ rays.style.setProperty('--rc',T.ray); rays.classList.add('fast'); }
+  if(w) w.style.setProperty('--kglow',T.ray);
   var p=center(w);
   fxFlash(T.ray,.6,380);
+  if(p && t>=2) later(160, function(){ fxSparks(p.x,p.y-40,30+t*12,[T.ray,'#FFFFFF','#FFE27A'],{speed:6,life:1300,star:true,g:.06,up:4}); });
+  if(t===3) confetti();
   if(p){ fxRing(p.x,p.y,T.ray,250,{w:16,life:650}); fxBolts(p.x,p.y,10,190,{inner:50,life:480,colors:[T.ray,'#FFFFFF']}); fxSparks(p.x,p.y,44,[T.col,T.ray,'#FFFFFF'],{speed:9,life:950,star:true}); }
-  SFX.upgrade(t); buzz([40,30,80]); quake();
+  SFX.tierUp(t); buzz(t===3?[60,40,60,40,120]:[40,30,80]); quake(); refreshOdds();
   var b=document.createElement('div'); b.className='upbanner'; b.style.setProperty('--uc',T.edge); b.style.setProperty('--ug',T.ray);
   b.textContent=T.n.toUpperCase()+' !'; document.body.appendChild(b);
   setTimeout(function(){ b.classList.add('out'); }, 950); setTimeout(function(){ b.remove(); }, 1300);
 }
 function burstOpen(){
   var c=R.chest, T=TIERS[c.tier]; c.opened=true;
-  c.amount=chestAmount(c.tier);
-  if(!c.demo){ S.chests[c.id]={a:c.amount, t:c.tier}; S.gel+=c.amount; save(); R.bump={gel:true}; }
+  c.amount = c.daily ? dailyAmount(c.tier) : chestAmount(c.tier);
+  if(!c.demo){
+    if(c.daily) S.dailyChest=today(); else S.chests[c.id]={a:c.amount, t:c.tier};
+    S.gel+=c.amount; save(); R.bump={gel:true};
+  }
   var w=document.getElementById('kitw'), p=center(w);
-  w.classList.remove('tappable','tap','morph'); w.innerHTML='<div class="kitglow" style="--gc:'+T.ray+'"></div>'+kit(true,c.tier,250); w.classList.add('opened');
+  w.classList.remove('tappable','tap','morph'); w.innerHTML='<div class="kitbeam" style="--gc:'+T.ray+'"></div><div class="kitglow" style="--gc:'+T.ray+'"></div>'+kit(true,c.tier,250); w.classList.add('opened');
   var mid=document.getElementById('chmid'); if(mid) mid.classList.add('gone');
-  SFX.chestOpen(); buzz([60,40,100]); quake();
+  SFX.lidPop(); SFX.reward(c.tier); later(260, function(){ SFX.coinRain(10+c.tier*6); }); buzz([60,40,100]); quake();
   var rays=document.getElementById('chrays'); if(rays) rays.classList.add('fast');
   if(p){
     fxFlash(T.ray,.55,340);
@@ -2688,6 +2923,7 @@ function vStreak(){
     '<div class="bignum" id="bignum">'+S.streak+'</div><h1 style="font-size:26px; margin-top:-6px">'+(S.streak>1?'battements d\'affilée':'battement')+'</h1>'+
     '<span class="bpm">'+I.pulse.replace('<svg','<svg style="width:18px;height:18px"')+bpm()+' bpm</span>'+
     '<p class="lead">'+msg+'</p>'+weekStrip()+
+    '<p class="nexttrousse">Demain, jour '+(S.streak+1)+' : trousse '+TIERS[dailyTier(S.streak+1)].n+'</p>'+
     (a.gotDefib?'<div class="defibs">'+I.defib+'Tu gagnes un défibrillateur !</div>':'')+
     '</div></div><div class="foot"><div class="foot-in"><button class="btn heart" data-act="home" id="primary">Continuer</button></div></div></div>';
 }
@@ -2733,9 +2969,76 @@ function refillButton(){
   var lack=PRICE.refill-S.gel;
   return '<button class="btn" data-act="buy-modal" data-v="refill"'+(lack>0?' disabled':'')+'>'+GEL+'Recharger · '+PRICE.refill+'</button>'+(lack>0?'<p style="font-size:14px">Il te manque '+lack+' gélules.</p>':'');
 }
+/* ================= Fiches: reread every lesson unlocked so far ================= */
+function lessonUnlocked(ui, li){ var l=UNITS[ui].lecons[li]; return !!S.done[l.id] || USTART[ui]+li===curIdx(ui); }
+function partIndex(u, li){
+  var idx=-1, ps=u.parties||[];
+  for(var i=0;i<=li;i++){ for(var j=0;j<ps.length;j++){ if(ps[j].debut===u.lecons[i].id) idx=j; } }
+  return idx;
+}
+function fichesFrame(m, label, head, body, foot){
+  var cls='labo fiches'+(m.seen?' still':''); m.seen=true;
+  return '<div class="scrim full"><div class="'+cls+'" role="dialog" aria-modal="true" aria-label="'+esc(label)+'" style="--c0:'+uc(m.ui)+'">'+head+
+    '<div class="fbody" id="fbody">'+body+'</div>'+(foot||'')+'</div></div>';
+}
+function vFiches(m){
+  if(m.li!=null) return vFiche(m);
+  var ui=m.ui, u=UNITS[ui], n=u.lecons.length, cur=curIdx(ui), open=0, h='';
+  u.lecons.forEach(function(l, li){
+    var pt=(u.parties||[]).filter(function(x){ return x.debut===l.id; })[0];
+    if(pt || li===0) h+=(li?'</div>':'')+'<div class="fsec"><div class="fsec-h">'+(pt ? 'Partie '+(u.parties.indexOf(pt)+1)+' · '+esc(pt.titre) : 'Leçons')+'</div>';
+    var st = S.done[l.id] ? 'done' : (USTART[ui]+li===cur ? 'current' : 'locked');
+    if(st!=='locked') open++;
+    h+='<button class="frow '+st+'" data-act="fiche-open" data-v="'+li+'"><span class="fnum">'+(st==='done'?I.check:(st==='locked'?I.lock:(li+1)))+'</span>'+
+      '<span class="ftxt"><b>'+esc(l.titre)+'</b><small>'+(st==='locked'?'Se débloque quand tu arrives à cette leçon':esc(l.objectif))+'</small></span>'+
+      (st==='current'?'<span class="ftag">En cours</span>':'<span></span>')+'</button>';
+  });
+  h+='</div>';
+  var head='<div class="labo-h"><button class="xbtn" data-act="m-close" aria-label="Fermer">'+I.x+'</button><b>Fiches</b><span class="fh-sp"></span></div>';
+  var top='<div class="fhead"><small>'+esc(u.matiere)+'</small><h2>'+esc(u.titre)+'</h2>'+
+    '<div class="fprog"><i style="width:'+Math.round(open/n*100)+'%"></i></div><span>'+open+' fiche'+(open>1?'s':'')+' débloquée'+(open>1?'s':'')+' sur '+n+'</span></div>'+
+    (u.lycee?'<p class="guide-hs"><b>Au lycée :</b> '+esc(u.lycee)+'</p>':'');
+  return fichesFrame(m, 'Fiches : '+u.titre, head, top+h);
+}
+function vFiche(m){
+  var ui=m.ui, u=UNITS[ui], li=m.li, l=u.lecons[li], g=USTART[ui]+li, done=!!S.done[l.id];
+  var pi=partIndex(u,li), unl=[];
+  u.lecons.forEach(function(x,i){ if(lessonUnlocked(ui,i)) unl.push(i); });
+  var k=unl.indexOf(li), prev=unl[k-1], next=unl[k+1], mk=lessonModel(l);
+  var body='<div class="fdet-h"><div class="fchips"><span class="chip '+l.niveau+'">'+LV[l.niveau]+'</span>'+
+      (pi>-1?'<span class="fpart">Partie '+(pi+1)+'</span>':'')+
+      (done?'<span class="fok">'+I.check+'Réussie</span>':'<span class="fcur">En cours</span>')+'</div>'+
+      '<h2>'+esc(l.titre)+'</h2><p class="lead">'+esc(l.objectif)+'</p></div>'+
+    (l.slides||[]).map(function(sl,i){ return '<div class="slide"><div class="slide-h"><b>'+esc(sl.t)+'</b><span>'+(i+1)+' / '+l.slides.length+'</span></div><div class="slide-b">'+sl.p.map(function(p){ return '<p>'+md(p)+'</p>'; }).join('')+'</div></div>'; }).join('')+
+    '<div class="memo"><div class="memo-h"><span>À retenir</span></div><ol>'+l.cours.map(function(c){ return '<li><span>'+esc(c)+'</span></li>'; }).join('')+'</ol></div>'+
+    ((l.paires||[]).length?'<div class="fvoc"><div class="fvoc-h">Vocabulaire</div>'+l.paires.map(function(p){ return '<div><b>'+esc(p[0])+'</b><span>'+esc(p[1])+'</span></div>'; }).join('')+'</div>':'')+
+    (mk?'<button class="explore3d" data-act="labo-open" data-v="'+mk+'">'+(MODELS[mk].type==='svg'?LABICO[mk]:CUBE)+(MODELS[mk].type==='svg'?'Explorer le schéma : ':'Explorer en 3D : ')+esc(MODELS[mk].titre)+'</button>':'')+
+    '<div class="fnav">'+(prev!=null?'<button class="btn ghost small" data-act="fiche-open" data-v="'+prev+'">‹ Précédente</button>':'<span></span>')+
+      (next!=null?'<button class="btn ghost small" data-act="fiche-open" data-v="'+next+'">Suivante ›</button>':'<span></span>')+'</div>';
+  var head='<div class="labo-h"><button class="iconbtn" data-act="fiche-back" aria-label="Toutes les fiches">‹</button><b>Fiche</b><button class="xbtn" data-act="m-close" aria-label="Fermer">'+I.x+'</button></div>';
+  var foot='<div class="ffoot"><button class="btn" data-act="start" data-v="'+g+'">'+(done?'Refaire la leçon · +5 XP':'Commencer la leçon · +10 XP')+'</button></div>';
+  return fichesFrame(m, 'Fiche : '+l.titre, head, body, foot);
+}
+function ficheOpen(li, el){
+  var m=R.modal; if(!m || m.type!=='fiches') return;
+  if(!lessonUnlocked(m.ui, li)){
+    SFX.miss(); buzz(30);
+    if(el){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+    toast(I.lock+'Termine les leçons d\'avant pour débloquer cette fiche.');
+    return;
+  }
+  m.li=li; SFX.page(); render();
+  var b=document.getElementById('fbody'); if(b) b.scrollTop=0;
+}
+function ficheBack(){
+  var m=R.modal; if(!m) return;
+  var from=m.li; m.li=null; SFX.pop(); render();
+  var row=document.querySelector('.frow[data-v="'+from+'"]'); if(row) row.scrollIntoView({block:'center'});
+}
 function vModal(){
   var m=R.modal, h='';
   if(m.type==='labo') return vLaboModal(m);
+  if(m.type==='fiches') return vFiches(m);
   if(m.type==='quit'){
     h='<div class="mascot">'+boum({size:96, mood:'sad'})+'</div><h2>Tu t\'en vas déjà ?</h2><p>Si tu quittes, ta progression dans cette leçon sera perdue.</p>'+
       '<button class="btn" data-act="m-close">Continuer la leçon</button><button class="linkbtn" data-act="quit-yes" style="color:var(--ko)">Quitter</button>';
@@ -2752,11 +3055,8 @@ function vModal(){
     h='<div class="mascot">'+boum({size:100, mood:S.streak? 'happy':'sad'})+'</div><div class="bignum" style="font-size:64px">'+S.streak+'</div><h2 style="font-size:20px">'+(S.streak>1?'battements d\'affilée':'battement')+'</h2>'+
       '<p>'+(doneToday()?'Battement du jour validé.':'Fais une leçon aujourd\'hui pour ne pas perdre ta série.')+' Record : '+S.best+'.</p>'+
       '<div style="display:flex; justify-content:center">'+weekStrip()+'</div>'+
+      '<h3 class="rt-title">Trousses du jour de ta série</h3>'+rewardTrack(streakDay())+'<p class="rt-note">Rare tous les 3 jours, épique tous les 7, légendaire tous les 10.</p>'+
       '<div class="defibs">'+I.defib+S.defib+' / 2 défibrillateurs</div><button class="btn" data-act="m-close">OK</button>';
-  } else if(m.type==='guide'){
-    var u=UNITS[m.ui];
-    h='<h2 style="color:'+uc(m.ui)+'">'+esc(u.titre)+'</h2><p class="guide-hs"><b>Au lycée :</b> '+esc(u.lycee)+'</p><ul class="guide" style="padding:0; margin:0">'+
-      u.lecons.map(function(l){ var pt=(u.parties||[]).filter(function(x){ return x.debut===l.id; })[0]; return (pt?'<li class="gpart">Partie '+(u.parties.indexOf(pt)+1)+' · '+esc(pt.titre)+'</li>':'')+'<li><b>'+esc(l.titre)+'</b><span class="chip '+l.niveau+'">'+LV[l.niveau]+'</span><span>'+esc(l.objectif)+'</span></li>'; }).join('')+'</ul><button class="btn" data-act="m-close">Fermer</button>';
   } else if(m.type==='reset'){
     h='<div class="mascot">'+boum({size:96, mood:'sad'})+'</div><h2>Tout réinitialiser ?</h2><p>Série, XP, gélules et leçons finies seront effacés sur cet appareil.</p><button class="btn red" data-act="d-reset-yes">Oui, tout effacer</button><button class="linkbtn" data-act="m-close">Annuler</button>';
   }
@@ -2938,7 +3238,7 @@ document.addEventListener('click', function(e){
   ac();
   switch(a){
     case 'noop': break;
-    case 'labo-open': R.modal={type:'labo', model:v, sel:null}; SFX.whoosh(); render(); break;
+    case 'labo-open': R.modal={type:'labo', model:v, sel:null, back:(R.modal && R.modal.type==='fiches') ? R.modal : null}; SFX.whoosh(); render(); break;
     case 'labo-part': if(R.modal && R.modal.type==='labo'){ R.modal.sel=v; SFX.pop(); render(); requestAnimationFrame(function(){ V3.focus(v); }); } break;
     case 'labo-quiz': startLabQuiz(v); break;
     case 'svgpart': pickPart(v); break;
@@ -2956,7 +3256,7 @@ document.addEventListener('click', function(e){
       setTimeout(function(){ go('onboard2'); }, 320); break;
     case 'ob-goal': S.goal=+v; save(); SFX.tap(+t.getAttribute('data-i')); render(); break;
     case 'ob-done': S.onboarded=true; save(); startLesson(0); break;
-    case 'tab': SFX.pop(); R.tab=v; R.pop=null; go('home'); break;
+    case 'tab': SFX.tab(['learn','labo','shop','league','profile'].indexOf(v)); R.tab=v; R.pop=null; go('home'); break;
     case 'subj': S.subject=+v; save(); R.pop=null; SFX.tap(+v); render(); requestAnimationFrame(scrollToCurrent); break;
     case 'node': var idx=+v; R.pop = (R.pop===idx ? null : idx); SFX.pop(); render(); break;
     case 'chest':
@@ -2974,7 +3274,7 @@ document.addEventListener('click', function(e){
       startLesson(+v); break;
     case 'quit': R.modal={type:'quit'}; render(); break;
     case 'quit-yes': R.lesson=null; go('home'); break;
-    case 'm-close': R.modal=null; render(); break;
+    case 'm-close': R.modal=(R.modal && R.modal.back) || null; render(); break;
     case 'sel':
       var L=R.lesson; if(L.phase==='good'||L.phase==='bad') break;
       L.sel=+v; SFX.tap(+v); render(); break;
@@ -2992,7 +3292,11 @@ document.addEventListener('click', function(e){
     case 'practice': R.modal=null; startLesson(anyCur(), true); break;
     case 'm-streak': R.modal={type:'streak'}; render(); break;
     case 'm-lives': R.modal={type:'lives'}; render(); break;
-    case 'm-guide': R.modal={type:'guide', ui:+v}; render(); break;
+    case 'm-guide': R.modal={type:'fiches', ui:+v, li:null}; SFX.page(); render(); break;
+    case 'fiche-open': ficheOpen(+v, t); break;
+    case 'fiche-back': ficheBack(); break;
+    case 'fiche-node': R.pop=null; R.modal={type:'fiches', ui:ORDER[+v].ui, li:ORDER[+v].li}; SFX.page(); render(); break;
+    case 'daily-open': if(dailyReady()){ openChest('daily'); } break;
     case 'sound': S.sound=!S.sound; save(); render(); if(S.sound) SFX.good(3); break;
     case 'goal': S.goal=+v; save(); render(); break;
     case 'd-next': S.dayOffset+=1; save(); onOpen(); break;
