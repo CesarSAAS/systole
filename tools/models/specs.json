@@ -1,0 +1,667 @@
+{
+ "coeur": {
+  "glbs": [
+   "cardiovascular"
+  ],
+  "budget": 52000,
+  "meta": {
+   "id": "coeur",
+   "titre": "Le cœur",
+   "credit": "Modèle : BodyParts3D (DBCLS, CC BY-SA 2.1 JP) et Z-Anatomy (CC BY-SA 4.0), allégé pour Systole."
+  },
+  "parts": [
+   {
+    "k": "ad",
+    "n": "Atrium droit",
+    "c": "#B4504A",
+    "names": [
+     "Right atrium"
+    ],
+    "w": 1.35
+   },
+   {
+    "k": "ag",
+    "n": "Atrium gauche",
+    "c": "#B4504A",
+    "names": [
+     "Left atrium"
+    ],
+    "w": 1.35
+   },
+   {
+    "k": "vd",
+    "n": "Ventricule droit",
+    "c": "#A13F39",
+    "names": [
+     "Right ventricle"
+    ],
+    "w": 1.35
+   },
+   {
+    "k": "vg",
+    "n": "Ventricule gauche",
+    "c": "#A13F39",
+    "names": [
+     "Left ventricle"
+    ],
+    "w": 1.35
+   },
+   {
+    "k": "aorte",
+    "n": "Aorte",
+    "c": "#C8463C",
+    "names": [
+     "Ascending aorta",
+     "Aortic arch",
+     "Thoracic aorta"
+    ],
+    "min": 600
+   },
+   {
+    "k": "branches",
+    "n": "Branches de la crosse de l'aorte",
+    "c": "#C8463C",
+    "names": [
+     "Brachiocephalic trunk",
+     "Left common carotid artery",
+     "Right common carotid artery",
+     "Left subclavian artery",
+     "Right subclavian artery"
+    ],
+    "min": 500
+   },
+   {
+    "k": "tp",
+    "n": "Tronc pulmonaire",
+    "c": "#5A6DB2",
+    "names": [
+     "Pulmonary trunk",
+     "Bifurcation of pulmonary trunk"
+    ],
+    "min": 400
+   },
+   {
+    "k": "ap",
+    "n": "Artères pulmonaires",
+    "c": "#5A6DB2",
+    "names": [
+     "Left pulmonary artery",
+     "Right pulmonary artery"
+    ],
+    "min": 500
+   },
+   {
+    "k": "vcs",
+    "n": "Veine cave supérieure",
+    "c": "#4B5FA0",
+    "names": [
+     "Superior vena cava"
+    ],
+    "min": 250
+   },
+   {
+    "k": "vci",
+    "n": "Veine cave inférieure",
+    "c": "#4B5FA0",
+    "names": [
+     "Inferior vena cava (thoracic part)"
+    ],
+    "min": 400
+   },
+   {
+    "k": "vp",
+    "n": "Veines pulmonaires",
+    "c": "#C8463C",
+    "names": [
+     "Left inferior pulmonary vein",
+     "Left superior pulmonary vein",
+     "Right inferior pulmonary vein",
+     "Right superior pulmonary vein"
+    ],
+    "min": 500
+   },
+   {
+    "k": "cor_d",
+    "n": "Artère coronaire droite",
+    "c": "#E0623E",
+    "names": [
+     "Right coronary artery",
+     "Right inferolateral branch of right coronary artery"
+    ],
+    "w": 0.35
+   },
+   {
+    "k": "cor_g",
+    "n": "Artère coronaire gauche et ses branches",
+    "c": "#E0623E",
+    "names": [
+     "Left coronary artery",
+     "Anterior interventricular artery",
+     "Septal branches of anterior interventricular artery",
+     "Circumflex artery of heart"
+    ],
+    "w": 0.35
+   },
+   {
+    "k": "vcard",
+    "n": "Veines du cœur et sinus coronaire",
+    "c": "#5A6DB2",
+    "names": [
+     "Great cardiac vein",
+     "Middle cardiac vein",
+     "Inferior vein of left ventricle",
+     "Inferior vein of left ventricle (//Posterior '')",
+     "Coronary sinus"
+    ],
+    "w": 0.3
+   }
+  ]
+ },
+ "squelette": {
+  "glbs": [
+   "skeletal"
+  ],
+  "budget": 66000,
+  "meta": {
+   "id": "squelette",
+   "titre": "Le squelette",
+   "credit": "Modèle : BodyParts3D (DBCLS, CC BY-SA 2.1 JP) et Z-Anatomy (CC BY-SA 4.0), allégé pour Systole."
+  },
+  "parts": [
+   {
+    "k": "crane",
+    "n": "Crâne",
+    "c": "#E4D6BA",
+    "names": [
+     "Frontal bone",
+     "re:^Parietal bone",
+     "Occipital bone",
+     "re:^Temporal bone",
+     "Sphenoid bone",
+     "Ethmoid bone",
+     "re:^Nasal bone",
+     "re:^Lacrimal bone",
+     "re:^Zygomatic bone",
+     "re:^Maxilla",
+     "re:^Palatine bone",
+     "Vomer",
+     "re:^Inferior nasal concha"
+    ],
+    "w": 0.75
+   },
+   {
+    "k": "mandibule",
+    "n": "Mandibule",
+    "c": "#E4D6BA",
+    "names": [
+     "Mandible"
+    ],
+    "min": 2600
+   },
+   {
+    "k": "dents",
+    "n": "Dents",
+    "c": "#F4F0E4",
+    "names": [
+     "re:(canine|incisor|molar tooth|premolar)"
+    ],
+    "w": 0.3
+   },
+   {
+    "k": "cervicales",
+    "n": "Vertèbres cervicales",
+    "c": "#E4D6BA",
+    "names": [
+     "Atlas (C1)",
+     "Axis (C2)",
+     "re:^Vertebra C[3-7]$"
+    ],
+    "min": 2200
+   },
+   {
+    "k": "thoraciques",
+    "n": "Vertèbres thoraciques",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Vertebra T\\d+$"
+    ],
+    "min": 4200
+   },
+   {
+    "k": "lombaires",
+    "n": "Vertèbres lombaires",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Vertebra L[1-5]$"
+    ],
+    "min": 2400
+   },
+   {
+    "k": "sacrum",
+    "n": "Sacrum",
+    "c": "#E4D6BA",
+    "names": [
+     "Sacrum"
+    ],
+    "min": 1800
+   },
+   {
+    "k": "coccyx",
+    "n": "Coccyx",
+    "c": "#E4D6BA",
+    "names": [
+     "Coccyx"
+    ],
+    "min": 200
+   },
+   {
+    "k": "cotes",
+    "n": "Côtes",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^(First|Second|Third|Fourth|Fifth|Sixth|Seventh|Eighth|Ninth|Tenth|Eleventh|Twelfth) rib"
+    ],
+    "w": 0.6
+   },
+   {
+    "k": "cartilages",
+    "n": "Cartilages costaux",
+    "c": "#C6D9E0",
+    "names": [
+     "re:^Costal cartilage"
+    ],
+    "w": 0.35
+   },
+   {
+    "k": "sternum",
+    "n": "Sternum",
+    "c": "#E4D6BA",
+    "names": [
+     "Manubrium of sternum",
+     "Body of sternum",
+     "Xiphoid process"
+    ],
+    "min": 1500
+   },
+   {
+    "k": "clavicule",
+    "n": "Clavicule",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Clavicle"
+    ],
+    "min": 900
+   },
+   {
+    "k": "scapula",
+    "n": "Scapula",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Scapula"
+    ],
+    "w": 0.35,
+    "min": 2600
+   },
+   {
+    "k": "humerus",
+    "n": "Humérus",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Humerus"
+    ],
+    "min": 2000
+   },
+   {
+    "k": "radius",
+    "n": "Radius",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Radius"
+    ],
+    "min": 900
+   },
+   {
+    "k": "ulna",
+    "n": "Ulna",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Ulna"
+    ],
+    "min": 1000
+   },
+   {
+    "k": "carpe",
+    "n": "Os du carpe",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^(Scaphoid|Lunate|Triquetrum|Pisiform|Trapezium|Trapezoid|Capitate|Hamate) bone"
+    ],
+    "w": 0.8
+   },
+   {
+    "k": "metacarpe",
+    "n": "Métacarpiens",
+    "c": "#E4D6BA",
+    "names": [
+     "re:metacarpal bone"
+    ],
+    "w": 0.9
+   },
+   {
+    "k": "phal_main",
+    "n": "Phalanges de la main",
+    "c": "#E4D6BA",
+    "names": [
+     "re:phalanx of .* finger of hand"
+    ],
+    "w": 0.8
+   },
+   {
+    "k": "coxal",
+    "n": "Os coxal",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Hip bone"
+    ],
+    "min": 3200
+   },
+   {
+    "k": "femur",
+    "n": "Fémur",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Femur"
+    ],
+    "min": 2400
+   },
+   {
+    "k": "patella",
+    "n": "Patella",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Patella"
+    ],
+    "min": 500
+   },
+   {
+    "k": "tibia",
+    "n": "Tibia",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Tibia"
+    ],
+    "min": 1800
+   },
+   {
+    "k": "fibula",
+    "n": "Fibula",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Fibula"
+    ],
+    "min": 900
+   },
+   {
+    "k": "talus",
+    "n": "Talus",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Talus"
+    ],
+    "min": 700
+   },
+   {
+    "k": "calcaneus",
+    "n": "Calcanéus",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^Calcaneus"
+    ],
+    "min": 800
+   },
+   {
+    "k": "tarse",
+    "n": "Autres os du tarse",
+    "c": "#E4D6BA",
+    "names": [
+     "re:^(Navicular|Cuboid) bone",
+     "re:cuneiform bone"
+    ],
+    "w": 0.9
+   },
+   {
+    "k": "metatarse",
+    "n": "Métatarsiens",
+    "c": "#E4D6BA",
+    "names": [
+     "re:metatarsal bone"
+    ],
+    "w": 0.9
+   },
+   {
+    "k": "phal_pied",
+    "n": "Phalanges du pied",
+    "c": "#E4D6BA",
+    "names": [
+     "re:phalanx of .* finger of foot",
+     "re:^Sesamoid bones of foot"
+    ],
+    "w": 0.8
+   }
+  ]
+ },
+ "tronc": {
+  "glbs": [
+   "visceral",
+   "cardiovascular"
+  ],
+  "budget": 52000,
+  "meta": {
+   "id": "tronc",
+   "titre": "Les organes du tronc",
+   "credit": "Modèle : BodyParts3D (DBCLS, CC BY-SA 2.1 JP) et Z-Anatomy (CC BY-SA 4.0), allégé pour Systole. Les reins, sous licence non commerciale, ont été retirés."
+  },
+  "parts": [
+   {
+    "k": "lsd",
+    "n": "Lobe supérieur du poumon droit",
+    "c": "#E3A09A",
+    "names": [
+     "Superior lobe of right lung"
+    ],
+    "min": 2400
+   },
+   {
+    "k": "lmd",
+    "n": "Lobe moyen du poumon droit",
+    "c": "#E7A9A2",
+    "names": [
+     "Middle lobe of right lung"
+    ],
+    "min": 2400
+   },
+   {
+    "k": "lid",
+    "n": "Lobe inférieur du poumon droit",
+    "c": "#E3A09A",
+    "names": [
+     "Inferior lobe of right lung"
+    ],
+    "min": 2400
+   },
+   {
+    "k": "lsg",
+    "n": "Lobe supérieur du poumon gauche",
+    "c": "#E7A9A2",
+    "names": [
+     "Superior lobe of left lung"
+    ],
+    "min": 2400
+   },
+   {
+    "k": "lig",
+    "n": "Lobe inférieur du poumon gauche",
+    "c": "#E3A09A",
+    "names": [
+     "Inferior lobe of left lung"
+    ],
+    "min": 2400
+   },
+   {
+    "k": "trachee",
+    "n": "Trachée",
+    "c": "#D8C6BE",
+    "names": [
+     "Trachea"
+    ]
+   },
+   {
+    "k": "bronches",
+    "n": "Bronches",
+    "c": "#D8C6BE",
+    "names": [
+     "Right main bronchus",
+     "Left main bronchus",
+     "re:lobar bronchus",
+     "Intermediate bronchus.r"
+    ],
+    "w": 0.6
+   },
+   {
+    "k": "coeur",
+    "n": "Cœur",
+    "c": "#A13F39",
+    "names": [
+     "Right atrium",
+     "Left atrium",
+     "Right ventricle",
+     "Left ventricle",
+     "Ascending aorta",
+     "Aortic arch",
+     "Pulmonary trunk",
+     "Bifurcation of pulmonary trunk",
+     "Superior vena cava"
+    ],
+    "w": 0.8
+   },
+   {
+    "k": "aorte",
+    "n": "Aorte thoracique",
+    "c": "#C8463C",
+    "names": [
+     "Thoracic aorta"
+    ],
+    "min": 300
+   },
+   {
+    "k": "oeso",
+    "n": "Œsophage",
+    "c": "#D88A82",
+    "names": [
+     "Oesophagus"
+    ],
+    "w": 0.5
+   },
+   {
+    "k": "estomac",
+    "n": "Estomac",
+    "c": "#DE998A",
+    "names": [
+     "Stomach"
+    ]
+   },
+   {
+    "k": "duodenum",
+    "n": "Duodénum",
+    "c": "#E6AE8E",
+    "names": [
+     "Duodenum"
+    ],
+    "min": 500
+   },
+   {
+    "k": "grele",
+    "n": "Intestin grêle",
+    "c": "#E8A88B",
+    "names": [
+     "Jejunum"
+    ]
+   },
+   {
+    "k": "colon",
+    "n": "Côlon (gros intestin)",
+    "c": "#D49C7C",
+    "names": [
+     "Ascending colon",
+     "Transverse colon",
+     "Descending colon",
+     "Sigmoid colon"
+    ],
+    "w": 0.6
+   },
+   {
+    "k": "appendice",
+    "n": "Appendice vermiforme",
+    "c": "#D49C7C",
+    "names": [
+     "Vermiform appendix"
+    ],
+    "min": 200
+   },
+   {
+    "k": "foie",
+    "n": "Foie",
+    "c": "#8A3A2F",
+    "names": [
+     "Liver"
+    ],
+    "min": 3200
+   },
+   {
+    "k": "vb",
+    "n": "Vésicule biliaire",
+    "c": "#4E8A49",
+    "names": [
+     "Gallbladder"
+    ],
+    "min": 400
+   },
+   {
+    "k": "pancreas",
+    "n": "Pancréas",
+    "c": "#E3BF78",
+    "names": [
+     "Pancreas"
+    ]
+   },
+   {
+    "k": "thyroide",
+    "n": "Glande thyroïde",
+    "c": "#B9584B",
+    "names": [
+     "Thyroid gland"
+    ],
+    "min": 400
+   },
+   {
+    "k": "surrenales",
+    "n": "Glandes surrénales",
+    "c": "#D8A340",
+    "names": [
+     "Suprarenal gland.l",
+     "Suprarenal gland.r"
+    ],
+    "min": 400
+   },
+   {
+    "k": "vessie",
+    "n": "Vessie",
+    "c": "#D9B7A0",
+    "names": [
+     "Urinary bladder"
+    ],
+    "min": 400
+   }
+  ]
+ }
+}
