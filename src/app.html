@@ -1050,44 +1050,52 @@ function checkStreak(){
 }
 
 /* ================= Sound ================= */
-/* Everything is synthesized live: a small mixer (compressor + echo send),
-   bell-like notes on a pentatonic scale, and filtered noise for zaps. */
+/* Everything is synthesized live. The mix goes through a soft master (a gentle cut of the harsh
+   highs, then a compressor) and a short, warm room reverb. Notes stay on one pentatonic scale;
+   interface sounds are low, round and short so they never tire the ear; every note is detuned
+   by a hair at random so repeats sound played, not looped. */
 var AC=null, OUT=null, SEND=null, NOISE=null;
+function audioGraph(c){
+  var comp=c.createDynamicsCompressor(); comp.threshold.value=-18; comp.knee.value=14; comp.ratio.value=4; comp.attack.value=.004; comp.release.value=.22;
+  comp.connect(c.destination);
+  var bite=c.createBiquadFilter(), shelf=c.createBiquadFilter(), top=c.createBiquadFilter();
+  bite.type='peaking'; bite.frequency.value=3000; bite.Q.value=.9; bite.gain.value=-3;
+  shelf.type='highshelf'; shelf.frequency.value=5000; shelf.gain.value=-7;
+  top.type='lowpass'; top.frequency.value=11000; top.Q.value=.5;
+  OUT=c.createGain(); OUT.gain.value=.85;
+  OUT.connect(bite); bite.connect(shelf); shelf.connect(top); top.connect(comp);
+  /* Reverb: 1.4 s of decaying noise, darkened, as a small warm room */
+  var sr=c.sampleRate, len=Math.floor(sr*1.4), ir=c.createBuffer(2,len,sr), fade=Math.floor(sr*.006);
+  for(var ch=0; ch<2; ch++){ var d=ir.getChannelData(ch); for(var i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.4)*(i<fade?i/fade:1); }
+  var pre=c.createDelay(.1), conv=c.createConvolver(), dark=c.createBiquadFilter(), wet=c.createGain();
+  pre.delayTime.value=.014; conv.buffer=ir; dark.type='lowpass'; dark.frequency.value=4200; wet.gain.value=.32;
+  pre.connect(conv); conv.connect(dark); dark.connect(wet); wet.connect(OUT);
+  SEND=pre;
+  var nb=c.createBuffer(1,sr,sr), nd=nb.getChannelData(0); for(var j=0;j<sr;j++) nd[j]=Math.random()*2-1;
+  NOISE=nb;
+}
 function ac(){
-  if(!AC){
-    try{
-      AC=new (window.AudioContext||window.webkitAudioContext)();
-      var comp=AC.createDynamicsCompressor(); comp.threshold.value=-16; comp.knee.value=12; comp.ratio.value=5; comp.attack.value=.003; comp.release.value=.2;
-      comp.connect(AC.destination);
-      OUT=AC.createGain(); OUT.gain.value=.85; OUT.connect(comp);
-      var d=AC.createDelay(1), fb=AC.createGain(), lp=AC.createBiquadFilter(), wet=AC.createGain();
-      d.delayTime.value=.11; fb.gain.value=.3; lp.type='lowpass'; lp.frequency.value=2800; wet.gain.value=.35;
-      d.connect(lp); lp.connect(fb); fb.connect(d); lp.connect(wet); wet.connect(OUT);
-      SEND=d;
-      var n=AC.sampleRate, b=AC.createBuffer(1,n,AC.sampleRate), ch=b.getChannelData(0);
-      for(var i=0;i<n;i++) ch[i]=Math.random()*2-1;
-      NOISE=b;
-    }catch(e){ AC=null; }
-  }
-  if(AC && AC.state==='suspended'){ try{ AC.resume(); }catch(e){} }
+  if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); audioGraph(AC); }catch(e){ AC=null; } }
+  if(AC && AC.state==='suspended'){ try{ var p=AC.resume(); if(p && p.catch) p.catch(function(){}); }catch(e){} }
   return AC;
 }
 function mf(m){ return 440*Math.pow(2,(m-69)/12); }
+/* A note is a few partials, each with its own decay: the high ones die first, which is what
+   makes a sound round instead of shrill. */
 function note(m, t0, dur, o){
   o=o||{}; var c=ac(); if(!c || !S.sound) return;
   try{
-    var t=c.currentTime+(t0||0), f=mf(m), g=c.createGain(), vol=o.vol||.15;
-    g.connect(OUT);
+    var t=c.currentTime+(t0||0), f=mf(m)*Math.pow(2,(Math.random()-.5)*(o.wob==null?5:o.wob)/1200), g=c.createGain(), at=o.attack||.006;
+    g.gain.value=o.vol||.15; g.connect(OUT);
     if(o.echo){ var s=c.createGain(); s.gain.value=o.echo; g.connect(s); s.connect(SEND); }
-    g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(vol,t+(o.attack||.008)); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
     var types=o.types||['triangle'];
     types.forEach(function(ty,k){
-      var osc=c.createOscillator(), og=c.createGain(), mult=o.mults?o.mults[k]:1;
+      var osc=c.createOscillator(), og=c.createGain(), mult=o.mults?o.mults[k]:1, amp=Math.max(.0002, o.mix?o.mix[k]:1/types.length), end=t+Math.max(at+.02, dur*(o.decays?o.decays[k]:1));
       osc.type=ty; osc.frequency.setValueAtTime(f*mult,t);
-      if(o.slide) osc.frequency.exponentialRampToValueAtTime(f*mult*o.slide,t+dur);
+      if(o.slide) osc.frequency.exponentialRampToValueAtTime(f*mult*o.slide, t+(o.slideT||dur));
       if(o.detune) osc.detune.value=(k%2?-1:1)*o.detune;
-      og.gain.value=o.mix?o.mix[k]:1/types.length;
-      osc.connect(og); og.connect(g); osc.start(t); osc.stop(t+dur+.05);
+      og.gain.setValueAtTime(.0001,t); og.gain.exponentialRampToValueAtTime(amp,t+at); og.gain.exponentialRampToValueAtTime(.0001,end);
+      osc.connect(og); og.connect(g); osc.start(t); osc.stop(end+.03);
     });
   }catch(e){}
 }
@@ -1105,54 +1113,64 @@ function hiss(t0, dur, o){
   }catch(e){}
 }
 var PENTA=[72,74,76,79,81,84,86,88,91,93,96,98,100];
-function bell(v){ return {types:['sine','triangle','sine'], mults:[1,2,3.01], mix:[.7,.25,.08], echo:.35, vol:v||.15}; }
+/* Three timbres: a round bell, a wooden marimba and a small metal pluck */
+function bell(v){ return {types:['sine','sine','sine'], mults:[1,2,4.16], mix:[.82,.16,.05], decays:[1,.42,.16], echo:.3, vol:v||.15}; }
+function wood(v){ return {types:['sine','sine','sine'], mults:[1,3.93,9.2], mix:[.9,.2,.04], decays:[1,.2,.07], echo:.1, vol:v||.12, attack:.003}; }
+function pluck(v){ return {types:['sine','sine','sine'], mults:[1,2.76,5.4], mix:[.8,.22,.06], decays:[1,.32,.12], echo:.16, vol:v||.06, attack:.002}; }
 var SFX={
-  tap:function(i){ note(PENTA[(i||0)%5]+12, 0, .07, {types:['sine'], vol:.05}); },
-  pop:function(){ note(79,0,.09,{types:['sine'], vol:.1, slide:1.8}); },
+  /* Interface: a soft wooden "toc", never a high tink */
+  tap:function(i){ note(PENTA[(i||0)%5]-12, 0, .24, wood(.13)); hiss(0,.012,{type:'bandpass', f:2200, q:1.2, vol:.025}); },
+  pop:function(){ note(62,0,.09,{types:['sine'], vol:.16, slide:1.6, slideT:.05, attack:.004}); note(74,.015,.14,wood(.045)); },
+  tab:function(i){ var r=[0,2,4,7,9][(i||0)%5]; note(55+r,0,.08,{types:['sine'], vol:.18, slide:.6, slideT:.05, attack:.003}); note(67+r,.004,.18,wood(.06)); hiss(0,.008,{type:'bandpass', f:1900, q:1, vol:.03}); },
+  page:function(){ note(52,0,.08,{types:['sine'], vol:.1, slide:.7}); hiss(0,.17,{type:'bandpass', f:650, f2:2000, q:.8, vol:.07, attack:.03}); hiss(.06,.08,{type:'lowpass', f:2600, vol:.025}); },
+  tock:function(){ note(67,0,.1,wood(.08)); hiss(0,.01,{type:'bandpass', f:2000, q:1, vol:.04}); },
+  tick:function(k){ note(PENTA[(k||0)%5]-12, 0, .08, wood(.05)); },
+  /* Answers: the pitch climbs with the combo */
   good:function(combo){
-    var b=Math.min((combo||1)-1, 7);
-    [0,2,4].forEach(function(k,j){ note(PENTA[b+k], j*.065, j===2?.55:.18, bell(j===2?.2:.13)); });
-    hiss(.13,.25,{type:'highpass', f:6000, vol:.03});
+    var b=Math.min((combo||1)-1, 5);
+    note(PENTA[b]-12, 0, .32, wood(.09));
+    [0,2,4].forEach(function(k,j){ note(PENTA[b+k], j*.06, j===2?.62:.22, bell(j===2?.16:.11)); });
+    hiss(.12,.25,{type:'highpass', f:5500, vol:.012, echo:.3});
   },
   bad:function(){
-    note(64,0,.16,{types:['triangle','square'], mix:[.8,.1], vol:.12});
-    note(60,.12,.34,{types:['triangle','square'], mix:[.8,.1], vol:.12, slide:.94});
-    note(40,0,.18,{types:['sine'], vol:.25, slide:.6});
+    note(57,0,.17,{types:['triangle','sine'], mix:[.55,.45], vol:.14, slide:.97});
+    note(52,.11,.34,{types:['triangle','sine'], mix:[.55,.45], vol:.14, slide:.93});
+    note(40,0,.2,{types:['sine'], vol:.24, slide:.6});
   },
-  crack:function(){ hiss(0,.06,{type:'highpass', f:2500, vol:.18}); note(50,0,.2,{types:['sine'], vol:.2, slide:.5}); },
-  match:function(k){ note(PENTA[Math.min(k*2,10)], 0, .32, bell(.15)); },
+  crack:function(){ hiss(0,.06,{type:'bandpass', f:1900, q:.9, vol:.12}); note(50,0,.2,{types:['sine'], vol:.2, slide:.5}); },
+  match:function(k){ var m=PENTA[Math.min(k*2,8)]; note(m, 0, .34, bell(.14)); note(m-12, 0, .22, wood(.06)); },
   miss:function(){ note(45,0,.14,{types:['sine'], vol:.3, slide:.7}); hiss(0,.05,{type:'lowpass', f:600, vol:.15}); },
   zap:function(big){
-    hiss(0, big?.5:.3, {type:'bandpass', f:900, f2:7000, q:.8, vol:big?.35:.22});
-    note(43, 0, big?.45:.28, {types:['sawtooth','square'], mix:[.5,.3], vol:.07, slide:8});
-    hiss(.02, .18, {type:'highpass', f:5000, vol:.12});
+    hiss(0, big?.5:.3, {type:'bandpass', f:800, f2:4200, q:.9, vol:big?.26:.16});
+    note(43, 0, big?.45:.28, {types:['sawtooth','square'], mix:[.5,.25], vol:.05, slide:6, wob:0});
+    hiss(.02, .16, {type:'highpass', f:4000, vol:.05});
   },
   combo:function(n){
     SFX.zap(true);
-    var root=72+Math.min(n,12);
-    [0,4,7,12,16].forEach(function(iv,j){ note(root+iv, .12+j*.055, .7, bell(.13)); });
+    var root=72+Math.min(n,7);
+    note(root-12, .12, .6, wood(.1));
+    [0,4,7,12].forEach(function(iv,j){ note(root+iv, .12+j*.06, .7, bell(.13)); });
   },
   fanfare:function(){
-    [72,76,79,84].forEach(function(m,j){ note(m, j*.1, .22, bell(.16)); });
-    [72,76,79,84].forEach(function(m){ note(m, .42, 1.1, {types:['triangle','sine'], mults:[1,2], mix:[.6,.2], vol:.1, echo:.4, detune:6}); });
-    hiss(.42, .9, {type:'highpass', f:7000, vol:.05, echo:.3});
+    [72,76,79,84].forEach(function(m,j){ note(m, j*.1, .24, bell(.15)); });
+    [60,64,67,72].forEach(function(m){ note(m, .42, 1.1, {types:['triangle','sine'], mults:[1,2], mix:[.6,.2], decays:[1,.5], vol:.1, echo:.4, detune:6}); });
+    hiss(.42, .9, {type:'highpass', f:6000, vol:.02, echo:.3});
   },
-  tick:function(k){ note(84+(k%12), 0, .06, {types:['square'], vol:.035}); },
-  ding:function(){ note(96, 0, .6, bell(.16)); },
-  thump:function(){ note(38,0,.16,{types:['sine'], vol:.7, slide:.5}); hiss(0,.03,{type:'lowpass', f:400, vol:.3}); note(36,.19,.16,{types:['sine'], vol:.55, slide:.5}); },
-  whoosh:function(){ hiss(0,.45,{type:'bandpass', f:300, f2:4000, q:.7, vol:.16, attack:.2}); },
-  unlock:function(){ note(79,0,.12,bell(.13)); note(84,.09,.12,bell(.13)); note(91,.18,.5,bell(.16)); hiss(.18,.3,{type:'highpass', f:7000, vol:.04}); },
-  flat:function(){ note(83,0,1.4,{types:['sine'], vol:.07}); },
+  ding:function(){ note(84, 0, .8, bell(.13)); note(72, 0, .6, wood(.06)); },
+  thump:function(){ note(38,0,.16,{types:['sine'], vol:.7, slide:.5, wob:0}); hiss(0,.03,{type:'lowpass', f:400, vol:.3}); note(36,.19,.16,{types:['sine'], vol:.55, slide:.5, wob:0}); },
+  whoosh:function(){ hiss(0,.45,{type:'bandpass', f:300, f2:3000, q:.7, vol:.14, attack:.2}); },
+  unlock:function(){ note(72,0,.14,bell(.12)); note(76,.08,.14,bell(.12)); note(79,.16,.6,bell(.15)); note(84,.16,.5,bell(.04)); note(60,.16,.45,wood(.07)); hiss(.16,.3,{type:'highpass', f:5500, vol:.012, echo:.3}); },
+  flat:function(){ note(83,0,1.4,{types:['sine'], vol:.05, wob:0}); },
   boing:function(){ note(62,0,.28,{types:['sine'], vol:.2, slide:2}); },
   boom:function(big){
     hiss(0, big?1.1:.55, {type:'lowpass', f:big?1800:1300, f2:70, q:.7, vol:big?.85:.5});
-    note(33, 0, big?.9:.45, {types:['sine'], vol:big?.9:.6, slide:.35});
-    hiss(0, .12, {type:'highpass', f:3000, vol:big?.25:.12});
-    if(big) note(45, .02, .6, {types:['sawtooth'], vol:.07, slide:.3});
+    note(33, 0, big?.9:.45, {types:['sine'], vol:big?.9:.6, slide:.35, wob:0});
+    hiss(0, .12, {type:'bandpass', f:2600, q:.8, vol:big?.18:.09});
+    if(big) note(45, .02, .6, {types:['sawtooth'], vol:.05, slide:.3});
   },
-  impact:function(i){ SFX.boom(false); note([79,84,91][i%3], .05, .4, bell(.14)); },
-  rise:function(k){ note(PENTA[Math.min(k,12)], 0, .09, {types:['triangle'], vol:.07}); },
-  fall:function(){ note(100, 0, .42, {types:['sine'], vol:.07, slide:.22}); },
+  impact:function(i){ SFX.boom(false); note([67,72,79][i%3], .05, .4, bell(.14)); },
+  rise:function(k){ note(PENTA[Math.min(k,9)]-12, 0, .12, wood(.07)); },
+  fall:function(){ note(88, 0, .42, {types:['sine'], vol:.05, slide:.3}); },
   voice:function(m,dur,low){
     var c=ac(); if(!c || !S.sound) return;
     try{
@@ -1165,68 +1183,75 @@ var SFX={
     }catch(e){}
   },
   applause:function(){ for(var i=0;i<46;i++){ var t=Math.random()*1.3; hiss(t,.03,{type:'bandpass', f:1200+Math.random()*1800, q:1.5, vol:.14*(1-t/1.6)}); } },
-  scratch:function(d){ var n=Math.floor(d/.075); for(var i=0;i<n;i++){ hiss(i*.075+Math.random()*.02, .05+Math.random()*.03, {type:'bandpass', f:2500+Math.random()*2500, q:2, vol:.05+Math.random()*.05}); } },
-  tock:function(){ note(79,0,.05,{types:['square'], vol:.06}); hiss(0,.02,{type:'highpass', f:2000, vol:.1}); },
+  scratch:function(d){ var n=Math.floor(d/.075); for(var i=0;i<n;i++){ hiss(i*.075+Math.random()*.02, .05+Math.random()*.03, {type:'bandpass', f:2200+Math.random()*1800, q:2, vol:.05+Math.random()*.04}); } },
   approach:function(){ hiss(0,.62,{type:'bandpass', f:200, f2:3000, q:1, vol:.25, attack:.5}); note(55,0,.62,{types:['sawtooth'], vol:.04, slide:2.5}); },
-  glass:function(){ hiss(0,.35,{type:'highpass', f:2500, vol:.5}); hiss(0,.08,{type:'lowpass', f:900, vol:.5}); note(40,0,.3,{types:['sine'], vol:.7, slide:.4}); for(var i=0;i<14;i++){ note(96+Math.floor(Math.random()*14), .05+Math.random()*.6, .12+Math.random()*.2, {types:['sine'], vol:.04+Math.random()*.05}); } },
-  squeak:function(){ note(88,0,.9,{types:['sine','triangle'], mix:[.6,.3], vol:.08, slide:.55}); },
-  charge:function(d){ note(64,0,d,{types:['sine'], vol:.06, slide:7}); note(76,0,d,{types:['triangle'], vol:.025, slide:7}); },
-  fizzle:function(){ hiss(0,.8,{type:'highpass', f:4000, f2:1500, vol:.08}); note(76,0,.5,{types:['sine'], vol:.05, slide:.5}); },
+  glass:function(){ hiss(0,.3,{type:'bandpass', f:3200, q:.8, vol:.28}); hiss(0,.08,{type:'lowpass', f:900, vol:.45}); note(40,0,.3,{types:['sine'], vol:.6, slide:.4}); for(var i=0;i<12;i++){ note(84+Math.floor(Math.random()*10), .05+Math.random()*.55, .1+Math.random()*.18, pluck(.025+Math.random()*.03)); } },
+  squeak:function(){ note(81,0,.9,{types:['sine','triangle'], mix:[.6,.3], vol:.07, slide:.55}); },
+  charge:function(d){ note(64,0,d,{types:['sine'], vol:.05, slide:5}); note(76,0,d,{types:['triangle'], vol:.018, slide:5}); },
+  fizzle:function(){ hiss(0,.8,{type:'bandpass', f:3500, f2:1500, q:.8, vol:.06}); note(76,0,.5,{types:['sine'], vol:.05, slide:.5}); },
   grunt:function(k){ SFX.voice(50+k*2,.16,true); },
   inflate:function(d){ hiss(0,d,{type:'bandpass', f:250, f2:1600, q:4, vol:.14, attack:.2}); note(55,0,d,{types:['triangle'], vol:.035, slide:2.4}); },
-  balloonPop:function(){ hiss(0,.09,{type:'highpass', f:1200, vol:.7}); hiss(0,.25,{type:'lowpass', f:800, f2:100, vol:.4}); note(48,0,.2,{types:['sine'], vol:.4, slide:.5}); },
-  sneeze:function(){ hiss(0,.35,{type:'bandpass', f:500, f2:1500, q:2, vol:.08, attack:.3}); hiss(.4,.18,{type:'highpass', f:1500, vol:.35}); note(58,.4,.15,{types:['sawtooth'], vol:.06, slide:.6}); },
+  balloonPop:function(){ hiss(0,.09,{type:'bandpass', f:1500, q:.7, vol:.55}); hiss(0,.25,{type:'lowpass', f:800, f2:100, vol:.4}); note(48,0,.2,{types:['sine'], vol:.4, slide:.5}); },
+  sneeze:function(){ hiss(0,.35,{type:'bandpass', f:500, f2:1500, q:2, vol:.08, attack:.3}); hiss(.4,.18,{type:'bandpass', f:2200, q:.8, vol:.25}); note(58,.4,.15,{types:['sawtooth'], vol:.05, slide:.6}); },
   singPoke:function(){ SFX.voice(72,.15); setTimeout(function(){ SFX.voice(76,.15); },170); setTimeout(function(){ SFX.voice(79,.3); },340); },
-  coin:function(k){ note(PENTA[Math.min(k||0,12)]+12, 0, .12, bell(.07)); },
+  coin:function(k){ note(PENTA[Math.min(k||0,8)]-5, 0, .16, pluck(.06)); },
   /* Trousses: each tap knocks a little harder and rings a little higher */
   chestTap:function(k){
-    note(41+k*2, 0, .14, {types:['sine'], vol:.55, slide:.55});
-    hiss(0, .045, {type:'bandpass', f:1700+k*350, q:3, vol:.2});
-    note(PENTA[Math.min(k*2,10)]+12, .025, .38, bell(.09+k*.018));
-    if(k>=2) hiss(.03, .2+k*.05, {type:'highpass', f:6500, vol:.02+k*.01, echo:.35});
+    note(41+k*2, 0, .14, {types:['sine'], vol:.5, slide:.55, wob:0});
+    hiss(0, .04, {type:'bandpass', f:1200+k*250, q:2, vol:.1});
+    note(PENTA[Math.min(k*2,8)], .02, .4, bell(.08+k*.015));
+    if(k>=2) hiss(.03, .2+k*.05, {type:'highpass', f:5000, vol:.01+k*.005, echo:.3});
   },
   suspense:function(d){
-    hiss(0, d, {type:'bandpass', f:260, f2:5200, q:1.3, vol:.2, attack:d*.85});
+    hiss(0, d, {type:'bandpass', f:260, f2:4000, q:1.3, vol:.18, attack:d*.85});
     var n=Math.floor(d/.045); for(var i=0;i<n;i++) hiss(i*.045, .03, {type:'lowpass', f:1000, vol:.04+.24*i/n});
-    note(52, 0, d, {types:['sawtooth'], vol:.03, slide:2.2});
+    note(52, 0, d, {types:['sawtooth'], vol:.025, slide:2.2});
   },
   drumroll:function(d){
-    var n=Math.floor(d/.038); for(var i=0;i<n;i++) hiss(i*.038, .032, {type:'bandpass', f:1300+Math.random()*500, q:.9, vol:.05+.24*i/n});
+    var n=Math.floor(d/.038); for(var i=0;i<n;i++) hiss(i*.038, .032, {type:'bandpass', f:1100+Math.random()*400, q:.9, vol:.05+.22*i/n});
     note(46, 0, d, {types:['sine'], vol:.08, slide:1.6});
   },
   tierUp:function(t){
     SFX.boom(t>=2); SFX.zap(t>=2);
     var r=[72,74,77,79][t];
     [0,4,7,12].forEach(function(iv,j){ note(r+iv, .06+j*.075, .7+j*.12, bell(.16)); });
-    hiss(.06, .8+t*.35, {type:'highpass', f:7000, vol:.04+t*.02, echo:.5});
-    if(t>=2) [0,7,12,16].forEach(function(iv){ note(r-12+iv, .34, 1.3, {types:['triangle','sine'], mults:[1,2], mix:[.5,.2], vol:.06, echo:.45, detune:7}); });
+    hiss(.06, .8+t*.35, {type:'highpass', f:6000, vol:.015+t*.008, echo:.5});
+    if(t>=2) [0,7,12,16].forEach(function(iv){ note(r-12+iv, .34, 1.3, {types:['triangle','sine'], mults:[1,2], mix:[.5,.2], decays:[1,.5], vol:.06, echo:.45, detune:7}); });
     if(t===3){
       [0,7,12].forEach(function(iv,j){ setTimeout(function(){ SFX.voice(r+iv, 1.1); }, 360+j*60); });
-      [0,4,7,12,16,19,24].forEach(function(iv,j){ note(r+12+iv, .55+j*.05, .9, bell(.08)); });
+      [0,4,7,12,16,19].forEach(function(iv,j){ note(r+iv, .55+j*.05, .9, bell(.07)); });
     }
   },
   lidPop:function(){
     note(50, 0, .14, {types:['sine'], vol:.6, slide:1.9});
-    hiss(0, .1, {type:'bandpass', f:2600, q:1, vol:.3});
-    hiss(.02, .7, {type:'bandpass', f:500, f2:6500, q:.8, vol:.16});
+    hiss(0, .1, {type:'bandpass', f:2200, q:1, vol:.22});
+    hiss(.02, .7, {type:'bandpass', f:500, f2:5000, q:.8, vol:.12});
   },
   reward:function(t){
     var up=[0,2,4,5][t]||0;
     [72,76,79,84,88].forEach(function(m,j){ note(m+up, .12+j*.06, .9, bell(.13)); });
-    [72,79,84].forEach(function(m){ note(m+up-12, .12, 1.4, {types:['triangle','sine'], mults:[1,2], mix:[.5,.2], vol:.06, echo:.4, detune:6}); });
-    hiss(.12, 1.1, {type:'highpass', f:6000, vol:.06, echo:.4});
+    [60,67,72].forEach(function(m){ note(m+up, .12, 1.4, {types:['triangle','sine'], mults:[1,2], mix:[.5,.2], decays:[1,.5], vol:.07, echo:.4, detune:6}); });
+    hiss(.12, 1.1, {type:'highpass', f:6000, vol:.025, echo:.4});
   },
-  coinRain:function(n){ for(var i=0;i<n;i++) note(PENTA[4+Math.floor(Math.random()*8)]+12, .04+i*.032+Math.random()*.02, .16, bell(.045+Math.random()*.03)); },
-  /* Launch: a heartbeat, then the three-note Systole chime */
+  coinRain:function(n){ for(var i=0;i<n;i++) note(PENTA[2+Math.floor(Math.random()*6)], .04+i*.032+Math.random()*.02, .16, pluck(.035+Math.random()*.025)); },
+  buy:function(){ note(48,0,.1,{types:['sine'], vol:.22, slide:.6, slideT:.06}); hiss(0,.035,{type:'bandpass', f:3000, q:2, vol:.05}); note(76,.03,.22,pluck(.08)); note(83,.1,.5,bell(.13)); note(71,.1,.4,wood(.05)); },
+  /* The Systole signature: "ta-daaa", a rising fifth that blooms into a warm major chord.
+     It always sounds the same, so it becomes the sound of the app and of a new battement. */
+  motif:function(t0, v){
+    t0=t0||0; v=v||1;
+    note(72, t0, .22, bell(.13*v)); note(60, t0, .2, wood(.07*v));
+    note(79, t0+.16, 1.3, bell(.17*v)); note(67, t0+.16, 1, wood(.08*v));
+    [48,55,64,71].forEach(function(m){ note(m, t0+.16, 1.6, {types:['triangle','sine'], mults:[1,2], mix:[.5,.18], decays:[1,.45], vol:.06*v, echo:.5, detune:5, attack:.05}); });
+    [84,88,91].forEach(function(m,j){ note(m, t0+.26+j*.06, .5, bell(.035*v)); });
+    hiss(t0+.16, 1, {type:'highpass', f:6000, vol:.015*v, echo:.5});
+  },
+  /* Launch: the heartbeat (lub-dub), a short rising breath, then the signature */
   launch:function(){
     SFX.thump();
-    note(84, .52, .16, bell(.12)); note(88, .63, .16, bell(.12)); note(91, .74, .6, bell(.17));
-    note(79, .74, 1.3, {types:['triangle','sine'], mults:[1,2], mix:[.5,.2], vol:.06, echo:.5, detune:6});
-    hiss(.74, .9, {type:'highpass', f:7000, vol:.045, echo:.45});
+    hiss(.3, .34, {type:'bandpass', f:600, f2:3200, q:.8, vol:.08, attack:.3});
+    SFX.motif(.62);
   },
-  tab:function(i){ note(PENTA[(i||0)%5]+12, 0, .1, {types:['sine','triangle'], mix:[.7,.3], vol:.07}); hiss(0, .035, {type:'highpass', f:5000, vol:.03}); },
-  page:function(){ hiss(0, .2, {type:'bandpass', f:1400, f2:4200, q:.8, vol:.12, attack:.04}); hiss(.07, .1, {type:'highpass', f:3500, vol:.05}); },
-  buy:function(){ note(88,0,.08,bell(.12)); note(95,.08,.32,bell(.15)); hiss(0,.05,{type:'highpass', f:4000, vol:.1}); }
+  spark:function(){ hiss(0,.05,{type:'bandpass', f:2600, q:1.2, vol:.05}); note(79,0,.12,pluck(.03)); }
 };
 function buzz(p){ try{ if(S.sound && navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate(p); }catch(e){} }
 /* Epic ambience while a trousse is épique or légendaire: a low drone, a soft "aah" choir and a
@@ -1380,15 +1405,17 @@ function splash(short){
   function at(ms,fn){ timers.push(setTimeout(fn, ms*T)); }
   function close(){ if(closed) return; closed=true; timers.forEach(clearTimeout); el.classList.add('out'); setTimeout(function(){ el.remove(); }, 400); }
   at(600, function(){
-    el.classList.add('zap'); if(!needTap) SFX.zap(true); buzz(60);
+    el.classList.add('zap'); if(!needTap) SFX.spark(); buzz(60);
     var c=center(el.querySelector('.sp-logo'));
     fxFlash('#FFFFFF',.85,320);
     if(c){ fxBolts(c.x,c.y,12,Math.min(innerWidth,innerHeight)*.42,{inner:24,life:560,w:5,colors:['#FFFFFF','#FFE27A']}); fxRing(c.x,c.y,'#FFFFFF',Math.min(innerWidth,innerHeight)*.45,{w:14,life:650}); }
   });
-  at(900, function(){ el.classList.add('beat'); if(!needTap) SFX.thump(); });
-  at(1150, function(){ el.classList.add('word'); if(!needTap) SFX.unlock(); });
+  /* The Systole signature: its heartbeat lands on the logo's pulse, its chord on the word */
+  at(720, function(){ if(!needTap) SFX.launch(); });
+  at(900, function(){ el.classList.add('beat'); });
+  at(1150, function(){ el.classList.add('word'); });
   at(2250, function(){
-    if(!needTap){ SFX.whoosh(); close(); return; }
+    if(!needTap){ close(); return; }
     waiting=true; el.classList.add('waiting');
     timers.push(setTimeout(close, 9000));
   });
@@ -3750,7 +3777,7 @@ function countUp(){
     el.textContent=to; el.classList.remove('popnum'); void el.offsetWidth; el.classList.add('popnum');
     var c=center(el);
     if(c){ fxBolts(c.x,c.y,9,170,{inner:40,life:480,w:4}); fxRing(c.x,c.y,'#FF4760',170,{w:10}); fxSparks(c.x,c.y,26,['#FF4760','#FFC22E','#FF9DB0'],{speed:7,life:900,star:true}); fxFlash('#FF4760',.18); }
-    SFX.thump(); later(180, SFX.ding); buzz([20,60,20]);
+    SFX.thump(); SFX.motif(.3,.85); buzz([20,60,20]);
   });
 }
 
