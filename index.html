@@ -448,7 +448,7 @@ canvas.fx{position:fixed; inset:0; width:100%; height:100%; pointer-events:none;
 .screen .body{overflow-x:hidden}
 .boum .bm-ink{fill:none; stroke:var(--bm-line); stroke-linecap:round; stroke-linejoin:round}
 .boum .bm-fill{fill:none; stroke:var(--bm-body); stroke-linecap:round}
-.boum .bm-foot{fill:var(--bm-shade); stroke:var(--bm-line); stroke-width:2.2; stroke-linejoin:round}
+.boum .bm-foot{fill:var(--bm-foot, var(--bm-shade)); stroke:var(--bm-line); stroke-width:2.2; stroke-linejoin:round}
 .boum .bm-shine{fill:none; stroke:#fff; stroke-opacity:.5; stroke-linecap:round}
 .boum .bm-cheek{fill:var(--bm-cheek); opacity:.78}
 .boum .bm-swoosh{fill:none; stroke:var(--bm-line); stroke-width:1.5; stroke-linecap:round; opacity:.55}
@@ -826,45 +826,16 @@ button,[data-act]{touch-action:manipulation}
 
 /* ---------- Trousses : 5 touches, chances visibles ---------- */
 .chestscreen .rays{animation-duration:var(--rs,14s), .8s}
-.kitwrap .kit{transition:filter .25s; filter:drop-shadow(0 0 var(--kglowr,0px) var(--kglow,transparent))}
 .kitwrap.tap{animation:tapHit .34s cubic-bezier(.3,1.6,.5,1)}
 @keyframes tapHit{0%{transform:scale(1.14,.84)}22%{transform:translateX(calc(var(--amp,5px) * -1)) rotate(-4deg) scale(1.04)}48%{transform:translateX(var(--amp,5px)) rotate(4deg)}74%{transform:translateX(calc(var(--amp,5px) * -.45)) rotate(-2deg)}100%{transform:none}}
 .kitwrap.charging{animation:kitCharge .08s linear infinite}
 @keyframes kitCharge{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(-3px,1px) rotate(-2.5deg)}50%{transform:translate(3px,-2px) rotate(2deg)}75%{transform:translate(-2px,2px) rotate(-1.5deg)}100%{transform:translate(1px,0) rotate(0)}}
-.kitwrap.final .kit{filter:drop-shadow(0 0 46px var(--kglow,#fff)) brightness(1.25)}
-.kitbeam{position:absolute; left:50%; bottom:46%; width:200px; height:420px; margin-left:-100px; transform-origin:50% 100%; background:linear-gradient(to top, color-mix(in srgb, var(--gc,#FFE27A) 80%, #fff) 0%, transparent 92%); clip-path:polygon(38% 100%, 62% 100%, 100% 0, 0 0); mix-blend-mode:screen; pointer-events:none; opacity:0; animation:beamIn 1.4s ease-out forwards}
+.kitbeam{position:absolute; left:50%; bottom:46%; width:200px; height:420px; margin-left:-100px; transform-origin:50% 100%; background:linear-gradient(to top, color-mix(in srgb, var(--gc,#FFE27A) 80%, #fff) 0%, transparent 92%); clip-path:polygon(38% 100%, 62% 100%, 100% 0, 0 0); pointer-events:none; opacity:0; animation:beamIn 1.4s ease-out forwards}
 @keyframes beamIn{0%{opacity:0; transform:scaleY(.15)}20%{opacity:1; transform:scaleY(1)}100%{opacity:.5}}
 .chsub{color:rgba(255,255,255,.85); font-weight:800; font-size:14px; margin-top:-6px}
-.oddsbox{display:grid; gap:8px; justify-items:center; min-height:64px}
-.nextodds{display:grid; justify-items:center; color:#fff}
-.nextodds b{font-family:var(--display); font-size:34px; line-height:1; font-variant-numeric:tabular-nums}
-.nextodds span{font-weight:800; font-size:13px; opacity:.85}
-.nextodds.max b{font-size:24px}
-.nextodds.bump b{animation:numPop .45s cubic-bezier(.3,1.8,.5,1)}
-.ochips{display:flex; flex-wrap:wrap; justify-content:center; gap:6px}
-.oc{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:99px; background:rgba(255,255,255,.14); border:1.5px solid rgba(255,255,255,.3); font-weight:900; font-size:12px; color:#fff; font-variant-numeric:tabular-nums}
-.oc i{width:10px; height:10px; border-radius:50%}
 .pips i.on{animation:pipOn .35s cubic-bezier(.3,1.8,.5,1) forwards}
 @keyframes pipOn{0%{transform:scale(.4)}100%{transform:scale(1.15)}}
 
-/* ---------- Trousse du jour ---------- */
-.daily{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; width:100%; padding:8px 14px 8px 8px; margin-bottom:18px; border:2px solid color-mix(in srgb, var(--dc) 45%, var(--line)); border-radius:18px; background:color-mix(in srgb, var(--dc) 9%, var(--panel)); box-shadow:0 4px 0 color-mix(in srgb, var(--dc) 35%, var(--line)); cursor:pointer; text-align:left; font:inherit; color:inherit}
-button.daily:active{transform:translateY(3px); box-shadow:0 1px 0 color-mix(in srgb, var(--dc) 35%, var(--line))}
-.daily .kit{animation:kitBob 1.3s ease-in-out infinite}
-.daily b{display:block; font-weight:900}
-.daily small{display:block; font-size:13px; font-weight:800; color:var(--muted); line-height:1.35}
-.daily .dtier{color:color-mix(in srgb, var(--dc) 80%, var(--ink))}
-.daily .dgo{background:var(--dc); color:#fff; font-weight:900; font-size:13px; letter-spacing:.06em; text-transform:uppercase; padding:9px 12px; border-radius:12px; box-shadow:0 3px 0 color-mix(in srgb, var(--dc) 60%, #000)}
-.daily.done{cursor:default; box-shadow:none; background:var(--panel); border-color:var(--line)}
-.daily.done .kit{animation:none; filter:saturate(.35) opacity(.75)}
-.rt-title{font-family:var(--display); font-size:17px; margin:16px 0 8px}
-.rtrack{display:grid; grid-template-columns:repeat(10, minmax(0,1fr)); gap:3px; width:100%}
-.rt{display:grid; justify-items:center; gap:1px; padding:4px 0; border-radius:10px}
-.rt b{font-size:10px; font-weight:900; color:var(--muted); font-variant-numeric:tabular-nums}
-.rt.past .kit{filter:grayscale(1) opacity(.4)}
-.rt.now{background:color-mix(in srgb, var(--heart) 12%, transparent); box-shadow:inset 0 0 0 2px var(--heart)}
-.rt.now b{color:var(--heart)}
-.rt-note{font-size:13px; color:var(--muted); margin-top:6px}
 .nexttrousse{font-weight:800; color:var(--muted)}
 .npop .popfiche{display:inline-flex; align-items:center; justify-content:center; gap:6px; background:none; border:none; color:#fff; font:inherit; font-weight:900; font-size:14px; letter-spacing:.04em; padding:6px; cursor:pointer; opacity:.95}
 .npop .popfiche svg{width:18px; height:18px}
@@ -918,6 +889,123 @@ button.daily:active{transform:translateY(3px); box-shadow:0 1px 0 color-mix(in s
 .sp-tap{position:absolute; left:50%; bottom:calc(64px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); color:#fff; font-weight:900; letter-spacing:.08em; text-transform:uppercase; font-size:14px; opacity:0; pointer-events:none; white-space:nowrap}
 .splash.waiting .sp-tap{animation:tapPulse 1.2s ease-in-out infinite}
 @keyframes tapPulse{0%,100%{opacity:.55; transform:translateX(-50%) scale(1)}50%{opacity:1; transform:translateX(-50%) scale(1.06)}}
+/* ---------- v12 : trousses plus fluides ---------- */
+.kitaura{position:absolute; left:50%; top:50%; width:300px; height:300px; margin:-150px 0 0 -150px; border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--gc,#FFFFFF) 70%, #FFFFFF) 0%, color-mix(in srgb, var(--gc,#FFFFFF) 45%, transparent) 36%, transparent 68%); opacity:.12; transform:scale(.7); transition:opacity .18s, transform .25s cubic-bezier(.3,1.6,.5,1); pointer-events:none; will-change:transform, opacity}
+.kitwrap.tappable{touch-action:manipulation; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none}
+.kitwrap.tappable:focus-visible{outline:3px solid rgba(255,255,255,.8); outline-offset:6px}
+.chestscreen.haswin .chest-hero{height:190px; transition:height .3s}
+.chestscreen.haswin .kitwrap .kit{transform:scale(.78); transition:transform .3s}
+.winitem{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:10px; align-items:center; width:100%; max-width:380px; padding:6px 12px 6px 4px; border-radius:18px; background:rgba(255,255,255,.14); border:2px solid color-mix(in srgb, var(--ic,#FFFFFF) 70%, #FFFFFF); color:#fff; text-align:left; animation:winIn .5s cubic-bezier(.3,1.7,.5,1)}
+@keyframes winIn{from{transform:scale(.4); opacity:0}}
+.winitem .wi-txt small{display:block; font-size:11px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; opacity:.85}
+.winitem .wi-txt b{display:block; font-family:var(--display); font-size:19px; line-height:1.15; margin:1px 0 3px}
+.winitem .wrar{background:rgba(255,255,255,.22); color:#fff}
+.winitem .btn{width:auto}
+.wi-dup{grid-column:1 / -1; display:flex; align-items:center; gap:8px; font-weight:800; padding:6px}
+.wi-dup svg{width:28px; height:28px; flex:none}
+
+/* ---------- Trousse du jour : la frise des 10 jours ---------- */
+.daily{display:grid; gap:10px; padding:12px 12px 14px; margin-bottom:18px; border:2px solid color-mix(in srgb, var(--dc) 40%, var(--line)); border-radius:18px; background:color-mix(in srgb, var(--dc) 7%, var(--panel))}
+.daily.done{background:var(--panel); border-color:var(--line)}
+.dhead{display:flex; align-items:center; justify-content:space-between; gap:10px}
+.dhead b{display:block; font-weight:900; font-size:16px}
+.dhead small{display:block; font-size:13px; font-weight:800; color:var(--muted); line-height:1.35}
+.dtier{color:color-mix(in srgb, var(--dc) 80%, var(--ink))}
+.dcount{flex:none; font-family:var(--display); font-weight:800; font-size:15px; color:var(--muted); background:var(--soft); padding:3px 10px; border-radius:99px; font-variant-numeric:tabular-nums}
+.dgrid{display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:6px; width:100%}
+.dg{position:relative; display:grid; justify-items:center; gap:1px; padding:6px 0 4px; border-radius:12px; background:color-mix(in srgb, var(--dc) 11%, transparent)}
+.dg .kit{display:block}
+.dg b{font-size:11px; font-weight:900; color:color-mix(in srgb, var(--dc) 75%, var(--ink)); font-variant-numeric:tabular-nums}
+.dg.got,.dg.miss{background:var(--soft)}
+.dg.got .kit,.dg.miss .kit{filter:grayscale(1); opacity:.45}
+.dg.got .kit *,.dg.miss .kit *{animation:none!important}
+.dg.got b,.dg.miss b{color:var(--lock-ink)}
+.dg.miss{opacity:.6}
+.dg i{position:absolute; top:3px; right:4px; width:17px; height:17px; border-radius:50%; background:var(--ok); color:#fff; display:grid; place-items:center}
+.dg i svg{width:11px; height:11px}
+.dg.now{background:color-mix(in srgb, var(--dc) 18%, transparent); box-shadow:inset 0 0 0 2px var(--dc)}
+.dg.now .kit{animation:kitBob 1.3s ease-in-out infinite}
+.dg.soon{box-shadow:inset 0 0 0 2px color-mix(in srgb, var(--dc) 55%, transparent)}
+.daily .dopen{--t:#fff}
+.rt-title{font-family:var(--display); font-size:17px; margin:16px 0 8px}
+.rt-note{font-size:13px; color:var(--muted); margin-top:6px}
+
+/* ---------- Vestiaire de Boum ---------- */
+.boum .bm-aura{transform-box:fill-box; transform-origin:center; animation:auraPulse 2.4s ease-in-out infinite}
+@keyframes auraPulse{50%{opacity:.55; transform:scale(1.06)}}
+.boum .bm-halo{animation:haloBob 2.2s ease-in-out infinite}
+@keyframes haloBob{50%{transform:translateY(-2px)}}
+.ward .labo-h{grid-template-columns:auto 1fr auto}
+.wgel{display:flex; align-items:center; gap:4px; font-weight:900; font-size:17px; color:var(--go); font-variant-numeric:tabular-nums; padding-right:4px}
+.wgel svg{width:24px; height:24px}
+.wstage{position:relative; flex:none; height:186px; display:grid; place-items:center; overflow:hidden; background:radial-gradient(circle at 50% 60%, color-mix(in srgb, var(--wc,#FF4760) 20%, var(--bg)) 0%, var(--bg) 72%)}
+.wspot{position:absolute; left:50%; bottom:14px; width:180px; height:30px; margin-left:-90px; border-radius:50%; background:color-mix(in srgb, var(--wc,#FF4760) 16%, transparent)}
+.wstage .boum{position:relative}
+.wtry{position:absolute; top:10px; right:12px; font-size:11px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border-radius:99px; background:var(--soft); color:var(--muted)}
+.winfo{flex:none; display:grid; grid-template-columns:minmax(0,1fr) auto; column-gap:12px; row-gap:3px; align-items:center; align-content:center; padding:10px 16px 12px; border-top:2px solid var(--line); min-height:108px}
+.wi-h{grid-column:1; display:flex; flex-wrap:wrap; gap:6px; align-items:center}
+.wname{grid-column:1; font-family:var(--display); font-size:20px; line-height:1.15}
+.wdesc{grid-column:1; font-size:14px; color:var(--muted); font-weight:700; line-height:1.35}
+.wbtn{grid-column:2; grid-row:1 / 4; display:grid; justify-items:center; gap:4px}
+.wbtn .btn{width:auto; min-width:104px}
+.wbtn .btn svg{width:22px; height:22px}
+.wlack{font-size:12px; font-weight:800; color:var(--muted); white-space:nowrap}
+.wrar{display:inline-flex; font-size:11px; font-weight:900; letter-spacing:.06em; text-transform:uppercase; padding:3px 8px; border-radius:99px; background:color-mix(in srgb, var(--ic) 16%, transparent); color:color-mix(in srgb, var(--ic) 78%, var(--ink))}
+.wworn,.wown{display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:900; letter-spacing:.06em; text-transform:uppercase; padding:3px 8px; border-radius:99px; background:var(--ok-soft); color:var(--ok-ink)}
+.wworn svg{width:12px; height:12px}
+.wown{background:var(--soft); color:var(--muted)}
+.wexcl{display:flex; align-items:center; gap:6px; font-size:12px; font-weight:900; color:var(--gold-edge); max-width:118px; line-height:1.2}
+.wexcl .kit{flex:none}
+.wi-empty{grid-column:1 / -1; display:grid; gap:2px; text-align:center}
+.wi-empty b{font-family:var(--display); font-size:19px}
+.wi-empty span{color:var(--muted); font-weight:700; font-size:14px}
+.wcats{flex:none; display:flex; gap:6px; overflow-x:auto; padding:10px 12px; border-top:2px solid var(--line); scrollbar-width:none; overscroll-behavior-x:contain}
+.wcats::-webkit-scrollbar{display:none}
+.wcat{flex:none; display:flex; align-items:center; gap:6px; padding:8px 12px; border-radius:99px; border:2px solid var(--line); background:var(--panel); color:var(--ink); font:inherit; font-weight:900; font-size:14px; cursor:pointer}
+.wcat small{font-size:11px; color:var(--muted); font-weight:900; font-variant-numeric:tabular-nums}
+.wcat.on{background:var(--ink); border-color:var(--ink); color:var(--bg)}
+.wcat.on small{color:inherit; opacity:.7}
+.wgrid{flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; padding:4px 12px calc(16px + env(safe-area-inset-bottom,0px)); align-content:start}
+.wcard{all:unset; box-sizing:border-box; position:relative; cursor:pointer; display:grid; justify-items:center; gap:2px; padding:6px 4px 8px; border-radius:16px; border:2px solid var(--line); background:var(--panel); box-shadow:0 3px 0 var(--line); min-width:0; text-align:center}
+.wcard::after{content:""; position:absolute; top:7px; left:7px; width:8px; height:8px; border-radius:50%; background:var(--ic)}
+.wcard:active{transform:translateY(2px); box-shadow:0 1px 0 var(--line)}
+.wcard:focus-visible{outline:3px solid var(--u4); outline-offset:2px}
+.wcard.on{border-color:var(--ic); box-shadow:0 3px 0 color-mix(in srgb, var(--ic) 60%, transparent); background:color-mix(in srgb, var(--ic) 9%, var(--panel))}
+.wthumb{display:grid; place-items:center; width:100%; height:80px}
+.wcard b{font-size:12px; font-weight:900; line-height:1.2; min-height:2.4em; display:flex; align-items:center; justify-content:center; overflow-wrap:anywhere}
+.wtag{display:inline-flex; align-items:center; gap:3px; font-size:12px; font-weight:900; color:var(--ink); font-variant-numeric:tabular-nums}
+.wtag svg{width:16px; height:16px}
+.wtag.worn{color:var(--ok-ink)} .wtag.own{color:var(--muted)} .wtag.x{color:var(--gold-edge)}
+@media (max-height:700px){ .wstage{height:150px} .wstage .boum{width:124px!important; height:124px!important} .winfo{min-height:96px} }
+
+/* ---------- Pharmacie : vestiaire et trousses ---------- */
+.wardcard{all:unset; box-sizing:border-box; cursor:pointer; width:100%; display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:10px; align-items:center; padding:8px 12px 8px 6px; margin:4px 0 2px; border-radius:18px; border:2px solid color-mix(in srgb, var(--u2) 40%, var(--line)); background:linear-gradient(135deg, color-mix(in srgb, var(--u2) 12%, var(--panel)), color-mix(in srgb, var(--gold) 14%, var(--panel))); box-shadow:0 4px 0 color-mix(in srgb, var(--u2) 30%, var(--line))}
+.wardcard:active{transform:translateY(3px); box-shadow:0 1px 0 color-mix(in srgb, var(--u2) 30%, var(--line))}
+.wardcard:focus-visible{outline:3px solid var(--u4); outline-offset:2px}
+.wc-boums{display:flex; padding-right:10px}
+.wc-boums .boum{margin-right:-16px}
+.wc-t b{display:block; font-family:var(--display); font-size:19px; line-height:1.1}
+.wc-t small{display:block; font-size:13px; color:var(--muted); font-weight:700; line-height:1.3}
+.wardcard .chev{font-size:28px; color:var(--muted); line-height:1}
+.kshop{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.kcard{display:grid; justify-items:center; align-content:start; gap:4px; padding:12px 10px; border:2px solid color-mix(in srgb, var(--kc) 40%, var(--line)); border-radius:18px; background:color-mix(in srgb, var(--kc) 7%, var(--panel)); text-align:center}
+.kcard .kit{animation:kitBob 1.8s ease-in-out infinite}
+.kcard b{font-family:var(--display); font-size:17px; line-height:1.1}
+.kcard > span{font-size:12px; color:var(--muted); font-weight:800; line-height:1.3; min-height:2.6em}
+.kcard .btn{width:100%; margin-top:4px}
+.kcard small{font-size:11px; color:var(--muted); font-weight:800}
+.chances{margin-top:12px; padding:12px 14px}
+.chances summary{cursor:pointer; font-weight:900; color:var(--u4); list-style:none}
+.chances summary::-webkit-details-marker{display:none}
+.chances summary::after{content:" ›"}
+.chances[open] summary{margin-bottom:10px}
+.ctab{width:100%; border-collapse:collapse; font-size:12px; font-variant-numeric:tabular-nums}
+.ctab th,.ctab td{padding:6px 2px; text-align:center; border-bottom:2px solid var(--line)}
+.ctab thead th{font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.03em; color:var(--muted)}
+.ctab thead th i{display:block; width:10px; height:10px; border-radius:50%; margin:0 auto 3px}
+.ctab tbody th{text-align:left; font-weight:900}
+.ctab td{font-weight:800}
+.chances p{font-size:13px; color:var(--muted); margin-top:8px}
 </style>
 </head>
 <body>
@@ -940,8 +1028,9 @@ var app = document.getElementById('app');
 /* ================= State ================= */
 var KEY = 'systole-proto-v1';
 var MAXL = 5, REGEN = 30*60*1000;
-function fresh(){ return {v:1, onboarded:false, goal:10, xp:0, xpByDay:{}, streak:0, best:0, lastDay:null, lostStreak:0, defib:1, lives:MAXL, livesTs:Date.now(), done:{}, days:[], frozen:[], sound:true, dayOffset:0, gel:50, chests:{}, subject:0, boostUntil:0, lastSkit:null, wrong:{}}; }
+function fresh(){ return {v:1, onboarded:false, goal:10, xp:0, xpByDay:{}, streak:0, best:0, lastDay:null, lostStreak:0, defib:1, lives:MAXL, livesTs:Date.now(), done:{}, days:[], frozen:[], sound:true, dayOffset:0, gel:50, chests:{}, subject:0, boostUntil:0, lastSkit:null, wrong:{}, owned:{rouge:1}, wear:{peau:'rouge'}, dailyHist:[]}; }
 var S = (function(){ try{ var s = JSON.parse(localStorage.getItem(KEY)); if(s && s.v===1) return Object.assign(fresh(), s); }catch(e){} return fresh(); })();
+S.owned=S.owned||{}; S.owned.rouge=1; S.wear=S.wear||{peau:'rouge'}; S.dailyHist=S.dailyHist||[];
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 
 function now(){ return Date.now() + S.dayOffset*864e5; }
@@ -1154,13 +1243,67 @@ var SFX={
   buy:function(){ note(88,0,.08,bell(.12)); note(95,.08,.32,bell(.15)); hiss(0,.05,{type:'highpass', f:4000, vol:.1}); }
 };
 function buzz(p){ try{ if(S.sound && navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate(p); }catch(e){} }
+/* Epic ambience while a trousse is épique or légendaire: a low drone, a soft "aah" choir and a
+   slow timpani pulse. Légendaire adds a high shimmer and falling sparkles. It fades out on its own. */
+var AMB={on:false, lvl:0, nodes:[], g:null, iv:[]};
+function ambNode(n){ AMB.nodes.push(n); return n; }
+function ambStart(t){
+  var c=ac(); if(!c || !S.sound) return;
+  if(AMB.on){ ambLevel(t); return; }
+  try{
+    var t0=c.currentTime, g=ambNode(c.createGain()), sg=ambNode(c.createGain());
+    g.gain.setValueAtTime(.0001,t0); g.gain.exponentialRampToValueAtTime(.9,t0+1.1);
+    g.connect(OUT); sg.gain.value=.45; g.connect(sg); sg.connect(SEND);
+    AMB.g=g; AMB.on=true; AMB.lvl=0;
+    var lp=ambNode(c.createBiquadFilter()), lfo=ambNode(c.createOscillator()), lg=ambNode(c.createGain());
+    lp.type='lowpass'; lp.frequency.value=380; lp.Q.value=3; lp.connect(g);
+    lfo.frequency.value=.15; lg.gain.value=160; lfo.connect(lg); lg.connect(lp.frequency); lfo.start(t0);
+    [[38,0,.06],[38,7,.06],[45,-5,.04]].forEach(function(v){
+      var o=ambNode(c.createOscillator()), og=ambNode(c.createGain());
+      o.type='sawtooth'; o.frequency.value=mf(v[0]); o.detune.value=v[1]; og.gain.value=v[2]; o.connect(og); og.connect(lp); o.start(t0);
+    });
+    var f1=ambNode(c.createBiquadFilter()), f2=ambNode(c.createBiquadFilter()), cg=ambNode(c.createGain());
+    f1.type='bandpass'; f1.frequency.value=730; f1.Q.value=7; f2.type='bandpass'; f2.frequency.value=1090; f2.Q.value=9;
+    cg.gain.setValueAtTime(.0001,t0); cg.gain.exponentialRampToValueAtTime(.55,t0+1.8);
+    f1.connect(cg); f2.connect(cg); cg.connect(g);
+    [62,69,74,78].forEach(function(m,i){
+      var o=ambNode(c.createOscillator()), v=ambNode(c.createOscillator()), vg=ambNode(c.createGain());
+      o.type='sawtooth'; o.frequency.value=mf(m); o.detune.value=i%2?-6:6;
+      v.frequency.value=4.6+i*.4; vg.gain.value=mf(m)*.007; v.connect(vg); vg.connect(o.frequency);
+      o.connect(f1); o.connect(f2); o.start(t0); v.start(t0);
+    });
+    var pulse=function(){ if(AMB.on){ note(38,0,.55,{types:['sine'], vol:.26, slide:.72}); hiss(0,.3,{type:'lowpass', f:260, vol:.07}); } };
+    pulse(); AMB.iv.push(setInterval(pulse, 1150));
+    ambLevel(t);
+  }catch(e){ AMB.on=false; }
+}
+function ambLevel(t){
+  if(!AMB.on || t<=AMB.lvl) return; AMB.lvl=t;
+  if(t<3) return;
+  var c=ac(); if(!c) return;
+  try{
+    var t0=c.currentTime, sh=ambNode(c.createGain()), trem=ambNode(c.createOscillator()), tg=ambNode(c.createGain());
+    sh.gain.setValueAtTime(.0001,t0); sh.gain.exponentialRampToValueAtTime(.05,t0+.8);
+    trem.frequency.value=6.5; tg.gain.value=.025; trem.connect(tg); tg.connect(sh.gain); trem.start(t0);
+    sh.connect(AMB.g);
+    [86,90,93,98].forEach(function(m){ var o=ambNode(c.createOscillator()); o.type='sine'; o.frequency.value=mf(m); o.connect(sh); o.start(t0); });
+    AMB.iv.push(setInterval(function(){ if(AMB.on) note(PENTA[6+Math.floor(Math.random()*7)]+12, 0, .5, bell(.05)); }, 420));
+  }catch(e){}
+}
+function ambStop(f){
+  if(!AMB.on) return; AMB.on=false; AMB.lvl=0;
+  AMB.iv.forEach(clearInterval); AMB.iv=[];
+  var nodes=AMB.nodes, g=AMB.g; AMB.nodes=[]; AMB.g=null; f=f||.9;
+  try{ var c=ac(), t0=c.currentTime; g.gain.cancelScheduledValues(t0); g.gain.setValueAtTime(Math.max(.0001,g.gain.value),t0); g.gain.exponentialRampToValueAtTime(.0001,t0+f); }catch(e){}
+  setTimeout(function(){ nodes.forEach(function(n){ try{ if(n.stop) n.stop(); }catch(e){} try{ n.disconnect(); }catch(e){} }); }, f*1000+150);
+}
 
 /* ================= FX layer (canvas above everything) ================= */
 var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 var FX={cv:null, ctx:null, items:[], raf:0, dpr:1};
 function fxSize(){ if(!FX.cv) return; FX.dpr=Math.min(2, window.devicePixelRatio||1); FX.cv.width=innerWidth*FX.dpr; FX.cv.height=innerHeight*FX.dpr; }
 function fxPush(it){
-  if(RM) return;
+  if(RM || (it.kind==='p' && FX.items.length>300)) return;
   if(!FX.cv){ FX.cv=document.createElement('canvas'); FX.cv.className='fx'; document.body.appendChild(FX.cv); FX.ctx=FX.cv.getContext('2d'); fxSize(); window.addEventListener('resize', fxSize); }
   it.t0=performance.now()+(it.delay||0); FX.items.push(it);
   if(!FX.raf) FX.raf=requestAnimationFrame(fxLoop);
@@ -1173,6 +1316,16 @@ function jag(x1,y1,x2,y2,disp,out){
 function boltPath(x1,y1,x2,y2){ var p=[[x1,y1]]; jag(x1,y1,x2,y2,Math.max(12,Math.hypot(x2-x1,y2-y1)*.35),p); return p; }
 function strokePts(ctx,p){ ctx.beginPath(); ctx.moveTo(p[0][0],p[0][1]); for(var i=1;i<p.length;i++) ctx.lineTo(p[i][0],p[i][1]); ctx.stroke(); }
 function drawStar(ctx,x,y,r,rot){ ctx.beginPath(); for(var i=0;i<8;i++){ var a=rot+i*Math.PI/4, rr=i%2?r*.4:r; ctx.lineTo(x+Math.cos(a)*rr, y+Math.sin(a)*rr); } ctx.closePath(); ctx.fill(); }
+/* Glow is baked once per colour into a small sprite, instead of a canvas shadow on every
+   particle and every frame: those shadows are what made phones stutter. */
+var SPR={};
+function fxSprite(col, star){
+  var k=col+(star?'*':''); if(SPR[k]) return SPR[k];
+  var cv=document.createElement('canvas'), s=56; cv.width=cv.height=s;
+  var x=cv.getContext('2d'); x.translate(s/2,s/2); x.fillStyle=col; x.shadowColor=col; x.shadowBlur=12;
+  for(var i=0;i<2;i++){ if(star) drawStar(x,0,0,16,0); else { x.beginPath(); x.arc(0,0,16,0,6.283); x.fill(); } x.shadowBlur=0; }
+  SPR[k]=cv; return cv;
+}
 function fxLoop(now){
   var ctx=FX.ctx, d=FX.dpr; ctx.setTransform(d,0,0,d,0,0); ctx.clearRect(0,0,innerWidth,innerHeight);
   FX.items=FX.items.filter(function(it){
@@ -1180,18 +1333,22 @@ function fxLoop(now){
     ctx.save();
     if(it.kind==='bolt'){
       if(!it.pts || Math.random()<.45) it.pts=boltPath(it.x1,it.y1,it.x2,it.y2);
-      ctx.globalCompositeOperation='lighter'; ctx.lineJoin='round'; ctx.lineCap='round';
-      ctx.globalAlpha=(1-k)*(Math.random()<.15?.35:1);
-      ctx.shadowColor=it.color; ctx.shadowBlur=18; ctx.strokeStyle=it.color; ctx.lineWidth=it.w; strokePts(ctx,it.pts);
-      ctx.shadowBlur=0; ctx.strokeStyle='#fff'; ctx.lineWidth=it.w*.35; strokePts(ctx,it.pts);
+      var al=(1-k)*(Math.random()<.15?.35:1);
+      ctx.globalCompositeOperation='lighter'; ctx.lineJoin='round'; ctx.lineCap='round'; ctx.strokeStyle=it.color;
+      ctx.globalAlpha=al*.3; ctx.lineWidth=it.w*2.8; strokePts(ctx,it.pts);
+      ctx.globalAlpha=al; ctx.lineWidth=it.w; strokePts(ctx,it.pts);
+      ctx.strokeStyle='#fff'; ctx.lineWidth=it.w*.35; strokePts(ctx,it.pts);
     } else if(it.kind==='p'){
       var dt=k*it.life/16, x=it.x+it.vx*dt, y=it.y+it.vy*dt+.5*it.g*dt*dt;
-      ctx.globalAlpha=1-k; ctx.fillStyle=it.color; ctx.shadowColor=it.color; ctx.shadowBlur=10;
-      if(it.star) drawStar(ctx,x,y,it.size*(1-k*.5),k*6); else { ctx.beginPath(); ctx.arc(x,y,it.size*(1-k*.6),0,6.283); ctx.fill(); }
+      var r=it.size*(1-k*(it.star?.5:.6)), h=r*1.75, sp=fxSprite(it.color, it.star);
+      ctx.globalAlpha=1-k;
+      if(it.star){ var a=k*6, cs=Math.cos(a), sn=Math.sin(a); ctx.setTransform(d*cs,d*sn,-d*sn,d*cs,d*x,d*y); ctx.drawImage(sp,-h,-h,h*2,h*2); }
+      else ctx.drawImage(sp,x-h,y-h,h*2,h*2);
     } else if(it.kind==='ring'){
-      var e=1-Math.pow(1-k,3);
-      ctx.globalAlpha=(1-k)*.9; ctx.strokeStyle=it.color; ctx.lineWidth=(1-k)*it.w+1; ctx.shadowColor=it.color; ctx.shadowBlur=14;
-      ctx.beginPath(); ctx.arc(it.x,it.y,it.r0+(it.r1-it.r0)*e,0,6.283); ctx.stroke();
+      var e=1-Math.pow(1-k,3), lw=(1-k)*it.w+1;
+      ctx.strokeStyle=it.color; ctx.beginPath(); ctx.arc(it.x,it.y,it.r0+(it.r1-it.r0)*e,0,6.283);
+      ctx.globalAlpha=(1-k)*.25; ctx.lineWidth=lw*2.4; ctx.stroke();
+      ctx.globalAlpha=(1-k)*.9; ctx.lineWidth=lw; ctx.stroke();
     } else if(it.kind==='flash'){
       ctx.globalAlpha=(1-k)*it.a; ctx.fillStyle=it.color; ctx.fillRect(0,0,innerWidth,innerHeight);
     }
@@ -1310,6 +1467,500 @@ var ARMS={
 };
 var BM_POSE={happy:'wave', wink:'wave', wow:'up', flat:'limp', squish:'splat'};
 var SWEAT='<path d="M18.5 39Q60 19 101.5 39" stroke="var(--bm-line)" stroke-width="9.6" fill="none" stroke-linecap="round"/><path d="M18.5 39Q60 19 101.5 39" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M18.5 39Q60 19 101.5 39" stroke="#5AB8FF" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
+/* ================= Vestiaire de Boum ================= */
+/* Every outfit is drawn on Boum's 120×120 grid. Clothes are clipped to the body so they
+   follow the heart's curves, sleeves re-use the arm paths with a dash, and objects sit in
+   the left paw and follow its pose. */
+var BM_SHADE='M108.3 43.5C108.8 46.1 109 48.7 109 51.5C109 72 85 89.5 69 100.5C65.5 103 59 103.2 55.5 100.8C70.5 96.5 96.5 79.5 99.6 59.5C100.6 53.2 103.6 47.3 108.3 43.5Z';
+var BM_ARMP={rest:[BM_L,BM_R], wave:[BM_L,'M105 57Q113.5 51 113.5 42.5'], up:['M16 53Q7.5 47 8.5 37.5','M104 53Q112.5 47 111.5 37.5'], limp:['M14 64Q10 71 11 79','M106 64Q110 71 109 79'], splat:['M15 57Q7 55 2 50','M105 57Q113 55 118 50'], mic:[BM_L,'M103 66Q104 83 91 90'], paddles:['M15 62Q7 64.5 0 60.5','M105 62Q113 64.5 120 60.5'], pencil:[BM_L,'M104 64Q113 78 107.5 91'], pushup:['M20 72L12.5 102','M100 72L107.5 102']};
+/* Where the left paw sits in each pose, relative to the resting pose (9, 72.5) */
+var BM_HAND={rest:[0,0], wave:[0,0], up:[-.5,-35], limp:[2,6.5], splat:[-7,-22.5]};
+/* Necklines: the fabric starts under the cheeks, so the face stays free */
+function nkLine(mid){ return 'M-4 60L12 64C16 72 24 79 34 81.5C42 83.4 48 83.6 53 83.2'+mid+'C72 83.6 78 83.4 86 81.5C96 79 104 72 108 64L124 60'; }
+var NK={
+  coat:nkLine('L54 83L60 92L66 83L67 83.2'),
+  plain:nkLine('L55.5 83L60 87.5L64.5 83L67 83.2'),
+  vee:nkLine('L55 83L60 90.5L65 83L67 83.2'),
+  crew:nkLine('C56 84.6 58 85 60 85C62 85 64 84.6 67 83.2')
+};
+function wP(d,f,s,w,x){ return '<path d="'+d+'" fill="'+(f||'none')+'"'+(s?' stroke="'+s+'" stroke-width="'+(w||1.6)+'" stroke-linecap="round" stroke-linejoin="round"':'')+(x||'')+'/>'; }
+function wC(cx,cy,r,f,s,w,x){ return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+(f||'none')+'"'+(s?' stroke="'+s+'" stroke-width="'+(w||1.4)+'"':'')+(x||'')+'/>'; }
+function wE(cx,cy,rx,ry,f,s,w,x){ return '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="'+(f||'none')+'"'+(s?' stroke="'+s+'" stroke-width="'+(w||1.4)+'"':'')+(x||'')+'/>'; }
+function wR(x,y,w,h,rx,f,s,sw,xt){ return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+rx+'" fill="'+(f||'none')+'"'+(s?' stroke="'+s+'" stroke-width="'+(sw||1.4)+'" stroke-linejoin="round"':'')+(xt||'')+'/>'; }
+function wG(tr, inner){ return '<g transform="'+tr+'">'+inner+'</g>'; }
+function wBody(c){ if(!c.bc){ c.bc='bm'+c.n+'b'; c.defs+='<clipPath id="'+c.bc+'"><path d="'+BM_BODY+'"/></clipPath>'; } return c.bc; }
+function wClip(c, d){ var id='bm'+c.n+'k'+(++c.k); c.defs+='<clipPath id="'+id+'"><path d="'+d+'"/></clipPath>'; return id; }
+function wGrad(c, stops, x1, y1, x2, y2, radial){
+  var id='bm'+c.n+'g'+(++c.k), st=stops.map(function(s,i){ var a=s.split(' '); return '<stop offset="'+(a[1]||(i/(stops.length-1)).toFixed(3))+'" stop-color="'+a[0]+'"'+(a[2]?' stop-opacity="'+a[2]+'"':'')+'/>'; }).join('');
+  c.defs+= radial ? '<radialGradient id="'+id+'" gradientUnits="userSpaceOnUse" cx="'+x1+'" cy="'+y1+'" r="'+x2+'">'+st+'</radialGradient>'
+    : '<linearGradient id="'+id+'" gradientUnits="userSpaceOnUse" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'">'+st+'</linearGradient>';
+  return 'url(#'+id+')';
+}
+function wPat(c, w, h, inner, rot){ var id='bm'+c.n+'p'+(++c.k); c.defs+='<pattern id="'+id+'" width="'+w+'" height="'+h+'" patternUnits="userSpaceOnUse"'+(rot?' patternTransform="rotate('+rot+')"':'')+'>'+inner+'</pattern>'; return 'url(#'+id+')'; }
+function wSpark(x, y, s, col){ return '<path d="M'+x+' '+(y-s)+'L'+(x+s*.28)+' '+(y-s*.28)+'L'+(x+s)+' '+y+'L'+(x+s*.28)+' '+(y+s*.28)+'L'+x+' '+(y+s)+'L'+(x-s*.28)+' '+(y+s*.28)+'L'+(x-s)+' '+y+'L'+(x-s*.28)+' '+(y-s*.28)+'Z" fill="'+(col||'#FFF3B0')+'"/>'; }
+function wAdd(L, k, s){ L[k]=(L[k]||'')+s; }
+
+/* A top: fill clipped to the body below a neckline, the body's own shading, and the outline
+   redrawn in the fabric's colour. `under` stays inside the fabric, `inner` may cover the neckline
+   opening, `top` goes over everything. */
+function wTop(L, c, o){
+  var bc=wBody(c), reg=o.nk+'V124H-4Z', rc=wClip(c, reg);
+  wAdd(L,'body',
+    '<g clip-path="url(#'+bc+')">'+(o.inner||'')+wP(reg,o.f)+(o.pat?wP(reg,o.pat):'')+
+      '<g clip-path="url(#'+rc+')">'+wP(BM_SHADE,o.sh)+(o.under||'')+'</g></g>'+
+    '<g clip-path="url(#'+rc+')">'+wP(BM_BODY,'none',o.e,2.6)+'</g>'+
+    '<g clip-path="url(#'+bc+')">'+wP(o.nk,'none',o.e,1.8)+(o.over||'')+'</g>'+(o.top||''));
+  if(o.sl) L.sleeve=o.sl;
+}
+/* The white coat, shared by every "blouse" */
+var LAPEL_L='M43.5 83.7L54 83L60 92L58.6 95.4Z', LAPEL_R='M76.5 83.7L66 83L60 92L61.4 95.4Z';
+/* Breast pocket (Boum's left side), with pens sticking out */
+function wBreast(cols, e, f, inner){
+  var pens=(cols||[]).map(function(col,i){ var x=73.9+i*2.2; return wR(x,82.4,1.7,6.4,.8,col,'rgba(0,0,0,.25)',.5)+wR(x+.15,81.6,1.4,1.4,.7,'#E6EAF0'); }).join('');
+  return wG('rotate(-24 77.5 89.5)', pens+wR(72.6,86.2,9.8,6.6,1.4,f||'#FFFFFF',e,1.1)+wP('M72.6 88H82.4','none',e,.8)+(inner||''));
+}
+function wCoat(L, c, o){
+  var e=o.e||'#AEB8C8', w=o.f||'#FFFFFF', lap=o.lap||'#F1F4F9';
+  var inner='';
+  if(o.shirt) inner+=wP('M54 83L60 92L66 83L63.4 81.3Q60 83.2 56.6 81.3Z', o.shirt, o.shirtE||e, 1);
+  if(o.tie) inner+=wP('M58.5 82.9L61.5 82.9L60.9 85.3L59.1 85.3Z', o.tie, o.tieE, .8)+wP('M59.1 85.3L60.9 85.3L62 89.4L60 91.8L58 89.4Z', o.tie, o.tieE, .8);
+  var over= o.plain ? '' :
+    wP('M60 92V101','none',e,1)+wC(60,97.4,1.3,o.btn||'#FFFFFF',o.btnE||e,.8)+wP(LAPEL_L, lap, e, 1.2)+wP(LAPEL_R, lap, e, 1.2);
+  wTop(L, c, {nk:o.plain?NK.plain:NK.coat, f:w, sh:o.sh||'#E3E9F2', e:e, inner:inner, under:o.under||'', over:over+(o.over||''), top:o.top||'', sl:{f:w, e:e, len:o.len||68, band:o.band}});
+}
+/* ---------- Tenues ---------- */
+var WD={};
+WD.chemise=function(L,c){
+  wTop(L,c,{nk:NK.crew, f:'#D5E9F8', sh:'#BDD8EE', e:'#86AECF', pat:wPat(c,6,6,wC(3,3,.75,'#93BCDF')),
+    over:wP('M78 83C80.5 85 83 84.5 83.5 82.5M78 83C79.5 86 79 88.5 77 89.5M78 83C80 87 82 88 84 87.5','none','#86AECF',1.1),
+    sl:{f:'#D5E9F8', e:'#86AECF', len:52}});
+};
+WD.pyjama=function(L,c){
+  wTop(L,c,{nk:NK.vee, f:'#CFE0FF', sh:'#B7CCF5', e:'#6F8FD6', pat:wPat(c,7,7,wR(0,0,2.6,7,0,'#AFC6F4')),
+    over:wP('M44 82L49 88.5L55 87.8M76 82L71 88.5L65 87.8','none','#6F8FD6',1.2)+wC(60,94,1.3,'#FFFFFF','#6F8FD6',.8)+
+      wP('M31.5 86.5a4 4 0 1 0 5 5a3.2 3.2 0 1 1 -5 -5z','#FFE27A','#E0B53A',.7),
+    sl:{f:'#CFE0FF', e:'#6F8FD6', len:88, band:[80,8,'#FFFFFF']}});
+};
+WD.externe=function(L,c){
+  wCoat(L,c,{len:100, over:wBreast(['#2F6BFF','#FF4760','#2B2F3A','#14B89C'],'#AEB8C8')});
+};
+WD.bloc=function(L,c){
+  wTop(L,c,{nk:NK.vee, f:'#54C1A2', sh:'#43AC8D', e:'#2C8A70',
+    over:wBreast(['#FFFFFF'],'#2C8A70','#54C1A2'),
+    sl:{f:'#54C1A2', e:'#2C8A70', len:56}});
+};
+WD.sagefemme=function(L,c){
+  wTop(L,c,{nk:NK.vee, f:'#F68DBA', sh:'#EC77A8', e:'#C4508A',
+    over:wBreast([],'#C4508A','#F68DBA',wP('M77.5 89.6c-.8-1.4-3-1-2.7.8.2 1.2 1.6 2 2.7 2.8 1.1-.8 2.5-1.6 2.7-2.8.3-1.8-1.9-2.2-2.7-.8z','#FFFFFF')),
+    sl:{f:'#F68DBA', e:'#C4508A', len:56}});
+};
+WD.pharma=function(L,c){
+  wCoat(L,c,{len:70, over:wG('rotate(24 41 88.5)', wR(37,84.5,8,8,1.8,'#1FAF5A','#12813F',.9)+wP('M41 86.2v4.6M38.7 88.5h4.6','none','#FFFFFF',1.6))+wBreast(['#1FAF5A'],'#AEB8C8')});
+};
+WD.sweat=function(L,c){
+  var e='#7E8696';
+  wTop(L,c,{nk:NK.crew, f:'#C4C9D3', sh:'#AFB5C1', e:e, pat:wPat(c,5,5,wC(1,1,.45,'#B3B9C5')+wC(3.5,3,.4,'#D3D7DF')),
+    over:wP(NK.crew,'none','#A3AAB7',3.4)+wP(NK.crew,'none',e,1.6)+
+      wP('M53 86.5C52.5 90 51.5 92.5 50.5 95M67 86.5C67.5 90 68.5 92.5 69.5 95','none','#FFFFFF',1.4)+wC(50.5,95.6,1,'#FFFFFF')+wC(69.5,95.6,1,'#FFFFFF')+
+      wP('M60 94.8c-1.3-1.8-4.4-1.4-4.2 1 .2 1.6 2.4 2.8 4.2 4 1.8-1.2 4-2.4 4.2-4 .2-2.4-2.9-2.8-4.2-1z','#FF4760')+
+      wP('M56.4 96.6h1.6l.8-1.4 1 2.6.9-2 .6.8h2.2','none','#FFFFFF',.8),
+    sl:{f:'#C4C9D3', e:e, len:92, band:[82,10,'#A3AAB7']}});
+};
+WD.interne=function(L,c){
+  wCoat(L,c,{len:66,
+    under:wP('M64.5 97c1.5-2.4 5-2.2 5.6-.2.9-1.6 3.4-.6 2.6 1.3-.7 1.5-3.4 2.4-5.6 1.9-1.6-.3-3.1-1.4-2.6-3z','#B98357','none',0,' opacity=".4"'),
+    over:wG('rotate(24 40.5 89)', wR(36.4,84.4,8.2,9.2,1.2,'#FFFFFF','#8FA0B8',.9)+wR(36.4,84.4,8.2,2.8,1.2,'#2F8CFF')+wR(37.7,88.2,2.9,3.3,.6,'#FFD9C2')+wP('M41.6 88.6h2M41.6 90.2h1.6M41.6 91.8h2','none','#9AA6B8',.6))+
+      wBreast(['#2F6BFF','#2B2F3A'],'#AEB8C8',null,wR(78.6,84,6.4,6.8,1.2,'#2B2F3A','#15171D',.8)+wR(79.5,85,4.6,2.8,.6,'#9BE39F'))});
+};
+WD.squelette=function(L,c){
+  var b='#F5F0E1';
+  wTop(L,c,{nk:NK.crew, f:'#2E3140', sh:'#232633', e:'#171922',
+    under:wR(58.4,86,3.2,11,1.6,b)+
+      wP('M57.8 88C51 86.8 44 87.8 38.5 90.8M62.2 88C69 86.8 76 87.8 81.5 90.8M57.8 91.6C52 90.8 46.5 92 42.5 94.5M62.2 91.6C68 90.8 73.5 92 77.5 94.5M57.8 95C54 94.6 50.5 95.6 48 97.4M62.2 95C66 94.6 69.5 95.6 72 97.4','none',b,1.9),
+    sl:{f:'#2E3140', e:'#171922', len:90, bone:[34,44,b]}});
+};
+WD.smur=function(L,c){
+  var e='#16254A';
+  wTop(L,c,{nk:NK.crew, f:'#26407A', sh:'#1E3566', e:e,
+    under:wR(0,88.5,120,6.4,0,'#D9F23A')+wR(0,90.4,120,2.4,0,'#C9D1DC')+wP('M60 84.5V104','none','#3D5A96',1.4)+wP('M60 84.5V104','none','#8FA3C8',.5,' stroke-dasharray="1 1.2"'),
+    over:wG('rotate(-18 33 82.5)', wR(28.5,79.8,9.4,5.2,1,'#FFFFFF','#16254A',.6)+'<text x="33.2" y="83.8" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="3.6" fill="#D6243A">SMUR</text>'),
+    sl:{f:'#26407A', e:e, len:92, band:[56,10,'#D9F23A']}});
+};
+WD.smoking=function(L,c){
+  var k='#22252E', e='#0E0F14';
+  wTop(L,c,{nk:NK.coat, f:k, sh:'#181A21', e:e,
+    inner:wP('M42 83.5L60 96L78 83.5L70 79.5Q60 83 50 79.5Z','#FFFFFF','#C9CFDA',1)+wC(60,89.5,.9,'#22252E')+wC(60,93,.9,'#22252E'),
+    over:wP(LAPEL_L,'#3A3E4B',e,1.1)+wP(LAPEL_R,'#3A3E4B',e,1.1)+wP('M38 83.5L52 93.5','none','rgba(255,255,255,.18)',1.4)+
+      wP('M60 84.2L54.6 81.4C53.6 83 53.6 85 54.6 86.8ZM60 84.2L65.4 81.4C66.4 83 66.4 85 65.4 86.8Z','#15171D','#000000',.6)+wR(58.4,82.8,3.2,2.8,1,'#15171D')+
+      wP('M78.5 87.5l3.2-3 2.6 3.2z','#E23B4E'),
+    sl:{f:k, e:e, len:70, band:[62,8,'#FFFFFF']}});
+};
+WD.cca=function(L,c){
+  var n='#2A4A8A';
+  wCoat(L,c,{len:68, shirt:'#DDEBFF', shirtE:'#9DB6DA', tie:'#2A4A8A', tieE:'#1B3263',
+    over:'<text x="40.5" y="91" text-anchor="middle" transform="rotate(24 40.5 91)" font-family="Caveat, cursive" font-weight="700" font-size="6.4" fill="'+n+'">Dr B.</text>'+wBreast(['#2B2F3A','#2F6BFF'],n)});
+  L.body=L.body.replace(/stroke="#AEB8C8" stroke-width="1.2"/g,'stroke="'+n+'" stroke-width="1.2"');
+};
+WD.b67=function(L,c){
+  var g=wGrad(c,['#FF4760','#FF8A3D','#7C5CFF'],48,86,72,100);
+  wCoat(L,c,{len:68, plain:1, over:'<text x="60" y="99.2" text-anchor="middle" font-family="Baloo 2, Nunito, sans-serif" font-weight="800" font-size="13" letter-spacing="-.4" fill="'+g+'" stroke="#FFFFFF" stroke-width="1" paint-order="stroke">67</text>'+
+    wSpark(44.5,88.5,2.1,'#FFC22E')+wSpark(76,88,1.8,'#FFC22E')+wSpark(71.5,96.5,1.3,'#7C5CFF'),
+    band:[50,6,'#FFC22E']});
+};
+WD.puph=function(L,c){
+  var n='#1F3563', g='#E7B52C';
+  wCoat(L,c,{len:70, shirt:'#E4EEFF', shirtE:'#9DB6DA', tie:'#8E1F35', tieE:'#5E1222', sh:'#EDF1F7', btn:g, btnE:'#B7861A',
+    over:'<text x="41" y="91.5" text-anchor="middle" transform="rotate(24 41 91.5)" font-family="Caveat, cursive" font-weight="700" font-size="7.4" fill="'+n+'">Pr</text>'+
+      wC(52.5,86.8,2,'#D6243A','#9E1426',.6)+wC(52.5,86.8,.75,'#FFFFFF')+
+      wBreast(['#1B1E27'],'#AEB8C8',null,wR(74.05,81.4,1.7,1.4,.4,g))});
+};
+WD.aura=function(L,c){
+  var e='#130F22', p='#9B6BFF';
+  wAdd(L,'back','<g class="bm-aura">'+wE(60,64,56,50,wGrad(c,['#B18CFF 0 .55','#8A4DFF .55 .35','#8A4DFF 1 0'],60,64,58,0,true))+'</g>'+wSpark(10,30,3,'#D9C2FF')+wSpark(112,44,2.6,'#FFE27A')+wSpark(104,14,2,'#D9C2FF'));
+  wTop(L,c,{nk:NK.crew, f:'#221C3A', sh:'#18132C', e:e,
+    over:wP(NK.crew,'none',p,2.4)+
+      wP('M53 86.5C52.5 90 51.5 92.5 50.5 95M67 86.5C67.5 90 68.5 92.5 69.5 95','none','#FFD45C',1.3)+
+      '<text x="60" y="96.5" text-anchor="middle" font-family="Baloo 2, Nunito, sans-serif" font-weight="800" font-size="6.4" fill="'+wGrad(c,['#FFE27A','#B18CFF'],52,90,68,97)+'">+1000</text>',
+    sl:{f:'#221C3A', e:e, len:92, band:[84,8,p]}});
+};
+
+/* ---------- Têtes (tilted on the left lobe) ---------- */
+WD.charlotte=function(L,c){
+  L.head=wG('rotate(-12 36 24)',
+    wP('M15 30C12.5 19 23 9.5 36.5 9.5C50 9.5 60 18 57.5 29.5C50 27 43 26.5 36 26.5C28.5 26.5 21.5 27.5 15 30Z','#CFE6F7','#86B3D6',1.5)+
+    wP('M22 16.5C27 19 29 23 28.5 27M34 12C37 16 38.5 21 37.5 26.5M47 13.5C47 18 46 22 44.5 26.8','none','#9CC4E2',1.1)+
+    wP('M15 30C18 27.5 20.5 31.5 23.5 29C26.5 26.5 29 30.5 32 28.3C35 26.2 37.5 30 40.5 28.1C43.5 26.3 46 29.8 49 28.2C52 26.6 54.5 30 57.5 29.5','none','#86B3D6',1.5));
+};
+WD.bonnet=function(L,c){
+  L.head=wG('rotate(-10 36 24)',
+    wP('M17 29C15 18 23 10 34 9C44 8 50 11 56 18C60 23 60 27 58 29C46 25.5 29 25.5 17 29Z','#6E8CFF','#4661D6',1.5)+
+    wP('M24 11.5C18 12 10 17 6 26C4.5 30 4 34 5 38','none','#4661D6',6.6)+wP('M24 11.5C18 12 10 17 6 26C4.5 30 4 34 5 38','none','#6E8CFF',4)+
+    wSpark(30,17,2,'#FFFFFF')+wSpark(44,15,1.6,'#FFFFFF')+wSpark(12,24,1.4,'#FFFFFF')+
+    wP('M16 29.5C29 25 46 25 58.5 29.5','none','#E9EEFF',4.6)+wP('M16 29.5C29 25 46 25 58.5 29.5','none','#4661D6',1,' stroke-dasharray="0.1 3"')+
+    wC(5.5,40.5,4.4,'#FFFFFF','#C5CEE0',1.2));
+};
+WD.bandeau=function(L,c){
+  var bc=wBody(c);
+  L.head='<g clip-path="url(#'+bc+')">'+wP('M0 41.5C30 39 90 39 120 41.5V48.5C90 46 30 46 0 48.5Z','#FFFFFF','#C9D1DE',1.2)+'</g>'+
+    wP('M13 43.5C8 40.5 4 41 1 43.5M13 45.5C8 47.5 5 50.5 3.5 54','none','#C9D1DE',4.2)+wP('M13 43.5C8 40.5 4 41 1 43.5M13 45.5C8 47.5 5 50.5 3.5 54','none','#FFFFFF',2.6)+
+    wP('M60 47c-1.4-1.9-4.6-1.4-4.4 1 .2 1.7 2.5 2.9 4.4 4.2 1.9-1.3 4.2-2.5 4.4-4.2.2-2.4-3-2.9-4.4-1z','#FF4760','none',0,' transform="translate(0 -4.6)"')+
+    wP('M44 43.6h6l1.5-2.4 2 4.4 1.4-2h2.4M63.2 43.6h2.8l1.4-2 2 4.4 1.5-2.4h5','none','#FF4760',1.1);
+};
+WD.calot=function(L,c){
+  L.head=wG('rotate(-12 36 24)',
+    wP('M16 30.5C14.5 18.5 25 11 37 11C49 11 58.5 18.5 57 30C48 27.2 26 27.2 16 30.5Z',wPat(c,7,7,'<rect width="7" height="7" fill="#FFE3EC"/>'+wP('M3.5 3.2c-.6-1-2.2-.8-2.1.5.1.9 1.2 1.5 2.1 2.1.9-.6 2-1.2 2.1-2.1.1-1.3-1.5-1.5-2.1-.5z','#FF5C7A')),'#E58FB0',1.5)+
+    wP('M16 30.5C26 27.2 48 27.2 57 30','none','#E58FB0',2.6)+
+    wP('M16.5 29.5C12 31 9 34.5 8.5 38.5M16.5 29.5C13 33 12 37 12.5 40.5','none','#E58FB0',1.8));
+};
+WD.lampe=function(L,c){
+  var bc=wBody(c);
+  L.head='<g clip-path="url(#'+bc+')">'+wP('M0 43C30 40.5 90 40.5 120 43V47C90 44.5 30 44.5 0 47Z','#3A3F4B')+'</g>'+
+    wC(47.5,42.3,11,wGrad(c,['#FFF6B0 0 .75','#FFE27A .45 .35','#FFE27A 1 0'],47.5,42.3,11,0,true))+
+    wR(41,36.6,13,11.4,3.6,'#5A6070','#2E323C',1.3)+wC(47.5,42.3,4,'#FFF6B0','#E0B53A',1)+wC(46.3,41.1,1.2,'#FFFFFF');
+};
+WD.miroir=function(L,c){
+  var bc=wBody(c);
+  L.head='<g clip-path="url(#'+bc+')">'+wP('M0 41C30 38.5 90 38.5 120 41V45C90 42.5 30 42.5 0 45Z','#3A3F4B')+'</g>'+
+    wR(58,40,4,4.6,1.6,'#8E97A8','#5E6677',.8)+
+    wC(60,48,9.4,wGrad(c,['#FFFFFF 0','#E7EBF2 .5','#9AA3B4 1'],57,45,11,0,true),'#6F7788',1.4)+wC(60,48,1.9,'#3A3F4B')+
+    wP('M54.5 44.5q2-2.8 5.2-3.2','none','#FFFFFF',1.4);
+};
+WD.faluche=function(L,c){
+  L.head=wG('rotate(-13 36 22)',
+    wP('M11.5 26.5C10 16.5 23 8.5 38 8.5C53 8.5 64 15.5 61.5 24.5C59.5 30 49 31.2 36.5 31.2C24 31.2 12.5 31 11.5 26.5Z',wGrad(c,['#3C3C48','#1C1C22'],24,8,40,30),'#0B0B0F',1.5)+
+    wP('M13 27.4C22 31 49 31.5 60.6 25.8','none','#C8102E',3.4)+wP('M13 27.4C22 31 49 31.5 60.6 25.8','none','#E8475E',1,' stroke-dasharray="0.1 2.6"')+
+    wC(28,18,2.3,'#FFC22E','#B98A10',.7)+wP('M28 16.2v3.6M26.6 17.2c.9.6 1.9.6 2.8 0','none','#8A6408',.6)+
+    wC(40,14.6,1.8,'#2F8CFF','#1560C9',.6)+wR(46.5,17.2,3.4,3.4,.8,'#14B89C','#0B917A',.6)+
+    wP('M34.6 22.6c-.7-1.1-2.5-.9-2.4.6.1 1 1.4 1.7 2.4 2.4 1-.7 2.3-1.4 2.4-2.4.1-1.5-1.7-1.7-2.4-.6z','#FF6B8A')+
+    wP('M20 16q5-4.5 13-5','none','rgba(255,255,255,.22)',1.6));
+};
+WD.toque=function(L,c){
+  L.head=wG('rotate(-11 36 22)',
+    wP('M20 26.5C20 20.5 27 17.5 36.5 17.5C46 17.5 53 20.5 53 26.5C46 24.6 27 24.6 20 26.5Z','#232838','#11131B',1.4)+
+    wP('M11 15.5L36.5 7L62 15.5L36.5 24Z','#2D3346','#11131B',1.5)+wP('M14 15.7L36.5 8.4','none','rgba(255,255,255,.2)',1.2)+
+    wC(36.5,15.5,1.5,'#FFC22E')+wP('M36.5 15.5C46 15.5 55 16 58.5 18.5V27','none','#FFC22E',1.2)+
+    wP('M57 26.5h3l.6 6.5h-4.2z','#FFC22E','#D89A10',.6));
+};
+WD.couronne=function(L,c){
+  var g=wGrad(c,['#FFF0A8','#FFD24D','#F5A300'],24,6,40,32);
+  L.head=wG('rotate(-12 37 22)',
+    wP('M16.5 28.5L14 12.5L25.5 20.5L37 6.5L48.5 20.5L60 12.5L57.5 28.5Z',g,'#B97800',1.5)+
+    wP('M16 28C26 25.2 48 25.2 58 28L57.5 33C48 30.2 26 30.2 16.5 33Z',g,'#B97800',1.5)+
+    wC(14,12.5,1.8,'#FFFFFF','#B97800',.6)+wC(37,6.5,1.9,'#FFFFFF','#B97800',.6)+wC(60,12.5,1.8,'#FFFFFF','#B97800',.6)+
+    wE(37,20.5,2.4,3,'#E0314B','#9E1426',.6)+wC(25.8,29.4,1.6,'#2F8CFF','#1560C9',.5)+wC(48.2,29.4,1.6,'#14B89C','#0B917A',.5)+
+    wP('M21 26.5q6-1.6 13-2','none','rgba(255,255,255,.55)',1.2));
+};
+WD.aureole=function(L,c){
+  L.head='<g class="bm-halo">'+wE(47,8.5,21,5.6,'none','rgba(255,214,92,.35)',6)+wE(47,8.5,21,5.6,'none','#FFD45C',2.8)+wE(47,8.5,21,5.6,'none','#FFF6C8',.9)+
+    wSpark(69,3,2.4,'#FFF3B0')+wSpark(25,5,1.8,'#FFF3B0')+'</g>';
+};
+
+/* ---------- Accessoires ---------- */
+function wSteth(c, tube, metal, edge, glint){
+  var t='M22 70C26 82 40 89.5 58 89.8C74 90 86 85 91.5 77.5';
+  return wP('M22.2 70.5L16.5 57.5M22.2 70.5L24.5 56.5','none',edge,2.6)+wP('M22.2 70.5L16.5 57.5M22.2 70.5L24.5 56.5','none',metal,1.4)+
+    wC(16.3,56.6,1.6,'#2B2F3A')+wC(24.6,55.6,1.6,'#2B2F3A')+
+    wP(t,'none',edge,4)+wP(t,'none',tube,2.6)+wP('M91.5 77.5C95 82 95 87 92.5 90.5','none',edge,4)+wP('M91.5 77.5C95 82 95 87 92.5 90.5','none',tube,2.6)+
+    wP('M26 76C32 84 42 87.8 54 88.4','none','rgba(255,255,255,.35)',.9)+
+    wC(22.2,70.5,2,metal,edge,.8)+
+    wC(91.5,94.2,5.4,metal,edge,1.2)+wC(91.5,94.2,3.3,glint||'#EEF1F6',edge,.8)+wP('M89.6 92.4q1-1.2 2.6-1.4','none','#FFFFFF',.9);
+}
+WD.badge=function(L,c){
+  L.neck=wP('M26.5 78.5C33 85.5 44 88.5 55 89.5M93.5 78.5C87 85.5 76 88.5 65 89.5','none','#2F6BFF',2.2)+
+    wR(54,88.5,12,10,1.6,'#FFFFFF','#9AA6B8',1)+wR(54,88.5,12,3.4,1.6,'#2F6BFF')+wR(55.4,93.2,3.2,3.6,.6,'#FFD9C2')+wP('M60 94h4.4M60 96h3.4','none','#9AA6B8',.7)+wR(58.6,86.6,2.8,2.6,.8,'#C9D1DE');
+};
+WD.bip=function(L,c){
+  L.neck=wG('rotate(-24 76 90)', wR(69.5,86,13,8.4,2,'#2B2F3A','#15171D',1)+wR(71.2,87.6,7.2,4.2,.8,'#9BE39F')+wP('M72.4 89.7h2.2M75.6 89.7h1.6','none','#2E6B34',.9)+wC(80.6,88.4,.9,'#FF4760'))+
+    wP('M86.5 85.5q2 2.6.2 5.4M89.5 84q3 4 .2 8.4','none','#2B2F3A',1.1,' opacity=".6"');
+};
+WD.noeud=function(L,c){
+  L.neck=wP('M60 81.2L51.2 77C49.6 79.6 49.6 82.8 51.2 85.4ZM60 81.2L68.8 77C70.4 79.6 70.4 82.8 68.8 85.4Z','#E23B4E','#A51F31',1.2)+
+    wC(53.4,79.8,.8,'#FFFFFF')+wC(52.8,83,.7,'#FFFFFF')+wC(66.6,79.8,.8,'#FFFFFF')+wC(67.2,83,.7,'#FFFFFF')+
+    wR(58,79.2,4,4,1.4,'#C82A3D','#A51F31',1);
+};
+WD.steth=function(L,c){ L.neck=wSteth(c,'#343949','#C9CFDA','#1E222C'); };
+WD.stetharc=function(L,c){ L.neck=wSteth(c,wGrad(c,['#FF5A6E','#FFB84D','#FFE55C','#5BD98B','#4DA6FF','#9B6BFF'],20,70,95,85),'#C9CFDA','#4A4F5E'); };
+WD.stethor=function(L,c){ var g=wGrad(c,['#FFF0A8','#FFC83A','#E09A00'],20,60,95,95); L.neck=wSteth(c,g,'#FFD45C','#A36B00','#FFF3C4')+wSpark(99,86,2.4,'#FFF3B0')+wSpark(18,82,1.8,'#FFF3B0'); };
+WD.chaine=function(L,c){
+  var t='M24.5 76C30 86 44 91.2 60 91.2C76 91.2 90 86 95.5 76';
+  L.neck=wP(t,'none','#A87800',4.4,' stroke-dasharray="3.4 1.2"')+wP(t,'none','#FFD24D',2.8,' stroke-dasharray="3.4 1.2"')+
+    wC(60,94.4,5.6,wGrad(c,['#FFF0A8','#FFC83A','#E09A00'],55,89,65,100),'#A87800',1.2)+
+    wP('M60 93.1c-1-1.5-3.6-1.1-3.4.8.1 1.3 2 2.3 3.4 3.3 1.4-1 3.3-2 3.4-3.3.2-1.9-2.4-2.3-3.4-.8z','#E0A000')+wP('M57 91.6q1.3-1.6 3.4-1.9','none','#FFFFFF',.9);
+};
+
+/* ---------- Yeux ---------- */
+WD.masque=function(L,c){
+  var n='#2C3A66';
+  L.face=wP('M27 44L12.5 42.5M93 44L107.5 42.5','none',n,2.2)+
+    wP('M27 45.5C27 40.8 33 38.6 43 39.2C50 39.7 55 42.2 60 42.2C65 42.2 70 39.7 77 39.2C87 38.6 93 40.8 93 45.5C93 50.5 87 52.8 78 52.4C70 52 65 49.4 60 49.4C55 49.4 50 52 42 52.4C33 52.8 27 50.5 27 45.5Z',n,'#1B2547',1.3)+
+    wP('M36.5 45.6q6 3.8 12 0M71.5 45.6q6 3.8 12 0','none','#FF9DC0',1.5)+
+    wP('M38.5 47.3l-1 1.8M42.5 48.2v2M46.5 47.3l1 1.8M73.5 47.3l-1 1.8M77.5 48.2v2M81.5 47.3l1 1.8','none','#FF9DC0',1);
+};
+WD.rondes=function(L,c){
+  var e='#3B2A22';
+  L.face=wP('M34 60.5L14.5 55.5M86 60.5L105.5 55.5','none',e,1.7)+wP('M52 60.6Q60 56.8 68 60.6','none',e,1.8)+
+    wC(43,62,9,'rgba(255,255,255,.16)',e,1.9)+wC(77,62,9,'rgba(255,255,255,.16)',e,1.9)+
+    wP('M37.3 58.2q1.8-2.8 5-3.4M71.3 58.2q1.8-2.8 5-3.4','none','#FFFFFF',1.2,' opacity=".85"');
+};
+WD.protection=function(L,c){
+  var b='#3E8EDB';
+  L.face=wP('M30 60.5L11.5 56.5M90 60.5L108.5 56.5','none',b,3)+
+    wP('M30 60C30 54.5 34 52 40 52H80C86 52 90 54.5 90 60V62.5C90 67.8 86 70.4 80 70.4H71C67 70.4 65 65.6 60 65.6C55 65.6 53 70.4 49 70.4H40C34 70.4 30 67.8 30 62.5Z','rgba(190,226,255,.38)',b,2.2)+wP('M34 56q3-3.4 8-3.8M84 64l-4 4','none','#FFFFFF',1.4,' opacity=".9"')+
+    wC(60,53.8,.9,b)+wC(56.5,54.2,.7,b)+wC(63.5,54.2,.7,b);
+};
+WD.soleil=function(L,c){
+  var g=wGrad(c,['#2A3144','#4A5470'],43,52,43,70), r='#D9A52B';
+  L.face=wP('M33 59L14 54.5M87 59L106 54.5','none',r,1.6)+
+    wP('M52.2 55.6Q60 53.4 67.8 55.6M52 58.6Q60 57 68 58.6','none',r,1.5)+
+    wP('M33 57C33 53.5 37 52.5 43 52.5C49 52.5 52.5 54 52 58C51.5 64 48 69 42.5 69C37 69 33 63.5 33 57Z',g,r,1.6)+
+    wP('M87 57C87 53.5 83 52.5 77 52.5C71 52.5 67.5 54 68 58C68.5 64 72 69 77.5 69C83 69 87 63.5 87 57Z',g,r,1.6)+
+    wP('M36.5 57.5l6-3.6M40 62l7.5-5M71 57.5l6-3.6M74.5 62l7.5-5','none','#FFFFFF',1.2,' opacity=".45"');
+};
+WD.pixel=function(L,c){
+  var k='#141414', u=2.6, rows=[[31,52],[31,52],[33.6,49.4],[36.2,46.8]], h=wR(28.4,52.8,63.2,3.2,0,k);
+  rows.forEach(function(r,i){ h+=wR(r[0],56+i*u,r[1]-r[0],u+.05,0,k)+wR(120-r[1],56+i*u,r[1]-r[0],u+.05,0,k); });
+  h+=wR(33.6,56,u,u,0,'#FFFFFF')+wR(36.2,58.6,u,u,0,'#FFFFFF')+wR(70.6,56,u,u,0,'#FFFFFF')+wR(73.2,58.6,u,u,0,'#FFFFFF');
+  L.face=wP('M29 54.4L13 51.5M91 54.4L107 51.5','none',k,2.2)+h;
+};
+WD.monocle=function(L,c){
+  var g='#E0A82E';
+  L.face=wP('M85.5 66.5C90 72 92 78 97 83.5','none',g,1.1,' stroke-dasharray="1.6 1"')+
+    wC(77,62,9.4,'rgba(255,255,255,.2)',g,2.4)+wC(77,62,9.4,'none','#B7861A',.6)+wP('M71.3 58.2q1.8-2.8 5-3.4','none','#FFFFFF',1.2);
+};
+WD.loupes=function(L,c){
+  var k='#2F3440';
+  L.face=wP('M34.5 60L14.5 55.5M85.5 60L105.5 55.5','none',k,1.8)+wP('M52 59.5Q60 56.5 68 59.5','none',k,2)+
+    wC(43,62,8.6,'rgba(255,255,255,.12)',k,1.8)+wC(77,62,8.6,'rgba(255,255,255,.12)',k,1.8)+
+    wC(43,63.2,5.6,k)+wC(77,63.2,5.6,k)+wC(43,62,4.4,'rgba(150,215,255,.75)','#5B6275',1)+wC(77,62,4.4,'rgba(150,215,255,.75)','#5B6275',1)+
+    wP('M40.6 60.2q1-1.4 2.6-1.6M74.6 60.2q1-1.4 2.6-1.6','none','#FFFFFF',1.1);
+};
+
+/* ---------- Mains (left paw) ---------- */
+WD.cafe=function(L,c){
+  L.hand=wP('M-1 60c-2-3 2-4.2 0-7.2M4.5 60c-2-3 2-4.2 0-7.2','none','#C9D1DC',1.5,' opacity=".9"')+
+    wP('M8 66.5c4.4 0 4.6 7.6 0 7.6','none','#9AA4B4',2.6)+
+    wP('M-5 63.5h13v11.2c0 3-2 4.8-4.6 4.8h-3.8c-2.6 0-4.6-1.8-4.6-4.8z','#FFFFFF','#9AA4B4',1.5)+wE(1.5,63.7,6.3,1.5,'#6B4226')+
+    wP('M1.5 71.4c-.8-1.3-3-.9-2.9.6.1 1.1 1.7 1.9 2.9 2.8 1.2-.9 2.8-1.7 2.9-2.8.1-1.5-2.1-1.9-2.9-.6z','#FF4760');
+};
+WD.fiches=function(L,c){
+  L.hand=wG('rotate(-12 2 68)', wR(-9,60,18,12,1.2,'#FFE58F','#D9B84A',1)+wG('rotate(8 0 66)', wR(-8,61,18,12,1.2,'#FFFFFF','#AAB3C2',1)+
+    wP('M-5.5 64.5h13M-5.5 67.5h13M-5.5 70.5h9','none','#7FB2FF',.8)+wP('M-3.5 61v12','none','#FF8FA0',.7)));
+};
+WD.marteau=function(L,c){
+  L.hand=wP('M7.5 71L-2.5 49.5','none','#7F889A',3.2)+wP('M7.5 71L-2.5 49.5','none','#B8C0CE',1.6)+
+    wP('M-12.5 45.2C-12.8 43 -11 41.4 -8.8 41.9L3.6 45.2C5.6 45.8 5.6 48.3 3.6 48.9L-8.8 52.2C-11 52.7 -12.8 51.1 -12.5 48.9Z','#E84A5F','#B32B40',1.3)+
+    wP('M-9.5 44.2l9 2.3','none','rgba(255,255,255,.45)',1);
+};
+WD.seringue=function(L,c){
+  L.hand=wG('translate(9 72.5) rotate(-118)',
+    wR(-9,-1.3,9,2.6,.8,'#C9CFDA','#8C95A6',.8)+wR(-10.5,-4,1.8,8,.8,'#C9CFDA','#8C95A6',.8)+
+    wR(-1,-6,2.2,12,1,'#E6EAF0','#8C95A6',.9)+
+    wR(1,-4.2,24,8.4,2.6,'rgba(235,245,255,.9)','#8C95A6',1.2)+wR(9,-3.2,15,6.4,1.8,'#5AB8FF')+
+    wP('M6 -4.2v2.4M10 -4.2v2.4M14 -4.2v2.4M18 -4.2v2.4','none','#8C95A6',.7)+
+    wR(25,-1.6,3,3.2,.6,'#C9CFDA','#8C95A6',.7)+wP('M28 0H38','none','#8C95A6',1.2)+wP('M3.5 -2.4H22','none','#FFFFFF',.9,' opacity=".8"'));
+};
+WD.livre=function(L,c){
+  L.hand=wG('rotate(-8 0 72)', wR(-12,58,19,27,2,'#B23A48','#7E1F2C',1.4)+wR(5.5,59.5,2.6,24,.8,'#FFF3D6','#D8C49A',.6)+
+    wR(-12,58,4,27,1.5,'#8E2735')+wP('M-8 62.5h14M-8 80.5h14','none','#FFC22E',1.4)+
+    wG('rotate(-35 -1.5 71.5)', wR(-6,70.3,9,2.4,1.2,'#FFFFFF')+wC(-6,70.2,1.5,'#FFFFFF')+wC(-6,72.8,1.5,'#FFFFFF')+wC(3,70.2,1.5,'#FFFFFF')+wC(3,72.8,1.5,'#FFFFFF')));
+};
+WD.perf=function(L,c){
+  L.hand=wP('M5 104V14.5','none','#8C95A6',2.4)+wP('M5 14.5c0-3.4 5.5-3.4 5.5 0','none','#8C95A6',1.6)+
+    wP('M-5.5 102.5h21','none','#8C95A6',2.2)+wC(-5,105.4,1.8,'#5B6275')+wC(5,105.4,1.8,'#5B6275')+wC(15,105.4,1.8,'#5B6275')+
+    wP('M4 18c-5 0-8 2.6-8 7.6v8.4c0 3 2 4.6 5 4.6h7.4c3 0 5-1.6 5-4.6v-8.4c0-5-3-7.6-8-7.6z','rgba(225,240,255,.9)','#8FB3D6',1.2)+
+    wP('M-3.4 27.5h14.8v6.3c0 2.4-1.5 3.6-3.9 3.6h-7c-2.4 0-3.9-1.2-3.9-3.6z','#BFE3FF')+wR(-1,21,10,4,1,'#FFFFFF','#8FB3D6',.6)+
+    wR(2.6,38.6,2.8,5,1,'#E6F2FF','#8FB3D6',.7)+wP('M4 43.6C4 55 6 62 9 69','none','#BFD8EE',1.3);
+};
+WD.bernard=function(L,c){
+  var b='#F4EEDC', e='#A99E7C';
+  L.hand=wP('M-2.5 74.5V92','none',e,3.4)+wP('M-2.5 74.5V92','none',b,2)+
+    wP('M-6.5 79q4 1.6 8 0M-7 83q4.5 1.6 9 0M-6.5 87q4 1.4 8 0','none',e,2.6)+
+    wP('M-6.5 79q4 1.6 8 0M-7 83q4.5 1.6 9 0M-6.5 87q4 1.4 8 0','none',b,1.3)+
+    wP('M-7 76L-10.5 88.5M2 76L7.5 71.5','none',e,2.6)+wP('M-7 76L-10.5 88.5M2 76L7.5 71.5','none',b,1.3)+
+    wP('M-6.5 91.5h8L-.5 94.5h-4z',b,e,1)+wP('M-4.5 94.5L-7 105.5M-.5 94.5L2 105.5','none',e,2.6)+wP('M-4.5 94.5L-7 105.5M-.5 94.5L2 105.5','none',b,1.3)+
+    wE(-8.2,106,2.4,1.2,b,e,.8)+wE(3.2,106,2.4,1.2,b,e,.8)+
+    wP('M-8.5 67.5C-8.5 62.5 -5.5 60 -2.5 60C.5 60 3.5 62.5 3.5 67.5C3.5 70.3 2 71.8 .5 72.2V74.2H-5.5V72.2C-7 71.8 -8.5 70.3 -8.5 67.5Z',b,e,1.1)+
+    wE(-5,66.8,1.6,1.9,'#4A4030')+wE(0,66.8,1.6,1.9,'#4A4030')+wP('M-3 70.2l.5-1 .5 1z','#4A4030')+wP('M-4.8 72.6v1.4M-3.3 72.6v1.4M-1.8 72.6v1.4M-.3 72.6v1.4','none',e,.5);
+};
+WD.baton=function(L,c){
+  var g=wGrad(c,['#FFF0A8','#FFC83A','#D98E00'],3,30,7,106);
+  L.hand=wP('M5 106V30','none','#A36B00',4.4)+wP('M5 106V30','none',g,2.8)+wC(5,29,2.6,'#FFD45C','#A36B00',1)+
+    wP('M5 99C12 96 12 90 5 87.5C-2 85 -2 79 5 76.5C12 74 12 68 5 65.5C-2 63 -2 57 5 54.5C11 52.5 11 46 6.5 42','none','#2E8B57',3.6)+
+    wP('M5 99C12 96 12 90 5 87.5C-2 85 -2 79 5 76.5C12 74 12 68 5 65.5C-2 63 -2 57 5 54.5C11 52.5 11 46 6.5 42','none','#52C27F',2.2)+
+    wE(6,40.4,3.2,2.4,'#52C27F','#2E8B57',1)+wC(6.9,39.6,.6,'#1B1B1B')+wP('M3.1 41.6l-2 .6M1.1 42.2l-.8-.9M1.1 42.2l-.4 1.1','none','#E23B4E',.6)+
+    wSpark(-5,34,2.4,'#FFF3B0')+wSpark(14,48,1.8,'#FFF3B0');
+};
+
+/* ---------- Pieds ---------- */
+var FOOT_L='M35 101.5C35 97.5 39.5 95.5 44.5 95.8C50 96.2 53.5 98.8 53 102.2C52.6 105.2 48 106.4 43 106.2C38.2 106 35 104.6 35 101.5Z',
+    FOOT_R='M67 102C66.6 98.6 70.2 96.2 75.6 95.8C80.6 95.5 85 97.6 85 101.5C85 104.6 81.8 106 77 106.2C72 106.4 67.4 105.2 67 102Z';
+function wFeet(c, fn){ return fn(FOOT_L, 44, 101, -1)+fn(FOOT_R, 76, 101, 1); }
+WD.chaussettes=function(L,c){
+  L.feet=wFeet(c,function(d,x){ var id=wClip(c,d); return wP(d,'#2E3A6E','#1C244A',2)+'<g clip-path="url(#'+id+')">'+wR(x-12,98,24,1.8,0,'#FF8FB1')+wR(x-12,101.6,24,1.8,0,'#FF8FB1')+'</g>'; });
+};
+WD.chaussons=function(L,c){
+  L.feet=wFeet(c,function(d,x,y,s){
+    return wE(x+s*6,95,2.2,5,'#FFFFFF','#C9CFDA',1.1,' transform="rotate('+(s*25)+' '+(x+s*6)+' 95)"')+wE(x+s*6,95,1,3.4,'#FFC4D6','none',0,' transform="rotate('+(s*25)+' '+(x+s*6)+' 95)"')+
+      wP('M'+(x-10)+' 101.6C'+(x-10)+' 96.8 '+(x-5)+' 94.8 '+x+' 94.8C'+(x+5)+' 94.8 '+(x+10)+' 96.8 '+(x+10)+' 101.6C'+(x+10)+' 105.4 '+(x+5)+' 107 '+x+' 107C'+(x-5)+' 107 '+(x-10)+' 105.4 '+(x-10)+' 101.6Z','#FFFFFF','#C9CFDA',1.4)+
+      wC(x-2.6,100.6,.9,'#3A1B26')+wC(x+2.6,100.6,.9,'#3A1B26')+wE(x,102.6,1.1,.8,'#FF8FB1')+wE(x-5.4,102.4,1.4,.8,'#FFC4D6')+wE(x+5.4,102.4,1.4,.8,'#FFC4D6');
+  });
+};
+WD.sabots=function(L,c){
+  L.feet=wFeet(c,function(d,x,y,s){
+    return wP('M'+(x-10.5)+' 102C'+(x-10.5)+' 96.4 '+(x-5)+' 94.4 '+x+' 94.4C'+(x+5)+' 94.4 '+(x+10.5)+' 96.4 '+(x+10.5)+' 102C'+(x+10.5)+' 105.6 '+(x+5.4)+' 107.2 '+x+' 107.2C'+(x-5.4)+' 107.2 '+(x-10.5)+' 105.6 '+(x-10.5)+' 102Z','#8BD450','#5A9E2C',1.5)+
+      wP('M'+(x-10.3)+' 104.5H'+(x+10.3),'none','#6FB63A',1.6)+
+      [[-5,98.5],[0,97.6],[5,98.5],[-2.6,101],[2.6,101]].map(function(p){ return wC(x+p[0],p[1],1.05,'#5A9E2C'); }).join('')+
+      (s<0?wC(x+6.6,101.8,1.5,'#FF4760','#C8243A',.5):wSpark(x-6.6,101.8,1.8,'#FFC22E'));
+  });
+};
+WD.baskets=function(L,c){
+  var g=wGrad(c,['#FFF0A8','#FFC83A','#E09A00'],30,94,90,108);
+  L.feet=wFeet(c,function(d,x,y,s){
+    return wP('M'+(x-10.5)+' 101.5C'+(x-10.5)+' 96.4 '+(x-5)+' 94.6 '+x+' 94.6C'+(x+5)+' 94.6 '+(x+10.5)+' 96.4 '+(x+10.5)+' 101.5V103.5H'+(x-10.5)+'Z',g,'#A36B00',1.4)+
+      wR(x-11,103,22,4.2,2,'#FFFFFF','#B9C1CF',1.1)+wP('M'+(x-3.4)+' 97.2l2 1.4M'+(x-.6)+' 96.6l2 1.4M'+(x+2.2)+' 97.2l2 1.4','none','#FFFFFF',1)+
+      wP('M'+(x-9)+' 101.8q9-4.6 18 0','none','#FFFFFF',1.3,' opacity=".8"');
+  });
+};
+
+/* ---------- Couleurs (skins) ---------- */
+var SKINS={
+  rose:{body:'#FF8DB9', shade:'#F474A6', line:'#D24E88', cheek:'#FFC6DC'},
+  bleu:{body:'#7DCBFF', shade:'#5CB5F2', line:'#2F86CF', cheek:'#FFB0C8', deco:function(c){ return wSpark(30,40,2.6,'#FFFFFF')+wSpark(92,82,2,'#FFFFFF')+wSpark(86,44,1.6,'#FFFFFF'); }},
+  zombie:{body:'#A6D97F', shade:'#8CC564', line:'#4E9537', cheek:'#D2EFB2', mouth:'#3F5E2A', deco:function(c){ return wP('M24 40L36 47.5','none','#4E9537',1.3)+wP('M26.6 39.4l-1.6 3.4M30 41.5l-1.6 3.4M33.4 43.6l-1.6 3.4','none','#4E9537',1.1)+wE(84,86,4.5,3,'#8CC564'); }},
+  galaxie:{body:'#4B34A8', shade:'#2A1D63', line:'#1C1245', cheek:'#FF7FD0', eye:'#0B0620', mouth:'#12092B', grad:['#2B1E6B','#5B3CC4','#8A4DFF'], deco:function(c){ var s=[[30,34,.8],[48,44,.6],[88,34,.9],[96,52,.6],[22,58,.6],[80,86,.8],[40,86,.6],[62,96,.5],[70,42,.5]]; return s.map(function(p){ return wC(p[0],p[1],p[2],'#FFFFFF',null,0,' opacity=".85"'); }).join('')+wSpark(36,82,2.4,'#FFE9FF')+wSpark(92,68,1.8,'#FFE9FF')+wSpark(58,40,1.6,'#FFE9FF'); }},
+  arcenciel:{body:'#FF9DB0', shade:'rgba(90,40,140,.14)', foot:'#B58CF0', line:'#8F5BD6', cheek:'#FFC2D9', grad:['#FF6B7F','#FFB86B','#FFE66B','#7FE08A','#6BC1FF','#A98BFF']},
+  or:{body:'#FFC83A', shade:'#E8A21A', line:'#B97800', cheek:'#FFB27A', mouth:'#6B3A00', grad:['#FFF0A8','#FFD24D','#F5A300'], deco:function(c){ return wP('M30 30L22 60','none','#FFFFFF',5,' opacity=".35"')+wSpark(94,30,3,'#FFFFFF')+wSpark(24,86,2,'#FFF7D6'); }}
+};
+
+/* ---------- Catalogue ---------- */
+var SLOTS=[['corps','Tenues'],['tete','Têtes'],['cou','Accessoires'],['yeux','Yeux'],['main','Mains'],['pieds','Pieds'],['peau','Couleurs']];
+var ITEMS=[
+  ['chemise','corps',0,90,'Chemise de patient','Ouverte dans le dos. Boum assume totalement.'],
+  ['pyjama','corps',0,140,'Pyjama de révisions','Tenue officielle des révisions à 2 h du mat\'.'],
+  ['externe','corps',0,200,'Blouse d\'externe','Un peu trop grande. 4 stylos. Aucune idée de ce qui se passe.'],
+  ['bloc','corps',1,380,'Pyjama de bloc','Vert, pour reposer les yeux du rouge du sang. C\'est vrai.'],
+  ['sagefemme','corps',1,380,'Tenue de sage-femme','Premier visage de milliers de bébés.'],
+  ['pharma','corps',1,420,'Blouse de pharmacien','Connaît chaque molécule par son petit nom.'],
+  ['sweat','corps',1,520,'Sweat « J\'ai survécu au PASS »','Collector. Personne ne sait comment il l\'a eu.'],
+  ['interne','corps',1,650,'Blouse d\'interne','Tache de café, bip qui sonne, 3 h de sommeil. Tout va bien.'],
+  ['squelette','corps',2,900,'Costume de squelette','206 os, tous au bon endroit. Vérifié.'],
+  ['smur','corps',2,1100,'Tenue du SMUR','Bandes réfléchissantes et gyrophare intérieur.'],
+  ['smoking','corps',2,1250,'Smoking du gala','Pour le gala de médecine. Danse non incluse.'],
+  ['cca','corps',2,1500,'Blouse de chef de clinique','Brodée à son nom. Encadre les internes, redoute les PU-PH.'],
+  ['b67','corps',2,1667,'Blouse 67','Six… seven. Personne ne sait pourquoi. Tout le monde la veut.'],
+  ['puph','corps',3,3500,'Blouse de PU-PH','Blanche, repassée, jamais tachée. Le sommet de l\'hôpital.'],
+  ['aura','corps',3,0,'Hoodie « +1000 aura »','Aura farming, niveau chef de service.',1],
+  ['charlotte','tete',0,70,'Charlotte de bloc','Stérile, froissée, élégante.'],
+  ['bonnet','tete',0,110,'Bonnet de nuit','Fin de garde. Enfin.'],
+  ['bandeau','tete',0,150,'Bandeau des révisions','Mode révisions : activé.'],
+  ['calot','tete',1,320,'Calot à cœurs','Au bloc, le calot, c\'est toute ta personnalité.'],
+  ['lampe','tete',1,360,'Lampe frontale','Pour les TP d\'anatomie à 7 h du matin.'],
+  ['miroir','tete',1,480,'Miroir frontal d\'ORL','Personne ne sait à quoi il sert. Il a l\'air très sérieux.'],
+  ['faluche','tete',2,1300,'Faluche de médecine','Velours noir, ruban rouge, un pin\'s pour chaque souvenir.'],
+  ['toque','tete',2,1800,'Toque de docteur','Thèse soutenue. Il n\'aura fallu que 9 ans.'],
+  ['couronne','tete',3,4000,'Couronne de major de promo','Premier sur 2 000. Humble, évidemment.'],
+  ['aureole','tete',3,0,'Auréole de sauveur','A réanimé 12 mannequins de secourisme. Sans pause.',1],
+  ['badge','cou',0,60,'Badge « Visiteur »','Accès limité. A quand même visité le bloc.'],
+  ['bip','cou',0,100,'Bip de garde','Il sonne. Il re-sonne. Il sonne encore.'],
+  ['noeud','cou',0,140,'Nœud papillon','Pour le staff du lundi matin.'],
+  ['steth','cou',1,400,'Stéthoscope','Le premier achat de tout externe.'],
+  ['stetharc','cou',2,950,'Stéthoscope arc-en-ciel','Le plus liké de tout l\'hôpital.'],
+  ['chaine','cou',2,1200,'Chaîne en or','Bling bling. Légère tachycardie.'],
+  ['stethor','cou',3,2800,'Stéthoscope en or','Entend les battements à 3 km.'],
+  ['masque','yeux',0,80,'Masque de sommeil','Post-garde. Ne pas déranger.'],
+  ['rondes','yeux',0,120,'Lunettes rondes','+10 en anatomie. Garanti (non).'],
+  ['protection','yeux',0,150,'Lunettes de protection','Obligatoires en TP. Ça éclabousse.'],
+  ['soleil','yeux',1,350,'Lunettes de soleil','Sortie de bloc au ralenti.'],
+  ['pixel','yeux',1,540,'Lunettes pixel','Deal with it.'],
+  ['monocle','yeux',2,950,'Monocle du Professeur','Hmm. Intéressant. Très intéressant.'],
+  ['loupes','yeux',2,1400,'Loupes de chirurgien','Zoom ×3,5. Voit les microbes le juger.'],
+  ['cafe','main',0,60,'Café de garde','Le vrai carburant de l\'hôpital.'],
+  ['fiches','main',0,90,'Fiches bristol','Recto : la question. Verso : la panique.'],
+  ['marteau','main',0,160,'Marteau à réflexes','Toc. Réflexe rotulien : présent.'],
+  ['seringue','main',1,340,'Seringue géante','Juste une petite piqûre. Promis.'],
+  ['livre','main',1,400,'Pavé d\'anatomie','3 kg de savoir. Sert aussi d\'oreiller.'],
+  ['perf','main',1,480,'Pied à perfusion','Le fidèle compagnon de couloir.'],
+  ['bernard','main',2,1500,'Bernard, le squelette','Le squelette de la salle de TP. Tout le monde l\'appelle Bernard.'],
+  ['baton','main',3,3200,'Bâton d\'Asclépios en or','Le vrai symbole de la médecine. Le serpent est gentil.'],
+  ['chaussettes','pieds',0,100,'Chaussettes de contention','Retour veineux : optimal. Style : discutable.'],
+  ['chaussons','pieds',0,180,'Chaussons lapin','Pour réviser sous la couette.'],
+  ['sabots','pieds',1,480,'Sabots à trous','Moches ? Peut-être. 14 h debout sans broncher.'],
+  ['baskets','pieds',2,1600,'Baskets dorées','Édition limitée. Jamais portées au bloc.'],
+  ['rouge','peau',0,0,'Rouge classique','Le Boum des origines.'],
+  ['rose','peau',1,450,'Rose bonbon','Même cœur, en plus doux.'],
+  ['bleu','peau',1,450,'Bleu glacier','Cœur givré, mais toujours chaud.'],
+  ['zombie','peau',2,1100,'Zombie','Mort-vivant, mais toujours 60 bpm.'],
+  ['galaxie','peau',2,1500,'Galaxie','Un cœur plein d\'étoiles.'],
+  ['arcenciel','peau',3,3800,'Arc-en-ciel','Toutes les couleurs, un seul battement.'],
+  ['or','peau',3,0,'Cœur en or','Un cœur en or. Littéralement.',1]
+].map(function(a){ return {id:a[0], s:a[1], t:a[2], p:a[3], n:a[4], d:a[5], x:!!a[6]}; });
+var ITEM={}; ITEMS.forEach(function(it){ ITEM[it.id]=it; });
+var HANDFIX={perf:1, bernard:1, baton:1};
+
+function wearLayers(W, c, pn){
+  var L={};
+  if(!W) return L;
+  ['corps','cou','yeux','tete','main','pieds'].forEach(function(s){ var id=W[s]; if(id && WD[id]) WD[id](L, c); });
+  if(L.hand){
+    var off=BM_HAND[pn];
+    if(!off) L.hand='';
+    else if(!HANDFIX[W.main] && (off[0]||off[1])) L.hand=wG('translate('+off[0]+' '+off[1]+')', L.hand);
+  }
+  if(L.sleeve){
+    var s=L.sleeve, w=pn==='pushup'?7:7.6;
+    L.sleeves=(BM_ARMP[pn]||[]).map(function(d){
+      var a=' d="'+d+'" pathLength="100" fill="none"';
+      return '<path'+a+' stroke-dasharray="'+s.len+' 200" stroke="'+s.e+'" stroke-width="'+(w+3.6)+'" stroke-linecap="round"/>'+
+        '<path'+a+' stroke-dasharray="'+s.len+' 200" stroke="'+s.f+'" stroke-width="'+w+'" stroke-linecap="round"/>'+
+        (s.band?'<path'+a+' stroke-dasharray="'+s.band[1]+' 200" stroke-dashoffset="-'+s.band[0]+'" stroke="'+s.band[2]+'" stroke-width="'+w+'"/>':'')+
+        (s.bone?'<path'+a+' stroke-dasharray="'+(s.bone[1]-s.bone[0])+' 200" stroke-dashoffset="-'+s.bone[0]+'" stroke="'+s.bone[2]+'" stroke-width="1.8" stroke-linecap="round"/>':'');
+    }).join('');
+  }
+  return L;
+}
+var BMN=0;
+/* What Boum wears: the outfit passed in, or the one saved in the vestiaire. */
+function wearOf(w){ return w===false ? null : (w || (typeof S!=='undefined' && S.wear) || null); }
 function boum(o){
   o=o||{}; var mood=o.mood||'happy', size=o.size||110, b=o.bpm||bpm();
   var flat=mood==='flat', E='var(--bm-eye)';
@@ -1340,20 +1991,33 @@ function boum(o){
     case 'wink': eyes='<g class="eyes">'+eye(43,-5)+'</g>'+line(ARC(77),3); mouth=SMILE; break;
     default: eyes=eyesOpen(); mouth=SMILE;
   }
-  var pose=ARMS[o.arms||BM_POSE[mood]||'rest']||ARMS.rest, feet=o.arms==='pushup'?'':BM_FEET;
-  var vars = flat ? '--bm-body:var(--flat);--bm-shade:var(--flat-edge);--bm-line:var(--bm-ink-flat)' : '--bm-body:var(--heart);--bm-shade:var(--bm-shade-red);--bm-line:var(--bm-ink)';
+  var pn=o.arms||BM_POSE[mood]||'rest', pose=ARMS[pn]||ARMS.rest;
+  var W=wearOf(o.wear), c={n:++BMN, defs:'', k:0}, Lw=wearLayers(W, c, pn);
+  var P=(!flat && W && W.peau && SKINS[W.peau]) || null, bodyFill='var(--bm-body)', deco='';
+  if(P && P.grad) bodyFill=wGrad(c, P.grad, 14, 24, 106, 100);
+  if(P && P.deco) deco='<g clip-path="url(#'+wBody(c)+')">'+P.deco(c)+'</g>';
+  var feet=pn==='pushup' ? '' : (Lw.feet || BM_FEET);
+  var vars = flat ? '--bm-body:var(--flat);--bm-shade:var(--flat-edge);--bm-line:var(--bm-ink-flat)' :
+    P ? '--bm-body:'+P.body+';--bm-shade:'+P.shade+';--bm-line:'+P.line+';--bm-cheek:'+P.cheek+(P.foot?';--bm-foot:'+P.foot:'')+(P.eye?';--bm-eye:'+P.eye:'')+(P.mouth?';--bm-mouth:'+P.mouth:'') :
+    '--bm-body:var(--heart);--bm-shade:var(--bm-shade-red);--bm-line:var(--bm-ink)';
+  var out=pose.out||'';
+  if(out && Lw.sleeves) out=out.replace(/<\/g>$/, Lw.sleeves+'</g>');
+  var head = o.acc ? '' : (Lw.head||'');
   return '<svg class="boum'+(flat||o.still?'':' beating')+'" style="--beat:'+(60/b).toFixed(2)+'s;width:'+size+'px;height:'+size+'px;'+vars+'" viewBox="0 0 120 120" aria-hidden="true">'+
+    (c.defs?'<defs>'+c.defs+'</defs>':'')+(Lw.back||'')+
     '<ellipse cx="60" cy="108.5" rx="29" ry="4" fill="var(--shadow)"/>'+feet+
-    '<g class="bb">'+pose.b+
+    '<g class="bb">'+(Lw.hand||'')+pose.b+(pose.out?'':(Lw.sleeves||''))+
       bmNub('M59 37C56.5 24 63 14.5 73.5 16.5', 7.2)+'<path d="M61.3 27.5C61.6 22.6 65.2 19 70.5 18.6" class="bm-shine" stroke-width="1.7"/>'+
       bmNub('M45 27.5L43.3 19.8', 5.8)+
-      '<path d="'+BM_BODY+'" fill="var(--bm-body)"/>'+
-      '<path d="M108.3 43.5C108.8 46.1 109 48.7 109 51.5C109 72 85 89.5 69 100.5C65.5 103 59 103.2 55.5 100.8C70.5 96.5 96.5 79.5 99.6 59.5C100.6 53.2 103.6 47.3 108.3 43.5Z" fill="var(--bm-shade)"/>'+
+      '<path d="'+BM_BODY+'" fill="'+bodyFill+'"/>'+
+      '<path d="'+BM_SHADE+'" fill="var(--bm-shade)"/>'+
       '<path d="M20.5 45C20.2 37 26 30.5 34 28.8C37 28.2 38.6 30.2 36.6 32C31.2 35.6 27.5 40.2 26 46C25.3 48.8 20.7 48.4 20.5 45Z" fill="#fff" opacity=".4"/><path d="M21.3 53.5C21.1 52.2 22.2 51.2 23.5 51.3C24.8 51.4 25.7 52.5 25.5 53.8C25.3 55 24.2 55.8 23.1 55.6C22.1 55.5 21.4 54.6 21.3 53.5Z" fill="#fff" opacity=".4"/>'+
+      deco+
       '<path d="'+BM_BODY+'" class="bm-ink" stroke-width="2.6"/>'+
+      (Lw.body||'')+
       '<g transform="rotate(33 90 35.5)"><rect x="83" y="32.3" width="14" height="6.4" rx="3.2" fill="#FAD9B8" stroke="#DDA679" stroke-width=".9"/><rect x="87.8" y="32.3" width="4.4" height="6.4" fill="#FEEDDC" stroke="#DDA679" stroke-width=".7"/></g>'+
-      cheeks+eyes+extra+mouth+(o.acc||'')+pose.f+
-    '</g>'+(pose.out||'')+'</svg>';
+      cheeks+eyes+extra+mouth+(Lw.neck||'')+(Lw.face||'')+head+(o.acc||'')+pose.f+
+    '</g>'+out+'</svg>';
 }
 var DECO = [
   function(c){ return '<svg class="deco-svg" viewBox="0 0 110 110"><ellipse cx="55" cy="55" rx="44" ry="38" fill="color-mix(in srgb,'+c+' 14%,transparent)" stroke="'+c+'" stroke-width="3"/><circle cx="60" cy="52" r="14" fill="'+c+'" opacity=".55"/><circle cx="63" cy="49" r="5" fill="'+c+'"/><ellipse cx="32" cy="66" rx="8" ry="4" fill="none" stroke="'+c+'" stroke-width="2.5"/><circle cx="80" cy="74" r="3" fill="'+c+'"/><circle cx="36" cy="40" r="2.5" fill="'+c+'"/></svg>'; },
@@ -1915,10 +2579,11 @@ var TIERS=[
   {n:'légendaire', label:'Trousse légendaire', body:'#FFB300', lid:'#FFD45C', edge:'#C98200', ray:'#FFE89A', col:'#FFB300', amt:[120,160]}
 ];
 /* Five taps. Each tap may raise the rarity, and the chance grows tap after tap:
-   8 %, 12 %, 16 %, 21 %, then 30 % from "commune" (x0.8 from "rare", x0.5 from "épique").
+   10 %, 14 %, 19 %, 25 %, then 34 % from "commune" (x0.8 from "rare", x0.5 from "épique").
    A raise is +1 level (88 %), sometimes +2 (10 %), rarely +3 (2 %).
-   After 5 taps from "commune": about 38 % commune, 40 % rare, 17 % épique, 5 % légendaire. */
-var TAPS=5, TAPCH=[.08,.12,.16,.21,.30], TIERF=[1,.8,.5,0], JUMP=[[1,.88],[2,.10],[3,.02]];
+   After 5 taps from "commune": about 31 % commune, 41 % rare, 21 % épique, 7 % légendaire.
+   The chances are not shown while tapping; the Pharmacie lists them. */
+var TAPS=5, TAPCH=[.10,.14,.19,.25,.34], TIERF=[1,.8,.5,0], JUMP=[[1,.88],[2,.10],[3,.02]];
 function upChance(t, k){ return (TAPCH[k]||0)*(TIERF[t]||0); }
 function nextOdds(t, k){
   var u=upChance(t,k), out=[0,0,0,0];
@@ -1962,8 +2627,8 @@ function kit(open, tier, size){
     sparkle+'</svg>';
 }
 function chestInfo(id){ var v=S.chests[id]; if(v==null) return null; return typeof v==='number' ? {a:v, t:0} : v; }
-/* Trousse du jour: one per day, its rarity follows the series of battements.
-   Every 3rd day rare, every 7th épique, every 10th légendaire, otherwise commune.
+/* Trousse du jour: one per day, its rarity follows the series of battements in cycles of 10 days:
+   rare on days 3, 6 and 9, épique on day 7, légendaire on day 10, commune otherwise.
    It pays less than the chests on the path so the economy stays tight. */
 var DAILY_AMT=[[8,12],[15,21],[28,36],[48,64]];
 function streakDay(){
@@ -1972,21 +2637,31 @@ function streakDay(){
   if(S.lastDay && S.streak>0 && daysBetween(S.lastDay,t)===1) return S.streak+1;
   return 1;
 }
-function dailyTier(n){ return n%10===0 ? 3 : (n%7===0 ? 2 : (n%3===0 ? 1 : 0)); }
+function dailyCycle(n){ return ((n-1)%10)+1; }
+function dailyTier(n){ var d=dailyCycle(n); return d===10 ? 3 : (d===7 ? 2 : (d%3===0 ? 1 : 0)); }
 function dailyReady(){ return S.dailyChest!==today(); }
 function dailyAmount(t){ var r=DAILY_AMT[t]; return r[0]+Math.floor(Math.random()*(r[1]-r[0]+1)); }
-function rewardTrack(n){
-  var start=Math.floor((n-1)/10)*10+1, h='';
-  for(var d=start; d<start+10; d++){ var tr=dailyTier(d); h+='<div class="rt'+(d<n?' past':'')+(d===n?' now':'')+'" title="Jour '+d+' : trousse '+TIERS[tr].n+'">'+kit(false,tr,30)+'<b>J'+d+'</b></div>'; }
-  return '<div class="rtrack">'+h+'</div>';
+/* The 10 trousses of the current cycle, 5 per row, in their colours; the ones already passed are grey */
+function dailyGrid(n, openedToday){
+  var d=dailyCycle(n), hist=S.dailyHist||[], legacy=!hist.length && !!S.dailyChest, h='';
+  for(var i=1;i<=10;i++){
+    var day=n-d+i, tr=dailyTier(day), got=false, st;
+    if(i<d){ got=legacy || hist.indexOf(dayKey(now()-(d-i)*864e5))>-1; st=got?'got':'miss'; }
+    else if(i===d){ got=!!openedToday; st=got?'got':'now'; }
+    else st = (openedToday && i===d+1) ? 'next soon' : 'next';
+    h+='<div class="dg '+st+'" style="--dc:'+TIERS[tr].col+'" title="Jour '+day+' : trousse '+TIERS[tr].n+'">'+kit(got,tr,40)+'<b>J'+day+'</b>'+(got?'<i>'+I.check+'</i>':'')+'</div>';
+  }
+  return '<div class="dgrid">'+h+'</div>';
 }
 function dailyCard(){
-  var n=streakDay(), tr=dailyTier(n), T=TIERS[tr];
-  if(dailyReady()) return '<button class="daily" data-act="daily-open" style="--dc:'+T.col+'">'+kit(false,tr,64)+
-    '<span><b>Trousse du jour</b><small>Jour '+n+' de ta série · <span class="dtier">trousse '+T.n+'</span></small></span><span class="dgo">Ouvrir</span></button>';
-  var t2=dailyTier(n+1), T2=TIERS[t2];
-  return '<div class="daily done" style="--dc:'+T2.col+'">'+kit(true,tr,64)+
-    '<span><b>Trousse du jour ouverte</b><small>Demain, jour '+(n+1)+' : <span class="dtier">trousse '+T2.n+'</span>'+(doneToday()?'':', si tu valides ton battement aujourd\'hui')+'</small></span><span></span></div>';
+  var n=streakDay(), tr=dailyTier(n), T=TIERS[tr], ready=dailyReady(), T2=TIERS[dailyTier(n+1)];
+  var sub = ready ? 'Jour '+n+' de ta série · <span class="dtier" style="--dc:'+T.col+'">trousse '+T.n+'</span>' :
+    'Demain : <span class="dtier" style="--dc:'+T2.col+'">trousse '+T2.n+'</span>'+(doneToday()?'':', si tu valides ton battement aujourd\'hui');
+  return '<div class="daily'+(ready?' ready':' done')+'" style="--dc:'+(ready?T.col:T2.col)+'">'+
+    '<div class="dhead"><div><b>'+(ready?'Trousse du jour':'Trousse du jour ouverte')+'</b><small>'+sub+'</small></div><span class="dcount">'+dailyCycle(n)+' / 10</span></div>'+
+    dailyGrid(n, !ready)+
+    (ready?'<button class="btn dopen" data-act="daily-open" style="--c:'+T.col+';--ce:'+T.edge+'">Ouvrir ma trousse '+T.n+'</button>':'')+
+  '</div>';
 }
 /* ================= Paths: one per subject, with checkpoints ================= */
 var USTART=[]; (function(){ var g=0; UNITS.forEach(function(u){ USTART.push(g); g+=u.lecons.length; }); })();
@@ -2026,7 +2701,7 @@ function after(fn){ R.q.push(fn); }
 function later(ms, fn){ R.timers.push(setTimeout(fn, ms)); }
 function clearTimers(){ R.timers.forEach(clearTimeout); R.timers=[]; }
 function go(screen){
-  clearTimers();
+  clearTimers(); ambStop(.5);
   document.querySelectorAll('.crash-layer,.combo-pop,.judge,.gelfly,.upbanner').forEach(function(e){ e.remove(); });
   R.screen=screen; R.modal=null; render();
   if(screen==='home'){ window.scrollTo(0,0); requestAnimationFrame(function(){ scrollToCurrent(); homeFx(); }); }
@@ -2195,6 +2870,42 @@ function poke(el){
 }
 
 /* ================= Pharmacie (shop) ================= */
+/* Trousses for sale. Each one keeps its 5 taps. Prices sit close to what a trousse gives back
+   on average (gélules plus the odds of an object), so buying them never becomes a money machine. */
+var SHOPK=[
+  {t:0, n:'Trousse de secours', s:'Secours', p:200},
+  {t:1, n:'Trousse de garde', s:'Garde', p:500},
+  {t:2, n:'Trousse de réa', s:'Réa', p:1100},
+  {t:3, n:'Trousse du Professeur', s:'Professeur', p:2500}
+];
+function fmtN(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' '); }
+/* Final rarity after the 5 taps, from a starting rarity */
+function tierDist(t0){
+  var d=[0,0,0,0]; d[t0]=1;
+  for(var k=0;k<TAPS;k++){
+    var nd=[0,0,0,0];
+    for(var t=0;t<4;t++){ if(!d[t]) continue; var u=upChance(t,k); nd[t]+=d[t]*(1-u); JUMP.forEach(function(j){ nd[Math.min(3,t+j[0])]+=d[t]*u*j[1]; }); }
+    d=nd;
+  }
+  return d;
+}
+function chancesTable(){
+  var rows=SHOPK.map(function(k){ return '<tr><th>'+k.s+'</th>'+tierDist(k.t).map(function(x){ return '<td>'+(x>0.0005?pctStr(x):'–')+'</td>'; }).join('')+'</tr>'; }).join('');
+  return '<table class="ctab"><thead><tr><th></th>'+TIERS.map(function(T){ return '<th><i style="background:'+T.col+'"></i>'+T.n+'</th>'; }).join('')+'</tr></thead><tbody>'+rows+'</tbody></table>'+
+    '<p>Rareté finale après tes 5 touches. Les trousses du parcours commencent comme la trousse de secours (les trophées comme celle de garde), celle du jour suit ta série.</p>'+
+    '<p>Une trousse épique a 30 % de chances de cacher un objet (rare ou épique). Une légendaire en cache toujours un (épique ou légendaire). Jamais un objet que tu as déjà.</p>';
+}
+function buyChest(i){
+  var k=SHOPK[i]; if(!k || S.gel<k.p) return;
+  S.gel-=k.p; save(); SFX.buy(); buzz(30);
+  openChest('shop', null, k.t);
+}
+function wearCount(){ return ITEMS.filter(function(it){ return it.id!=='rouge' && S.owned[it.id]; }).length; }
+function wardCard(){
+  return '<button class="wardcard" data-act="w-open"><span class="wc-boums">'+
+    boum({size:60, still:true, wear:{corps:'externe', tete:'faluche'}})+boum({size:60, still:true, wear:{corps:'b67', yeux:'pixel'}})+boum({size:60, still:true, wear:{peau:'or', tete:'couronne'}})+
+    '</span><span class="wc-t"><b>Vestiaire de Boum</b><small>'+wearCount()+' / '+(ITEMS.length-1)+' objets · blouses, faluche, stéthos…</small></span><span class="chev">›</span></button>';
+}
 function vShop(){
   var heartsIco='<span class="shop-hearts">'+I.heart+'</span>';
   var boostIco='<span class="shop-boost">×2</span>';
@@ -2204,13 +2915,22 @@ function vShop(){
     {id:'defib', t:'Défibrillateur', d:'Sauve ta série si tu rates un jour. Tu peux en avoir 2 à la fois.', ico:I.defib, block:S.defib>=2, note:'Équipés : '+S.defib+' / 2'}
   ];
   return '<h1 class="h-page">Pharmacie</h1>'+
-    '<div class="wallet"><div class="wallet-n">'+GEL+'<b>'+S.gel+'</b></div><span>gélules</span></div>'+
+    '<div class="wallet"><div class="wallet-n">'+GEL+'<b>'+fmtN(S.gel)+'</b></div><span>gélules</span></div>'+
     '<div class="coach"><button class="poke" data-act="poke" aria-label="Boum">'+boum({size:80, mood:'wink'})+'</button><div class="bubble" id="coachb">Ici, tout se paie en gélules. Et non, la Sécu ne rembourse pas.</div></div>'+
+    wardCard()+
+    '<div class="section-t">Soins</div>'+
     '<div class="shop">'+items.map(function(it){
       var price=PRICE[it.id], lack=Math.max(0,price-S.gel), dis=lack>0 || it.block;
       return '<div class="shop-card" id="shop-'+it.id+'"><div class="shop-ico">'+it.ico+'</div><div class="shop-txt"><b>'+it.t+'</b><span>'+it.d+'</span>'+(it.note?'<em>'+it.note+'</em>':'')+'</div>'+
         '<div class="shop-buy"><button class="btn buy" data-act="buy" data-v="'+it.id+'"'+(dis?' disabled':'')+'>'+GEL+price+'</button>'+(lack>0 && !it.block?'<small>Il te manque '+lack+'</small>':'')+'</div></div>';
     }).join('')+'</div>'+
+    '<div class="section-t">Trousses</div>'+
+    '<div class="kshop">'+SHOPK.map(function(k,i){
+      var T=TIERS[k.t], lack=Math.max(0,k.p-S.gel);
+      return '<div class="kcard" style="--kc:'+T.col+'">'+kit(false,k.t,66)+'<b>'+k.n+'</b><span>'+['Peut devenir rare, épique ou légendaire','Peut devenir épique ou légendaire','Peut cacher un objet pour Boum','Un objet pour Boum garanti'][k.t]+'</span>'+
+        '<button class="btn buy" data-act="buy-chest" data-v="'+i+'"'+(lack?' disabled':'')+'>'+GEL+fmtN(k.p)+'</button>'+(lack?'<small>Il te manque '+fmtN(lack)+'</small>':'')+'</div>';
+    }).join('')+'</div>'+
+    '<details class="card chances"><summary>Voir les chances des trousses</summary>'+chancesTable()+'</details>'+
     '<div class="section-t">Gagner des gélules</div>'+
     '<div class="card earn">'+
       '<div><span>Leçon terminée</span><b>1 gélule pour 2 XP</b></div>'+
@@ -2218,10 +2938,8 @@ function vShop(){
       '<div><span>Trousse de checkpoint</span><b>20 à 160</b></div>'+
       '<div><span>Trousse du jour</span><b>8 à 64</b></div>'+
       '<div><span>Trophée de fin de matière</span><b>Commence en rare</b></div>'+
-    '</div>'+
-    '<div class="section-t">Les trousses</div>'+
-    '<div class="card odds">'+TIERS.map(function(T,i){ return '<div><span class="odot" style="background:'+T.col+'"></span><b>'+T.label+'</b><span>'+T.amt[0]+' à '+T.amt[1]+' gélules</span><em>'+['38 %','40 %','17 %','5 %'][i]+'</em></div>'; }).join('')+
-      '<p>Chances pour une trousse de checkpoint après tes 5 touches. À chaque touche, la chance qu\'elle monte augmente : 8 %, 12 %, 16 %, 21 %, puis 30 %. La trousse du jour suit ta série : rare tous les 3 jours, épique tous les 7, légendaire tous les 10.</p></div>';
+      '<div><span>Trousses épiques et légendaires</span><b>Objets pour Boum</b></div>'+
+    '</div>';
 }
 function buy(id, fromModal){
   var price=PRICE[id]; if(S.gel<price) return;
@@ -2260,6 +2978,7 @@ function vProfile(){
       '<div class="tile" style="color:var(--go)">'+I.check+'<div><b style="color:var(--ink)">'+nDone+' / '+ORDER.length+'</b><span>Leçons finies</span></div></div>'+
       '<div class="tile">'+kit(false,0,38)+'<div><b>'+nChest+' / '+totalChest+'</b><span>Trousses ouvertes</span></div></div>'+
     '</div>'+
+    '<div class="section-t">Vestiaire</div>'+wardCard()+
     '<div class="section-t">Défibrillateurs</div>'+
     '<div class="card" style="display:flex; gap:14px; align-items:center">'+I.defib.replace('<svg','<svg style="width:46px;height:46px;flex:none"')+'<div><b>'+S.defib+' / 2 équipés</b><p style="color:var(--muted); font-size:14px">Si tu rates un jour, un défibrillateur sauve ta série. Tu en gagnes un tous les 7 battements, ou tu l\'achètes à la pharmacie.</p></div></div>'+
     '<div class="section-t">Réglages</div>'+
@@ -2273,6 +2992,7 @@ function vProfile(){
         '<button class="btn ghost small" data-act="d-skip">Sauter un jour</button>'+
         '<button class="btn ghost small" data-act="d-empty">Vider mes cœurs</button>'+
         '<button class="btn ghost small" data-act="d-gel">+200 gélules</button>'+
+        '<button class="btn ghost small" data-act="d-gel2">+2 000 gélules</button>'+
         '<button class="btn ghost small" data-act="d-unlock">Tout débloquer</button>'+
         '<button class="btn ghost small" data-act="d-reset" style="--t:var(--ko)">Tout réinitialiser</button>'+
       '</div>'+
@@ -2791,132 +3511,202 @@ function sprayGel(p, n){
 }
 
 /* ================= Chest (trousse de secours) ================= */
-function openChest(id, demoTier){
+/* Taps are never blocked: each one lands at once, even when the trousse is changing rarity.
+   Effects only animate transform and opacity so a fast series of taps stays smooth on a phone. */
+function openChest(id, demoTier, shopTier){
   var demo = demoTier!=null, it;
   if(demo) it={id:'demo', big:false, ui:S.subject};
+  else if(id==='shop') it={id:'shop', big:false, ui:S.subject, shop:true};
   else if(id==='daily'){ if(!dailyReady()) return; it={id:'daily', big:false, ui:S.subject, daily:true}; }
   else { it=findChest(id); if(!it || chestState(it)!=='ready') return; }
-  var n=streakDay();
-  R.chest={id:it.id, big:it.big, daily:!!it.daily, day:n, ui:it.ui, tier: demo ? demoTier : (it.daily ? dailyTier(n) : (it.big?1:0)), taps:0, busy:false, opened:false, demo:demo, amount:0};
-  R.pop=null; go('chest');
-}
-function oddsHTML(c){
-  if(c.taps>=TAPS) return '';
-  if(c.tier>=3) return '<div class="nextodds max"><b>Niveau maximum !</b><span>Rien ne peut faire mieux.</span></div>';
-  var o=nextOdds(c.tier,c.taps), chips='';
-  for(var t=c.tier+1;t<=3;t++) chips+='<span class="oc"><i style="background:'+TIERS[t].col+'"></i>'+TIERS[t].n+' '+pctStr(o[t])+'</span>';
-  return '<div class="nextodds"><b>'+pctStr(upChance(c.tier,c.taps))+'</b><span>de chances qu\'elle monte à la touche '+(c.taps+1)+'</span></div><div class="ochips">'+chips+'</div>';
-}
-function refreshOdds(){
-  var c=R.chest, el=document.getElementById('odds'); if(!c || !el) return;
-  el.innerHTML=oddsHTML(c);
-  var n=el.querySelector('.nextodds'); if(n) n.classList.add('bump');
+  var n=streakDay(), t0 = demo ? demoTier : (it.shop ? shopTier : (it.daily ? dailyTier(n) : (it.big?1:0)));
+  R.chest={id:it.id, big:it.big, daily:!!it.daily, shop:!!it.shop, day:n, ui:it.ui, tier:t0, taps:0, opened:false, demo:demo, amount:0, rr:1};
+  R.pop=null; R.modal=null; go('chest');
 }
 function vChest(){
   var c=R.chest, T=TIERS[c.tier];
-  var title = c.daily ? 'Trousse du jour !' : (c.big ? 'Trophée de matière !' : 'Checkpoint !');
+  var title = c.daily ? 'Trousse du jour !' : c.shop ? SHOPK[c.tier].n+' !' : (c.big ? 'Trophée de matière !' : 'Checkpoint !');
   return '<div class="screen chestscreen t'+c.tier+'" id="chs"><div></div><div class="body"><div class="inner center endwrap">'+
     '<span class="tierpill" id="tierpill">'+T.label+'</span>'+
     (c.daily?'<p class="chsub">Jour '+c.day+' de ta série de battements</p>':'')+
-    '<div class="hero chest-hero"><div class="rays" id="chrays" style="--rc:'+T.ray+'"></div>'+
-      '<button class="kitwrap tappable'+(RM?'':' drop')+'" id="kitw" data-act="kit-tap" aria-label="Toucher la trousse">'+kit(false,c.tier,250)+'</button></div>'+
+    '<div class="hero chest-hero" id="chero"><div class="rays" id="chrays" style="--rc:'+T.ray+'"></div><div class="kitaura" id="kaura" style="--gc:'+T.ray+'"></div>'+
+      '<button class="kitwrap tappable'+(RM?'':' drop')+'" id="kitw" aria-label="Toucher la trousse">'+kit(false,c.tier,250)+'</button></div>'+
     '<div class="chmid" id="chmid"><div class="pips" id="pips">'+Array.apply(null,{length:TAPS}).map(function(_,i){ return '<i'+(i<c.taps?' class="on"':'')+'></i>'; }).join('')+'</div>'+
-      '<div class="oddsbox" id="odds">'+oddsHTML(c)+'</div>'+
-      '<p class="taphint">Touche la trousse '+TAPS+' fois. À chaque touche, ses chances de monter augmentent.</p></div>'+
+      '<p class="taphint">Tape '+TAPS+' fois, aussi vite que tu veux. Elle peut monter à chaque touche !</p></div>'+
     '<h1 class="end-title" id="chtitle">'+title+'</h1>'+
     '<div class="gain" id="gain"><span class="gain-n">'+GEL+'<b id="gainn">+0</b></span><span class="gain-t">gélules</span></div>'+
     '<p class="chtotal" id="chtotal"></p>'+
+    '<div class="winitem" id="winitem" hidden></div>'+
     '</div></div><div class="foot"><div class="foot-in"><button class="btn" data-act="chest-done" id="primary" disabled>Récupérer</button></div></div></div>';
+}
+/* The rays speed up with each tap without restarting their spin */
+function raysRate(r){
+  var el=document.getElementById('chrays'); if(!el || !el.getAnimations) return;
+  el.getAnimations().forEach(function(a){ if(a.animationName==='raySpin') a.playbackRate=r; });
+}
+function shakeHero(){
+  var h=document.getElementById('chero'); if(!h || !h.animate || RM) return;
+  h.animate([{transform:'none'},{transform:'translate(-6px,2px)'},{transform:'translate(5px,-2px)'},{transform:'translate(-4px,1px)'},{transform:'translate(3px,0)'},{transform:'none'}], {duration:320});
+}
+function chestBind(){
+  var w=document.getElementById('kitw'), s=document.getElementById('chs');
+  if(w && !w._b){
+    w._b=1;
+    w.addEventListener('pointerdown', function(e){ if(e.button>0) return; e.preventDefault(); kitTap(); });
+    w.addEventListener('click', function(e){ if(e.detail===0) kitTap(); });
+  }
+  if(s && !s._b){
+    s._b=1;
+    s.addEventListener('pointerdown', function(e){ var c=R.chest; if(c && c.opened && !e.target.closest('[data-act]')) skipReveal(); });
+  }
 }
 function chestSequence(){
   var c=R.chest; if(!c || c.entered) return; c.entered=true;
+  if(c.tier>=2) later(RM?0:420, function(){ ambStart(c.tier); });
   if(RM) return;
   SFX.fall();
-  later(400, function(){ SFX.boom(false); quake(); var w=document.getElementById('kitw'), p=center(w); if(p) fxRing(p.x,p.y+60,TIERS[c.tier].ray,130,{w:8,life:450}); if(w) w.classList.remove('drop'); });
+  later(400, function(){
+    SFX.boom(false); shakeHero();
+    var w=document.getElementById('kitw'), p=center(w);
+    if(p) fxRing(p.x,p.y+60,TIERS[c.tier].ray,130,{w:8,life:450});
+    if(w) w.classList.remove('drop');
+  });
 }
 function kitTap(){
-  var c=R.chest; if(!c || c.busy || c.opened || c.taps>=TAPS) return;
-  var k=c.taps; c.taps++; c.busy=true;
-  var w=document.getElementById('kitw'), pips=document.querySelectorAll('#pips i'), T=TIERS[c.tier];
+  var c=R.chest; if(!c || c.opened || c.taps>=TAPS) return;
+  var k=c.taps; c.taps++;
+  var w=document.getElementById('kitw'), pips=document.querySelectorAll('#pips i'), au=document.getElementById('kaura'), T=TIERS[c.tier];
   if(pips[k]) pips[k].classList.add('on');
-  w.style.setProperty('--amp',(5+k*3)+'px'); w.style.setProperty('--kglow',T.ray); w.style.setProperty('--kglowr',(6+k*7)+'px');
-  var rays=document.getElementById('chrays'); if(rays) rays.style.setProperty('--rs',Math.max(3,14-k*2.6)+'s');
-  w.classList.remove('drop','tap','morph'); void w.offsetWidth; w.classList.add('tap');
-  SFX.chestTap(k); buzz(14+k*8); if(k>=3) quake();
-  var p=center(w); if(p) fxSparks(p.x,p.y,10+k*6,[T.ray,'#FFFFFF','#FFE27A'],{speed:3.5+k,life:500,star:true});
-  var nt=rollTier(c.tier,k), steps=[];
-  for(var t=c.tier+1;t<=nt;t++) steps.push(t);
-  if(steps.length){
-    later(120, function(){ w.classList.add('charging'); SFX.suspense(.42); });
-    steps.forEach(function(t,i){ later(560+i*640, function(){ w.classList.remove('charging'); upgradeTo(t); }); });
+  if(w){
+    w.classList.remove('drop');
+    if(w.animate && !RM){ var a=5+k*3; w.animate([{transform:'scale(1.16,.84)'},{transform:'translateX(-'+a+'px) rotate(-4deg) scale(1.04)'},{transform:'translateX('+a+'px) rotate(4deg)'},{transform:'translateX(-'+(a*.45).toFixed(1)+'px) rotate(-2deg)'},{transform:'none'}], {duration:300, easing:'cubic-bezier(.3,1.6,.5,1)'}); }
   }
-  later(steps.length ? 560+steps.length*640+160 : 260, function(){ c.busy=false; refreshOdds(); if(c.taps>=TAPS) finalOpen(); });
+  if(au){ au.style.opacity=(.25+k*.17).toFixed(2); au.style.transform='scale('+(.8+k*.12).toFixed(2)+')'; }
+  c.rr=Math.max(c.rr, 1+(k+1)*.5); raysRate(c.rr);
+  SFX.chestTap(k); buzz(14+k*6);
+  var p=center(w); if(p) fxSparks(p.x,p.y,6+k*3,[T.ray,'#FFFFFF','#FFE27A'],{speed:3.5+k,life:450,star:true});
+  var from=c.tier, nt=rollTier(c.tier,k), steps=nt-from;
+  if(steps>0){
+    c.tier=nt;
+    for(var i=0;i<steps;i++) (function(t,i){ later(i*240, function(){ upgradeTo(t); }); })(from+1+i, i);
+  }
+  if(c.taps>=TAPS) finalOpen(Math.max(120, steps*240));
 }
-function finalOpen(){
-  var c=R.chest, w=document.getElementById('kitw'); if(!c || c.opened) return;
-  c.busy=true;
-  var mid=document.getElementById('chmid'); if(mid) mid.classList.add('gone');
-  if(w){ w.style.setProperty('--kglow',TIERS[c.tier].ray); w.classList.add('charging','final'); }
-  SFX.drumroll(.85); buzz([20,30,20,30,20,30,40]);
-  later(900, function(){ if(w) w.classList.remove('charging','final'); burstOpen(); });
+function finalOpen(wait){
+  var c=R.chest; if(!c || c.opened || c.closing) return; c.closing=true;
+  later(Math.max(0,wait-120), function(){
+    var w=document.getElementById('kitw'), mid=document.getElementById('chmid'), au=document.getElementById('kaura');
+    if(mid) mid.classList.add('gone');
+    if(w) w.classList.add('charging');
+    if(au){ au.style.opacity='1'; au.style.transform='scale(1.3)'; }
+    SFX.drumroll(.32); buzz([20,30,20,30,40]);
+  });
+  later(wait+260, function(){ var w=document.getElementById('kitw'); if(w) w.classList.remove('charging'); burstOpen(); });
 }
 function upgradeTo(t){
-  var c=R.chest; c.tier=t; var T=TIERS[t];
+  var c=R.chest; if(!c) return; var T=TIERS[t];
   var scr=document.getElementById('chs'); if(scr){ scr.classList.remove('t0','t1','t2','t3'); scr.classList.add('t'+t); }
-  var w=document.getElementById('kitw'); if(w){ w.innerHTML=kit(false,t,250); w.classList.remove('tap','morph'); void w.offsetWidth; w.classList.add('morph'); }
-  var pill=document.getElementById('tierpill'); if(pill){ pill.textContent=T.label; pill.classList.remove('slam'); void pill.offsetWidth; pill.classList.add('slam'); }
-  var rays=document.getElementById('chrays'); if(rays){ rays.style.setProperty('--rc',T.ray); rays.classList.add('fast'); }
-  if(w) w.style.setProperty('--kglow',T.ray);
+  var w=document.getElementById('kitw');
+  if(w){ w.innerHTML=kit(false,t,250); if(w.animate && !RM) w.animate([{transform:'scale(.55) rotate(-12deg)'},{transform:'none'}], {duration:480, easing:'cubic-bezier(.3,1.7,.5,1)'}); }
+  var pill=document.getElementById('tierpill'); if(pill){ pill.textContent=T.label; if(pill.animate && !RM) pill.animate([{transform:'scale(1.8)'},{transform:'none'}], {duration:420, easing:'cubic-bezier(.3,1.8,.5,1)'}); }
+  var rays=document.getElementById('chrays'); if(rays) rays.style.setProperty('--rc',T.ray);
+  var au=document.getElementById('kaura'); if(au) au.style.setProperty('--gc',T.ray);
+  c.rr=Math.max(c.rr, 2.5+t); raysRate(c.rr);
   var p=center(w);
-  fxFlash(T.ray,.6,380);
-  if(p && t>=2) later(160, function(){ fxSparks(p.x,p.y-40,30+t*12,[T.ray,'#FFFFFF','#FFE27A'],{speed:6,life:1300,star:true,g:.06,up:4}); });
+  fxFlash(T.ray,.5,320);
+  if(p){ fxRing(p.x,p.y,T.ray,240,{w:14,life:600}); fxBolts(p.x,p.y,6+t*2,180,{inner:50,life:420,colors:[T.ray,'#FFFFFF']}); fxSparks(p.x,p.y,22+t*8,[T.col,T.ray,'#FFFFFF'],{speed:8,life:850,star:true}); }
   if(t===3) confetti();
-  if(p){ fxRing(p.x,p.y,T.ray,250,{w:16,life:650}); fxBolts(p.x,p.y,10,190,{inner:50,life:480,colors:[T.ray,'#FFFFFF']}); fxSparks(p.x,p.y,44,[T.col,T.ray,'#FFFFFF'],{speed:9,life:950,star:true}); }
-  SFX.tierUp(t); buzz(t===3?[60,40,60,40,120]:[40,30,80]); quake(); refreshOdds();
+  SFX.tierUp(t); buzz(t===3?[60,40,60,40,120]:[40,30,80]); shakeHero();
+  if(t>=2) ambStart(t);
   var b=document.createElement('div'); b.className='upbanner'; b.style.setProperty('--uc',T.edge); b.style.setProperty('--ug',T.ray);
   b.textContent=T.n.toUpperCase()+' !'; document.body.appendChild(b);
-  setTimeout(function(){ b.classList.add('out'); }, 950); setTimeout(function(){ b.remove(); }, 1300);
+  setTimeout(function(){ b.classList.add('out'); }, 850); setTimeout(function(){ b.remove(); }, 1200);
+}
+/* Objects for Boum: an épique trousse hides one 30 % of the time (rare or épique),
+   a légendaire one always does (épique or légendaire). Never one you already own. */
+var ITEM_CH=.3;
+function rollItem(t){
+  if(t<2 || (t===2 && Math.random()>=ITEM_CH)) return null;
+  var want = t===2 ? (Math.random()<.7?1:2) : (Math.random()<.65?2:3), alt = t===2 ? (want===1?2:1) : (want===2?3:2);
+  var pool=function(tt){ return ITEMS.filter(function(it){ return it.t===tt && it.id!=='rouge' && !S.owned[it.id]; }); };
+  var p=pool(want); if(!p.length) p=pool(alt);
+  if(!p.length) return {dup:true, gel:t===2?100:300};
+  return pick(p);
 }
 function burstOpen(){
-  var c=R.chest, T=TIERS[c.tier]; c.opened=true;
+  var c=R.chest; if(!c || c.opened) return; var T=TIERS[c.tier]; c.opened=true;
   c.amount = c.daily ? dailyAmount(c.tier) : chestAmount(c.tier);
+  c.item = rollItem(c.tier);
+  if(c.item && c.item.dup) c.amount+=c.item.gel;
   if(!c.demo){
-    if(c.daily) S.dailyChest=today(); else S.chests[c.id]={a:c.amount, t:c.tier};
-    S.gel+=c.amount; save(); R.bump={gel:true};
+    if(c.daily){ S.dailyChest=today(); S.dailyHist=(S.dailyHist||[]).filter(function(d){ return d!==today(); }).concat([today()]).slice(-12); }
+    else if(!c.shop) S.chests[c.id]={a:c.amount, t:c.tier};
+    S.gel+=c.amount;
+    if(c.item && !c.item.dup) S.owned[c.item.id]=1;
+    save(); R.bump={gel:true};
   }
-  var w=document.getElementById('kitw'), p=center(w);
-  w.classList.remove('tappable','tap','morph'); w.innerHTML='<div class="kitbeam" style="--gc:'+T.ray+'"></div><div class="kitglow" style="--gc:'+T.ray+'"></div>'+kit(true,c.tier,250); w.classList.add('opened');
+  var w=document.getElementById('kitw'), p=center(w), au=document.getElementById('kaura');
+  if(w){ w.classList.remove('tappable','drop'); w.innerHTML='<div class="kitbeam" style="--gc:'+T.ray+'"></div><div class="kitglow" style="--gc:'+T.ray+'"></div>'+kit(true,c.tier,250); w.classList.add('opened'); }
+  if(au){ au.style.opacity='.8'; au.style.transform='scale(1.15)'; }
   var mid=document.getElementById('chmid'); if(mid) mid.classList.add('gone');
-  SFX.lidPop(); SFX.reward(c.tier); later(260, function(){ SFX.coinRain(10+c.tier*6); }); buzz([60,40,100]); quake();
-  var rays=document.getElementById('chrays'); if(rays) rays.classList.add('fast');
+  SFX.lidPop(); SFX.reward(c.tier); later(260, function(){ SFX.coinRain(8+c.tier*5); }); buzz([60,40,100]); shakeHero();
+  c.rr=Math.max(c.rr, 6); raysRate(c.rr);
   if(p){
-    fxFlash(T.ray,.55,340);
+    fxFlash(T.ray,.5,320);
     fxRing(p.x,p.y,T.ray,270,{w:18,life:700}); fxRing(p.x,p.y,'#FFFFFF',190,{w:10,life:600,delay:100});
-    fxSparks(p.x,p.y,60+c.tier*20,[T.col,T.ray,'#FFC22E','#FFFFFF'],{speed:11,life:1100,star:true,up:3});
-    fxBolts(p.x,p.y,8+c.tier*3,180,{inner:40,life:460,colors:[T.ray,'#FFFFFF']});
-    var spots=[[-90,-70],[90,-50],[0,-130],[-110,20],[110,30]].slice(0,3+c.tier);
-    spots.forEach(function(d,i){ later(240+i*210, function(){ fxSparks(p.x+d[0],p.y+d[1],26,[T.col,T.ray,'#FFC22E'],{speed:7,life:800,star:true}); fxRing(p.x+d[0],p.y+d[1],T.ray,90,{w:8}); SFX.boom(false); }); });
-    sprayGel({x:p.x, y:p.y-20}, 16+c.tier*8);
+    fxSparks(p.x,p.y,40+c.tier*14,[T.col,T.ray,'#FFC22E','#FFFFFF'],{speed:11,life:1000,star:true,up:3});
+    fxBolts(p.x,p.y,6+c.tier*2,180,{inner:40,life:440,colors:[T.ray,'#FFFFFF']});
+    var spots=[[-90,-70],[90,-50],[0,-130],[-110,20],[110,30]].slice(0,2+c.tier);
+    spots.forEach(function(d,i){ later(240+i*200, function(){ fxSparks(p.x+d[0],p.y+d[1],18,[T.col,T.ray,'#FFC22E'],{speed:7,life:750,star:true}); fxRing(p.x+d[0],p.y+d[1],T.ray,90,{w:8}); if(i<2) SFX.boom(false); }); });
+    sprayGel({x:p.x, y:p.y-20}, 10+c.tier*5);
   }
   confetti();
   later(300, function(){ var t=document.getElementById('chtitle'); if(t) t.classList.add('in'); SFX.pop(); });
-  later(650, countGain);
+  later(420, function(){ var b=document.getElementById('primary'); if(b) b.disabled=false; });
+  later(520, countGain);
+  later(5200, function(){ ambStop(2.4); });
 }
 function countGain(){
-  var c=R.chest, g=document.getElementById('gain'), n=document.getElementById('gainn'); if(!g) return;
+  var c=R.chest, g=document.getElementById('gain'), n=document.getElementById('gainn'); if(!c || !g || c.counted) return;
   g.classList.add('in');
-  var steps=Math.min(24,c.amount), k=0;
+  var steps=Math.min(16,c.amount), k=0;
   function tick(){
+    if(c.counted) return;
     k++; n.textContent='+'+Math.round(c.amount*k/steps); SFX.coin(k);
-    if(k<steps) later(45, tick);
-    else {
-      g.classList.add('landed'); SFX.ding();
-      var p=center(g); if(p) fxSparks(p.x,p.y,20,['#14B89C','#FFC22E'],{speed:5,life:650,star:true});
-      var tt=document.getElementById('chtotal'); if(tt){ tt.textContent = c.demo ? 'Démo : rien n\'est ajouté à ton solde.' : 'Total : '+S.gel+' gélules'; tt.classList.add('in'); }
-      var b=document.getElementById('primary'); if(b) b.disabled=false;
-    }
+    if(k<steps) later(34, tick); else landGain();
   }
-  later(150, tick);
+  later(120, tick);
+}
+function landGain(){
+  var c=R.chest; if(!c || c.counted) return; c.counted=true;
+  var g=document.getElementById('gain'), n=document.getElementById('gainn'); if(!g) return;
+  g.classList.add('in','landed'); n.textContent='+'+c.amount; SFX.ding();
+  var p=center(g); if(p) fxSparks(p.x,p.y,16,['#14B89C','#FFC22E'],{speed:5,life:600,star:true});
+  var tt=document.getElementById('chtotal'); if(tt){ tt.textContent = c.demo ? 'Démo : rien n\'est ajouté à ton solde.' : 'Total : '+fmtN(S.gel)+' gélules'; tt.classList.add('in'); }
+  var b=document.getElementById('primary'); if(b) b.disabled=false;
+  if(c.item) later(320, revealItem);
+}
+/* A tap on the screen during the reveal jumps straight to the result */
+function skipReveal(){ var c=R.chest; if(c && c.opened && !c.counted) landGain(); }
+function revealItem(){
+  var c=R.chest, box=document.getElementById('winitem'); if(!c || !box || !c.item || c.revealed) return; c.revealed=true;
+  var it=c.item, scr=document.getElementById('chs');
+  if(it.dup){ box.innerHTML='<div class="wi-dup">'+GEL+'<span>Tu as déjà tous les objets de ce niveau : <b>+'+it.gel+' gélules</b> à la place.</span></div>'; box.hidden=false; SFX.coin(8); return; }
+  var w=Object.assign({}, S.wear); w[it.s]=it.id;
+  box.style.setProperty('--ic', TIERS[it.t].col);
+  box.innerHTML='<div class="wi-boum">'+boum({size:92, mood:'wow', wear:w})+'</div>'+
+    '<div class="wi-txt"><small>'+(c.demo?'Démo · ':'')+'Nouvel objet pour Boum !</small><b>'+esc(it.n)+'</b><span class="wrar" style="--ic:'+TIERS[it.t].col+'">'+TIERS[it.t].n+'</span></div>'+
+    (c.demo?'':'<button class="btn small" data-act="win-wear" data-v="'+it.id+'">Porter</button>');
+  box.hidden=false; if(scr) scr.classList.add('haswin');
+  SFX.unlock(); later(140, function(){ SFX.reward(it.t); }); buzz([30,40,60]);
+  later(60, function(){ var p=center(box); if(p){ fxSparks(p.x,p.y,24,[TIERS[it.t].col,'#FFFFFF','#FFE27A'],{speed:6,life:800,star:true}); fxRing(p.x,p.y,TIERS[it.t].ray,150,{w:10}); } });
+  later(200, function(){ box.scrollIntoView({block:'nearest', behavior:'smooth'}); });
+}
+function winWear(id, btn){
+  var it=ITEM[id]; if(!it || !S.owned[id]) return;
+  S.wear[it.s]=id; save(); SFX.pop(); buzz(20);
+  if(btn){ btn.disabled=true; btn.textContent='Porté !'; }
+  var b=document.querySelector('#winitem .wi-boum'); if(b) b.innerHTML=boum({size:92, mood:'happy'});
 }
 /* ================= Streak & recovery screens ================= */
 function weekStrip(){
@@ -3049,10 +3839,91 @@ function ficheBack(){
   var from=m.li; m.li=null; SFX.pop(); render();
   var row=document.querySelector('.frow[data-v="'+from+'"]'); if(row) row.scrollIntoView({block:'center'});
 }
+/* ================= Vestiaire : essayer, acheter, porter ================= */
+/* Touching an object tries it on Boum at once; nothing is bought or worn without a button. */
+function wardStage(m){
+  var it=m.sel ? ITEM[m.sel] : null, w=Object.assign({}, S.wear), trying=it && !S.owned[it.id];
+  if(it) w[it.s]=it.id;
+  return '<div class="wspot"></div>'+boum({size:150, mood: trying ? 'wow' : 'happy', wear:w})+(trying?'<span class="wtry">Essai</span>':'');
+}
+function wardInfo(m){
+  var it=m.sel ? ITEM[m.sel] : null;
+  if(!it) return '<div class="wi-empty"><b>Choisis un objet</b><span>Touche un objet pour l\'essayer sur Boum.</span></div>';
+  var own=!!S.owned[it.id], worn=S.wear[it.s]===it.id, lack=Math.max(0,it.p-S.gel), btn;
+  if(own) btn = worn ? (it.id==='rouge' ? '<button class="btn small ghost" disabled>Porté</button>' : '<button class="btn small ghost" data-act="w-off" data-v="'+it.id+'">Retirer</button>') : '<button class="btn small" data-act="w-wear" data-v="'+it.id+'">Porter</button>';
+  else if(it.x) btn='<span class="wexcl">'+kit(false,3,30)+'Seulement dans les trousses légendaires</span>';
+  else btn='<button class="btn small buy" data-act="w-buy" data-v="'+it.id+'"'+(lack?' disabled':'')+'>'+GEL+fmtN(it.p)+'</button>'+(lack?'<small class="wlack">Il te manque '+fmtN(lack)+'</small>':'');
+  return '<div class="wi-h"><span class="wrar" style="--ic:'+TIERS[it.t].col+'">'+TIERS[it.t].n+'</span>'+(worn?'<span class="wworn">'+I.check+'Porté</span>':(own?'<span class="wown">À toi</span>':''))+'</div>'+
+    '<b class="wname">'+esc(it.n)+'</b><p class="wdesc">'+esc(it.d)+'</p><div class="wbtn">'+btn+'</div>';
+}
+function wardGrid(m){
+  return ITEMS.filter(function(it){ return it.s===m.cat; }).map(function(it){
+    var own=!!S.owned[it.id], worn=S.wear[it.s]===it.id, w={}; w[it.s]=it.id;
+    var tag = worn ? '<span class="wtag worn">'+I.check+'Porté</span>' : own ? '<span class="wtag own">À toi</span>' : it.x ? '<span class="wtag x">Trousse</span>' : '<span class="wtag">'+GEL+fmtN(it.p)+'</span>';
+    return '<button class="wcard'+(m.sel===it.id?' on':'')+'" style="--ic:'+TIERS[it.t].col+'" data-act="w-sel" data-v="'+it.id+'" aria-label="'+esc(it.n)+'" aria-pressed="'+(m.sel===it.id)+'"><span class="wthumb">'+boum({size:74, still:true, mood:'happy', wear:w})+'</span><b>'+esc(it.n)+'</b>'+tag+'</button>';
+  }).join('');
+}
+function wardCats(m){
+  return SLOTS.map(function(s,i){
+    var list=ITEMS.filter(function(it){ return it.s===s[0]; }), own=list.filter(function(it){ return S.owned[it.id]; }).length;
+    return '<button class="wcat'+(m.cat===s[0]?' on':'')+'" data-act="w-cat" data-v="'+s[0]+'" data-i="'+i+'" role="tab" aria-selected="'+(m.cat===s[0])+'">'+s[1]+'<small>'+own+'/'+list.length+'</small></button>';
+  }).join('');
+}
+function vWardrobe(m){
+  var cls='labo ward'+(m.seen?' still':''); m.seen=true;
+  var sel=m.sel ? ITEM[m.sel] : null;
+  return '<div class="scrim full"><div class="'+cls+'" role="dialog" aria-modal="true" aria-label="Vestiaire de Boum">'+
+    '<div class="labo-h"><button class="xbtn" data-act="m-close" aria-label="Fermer">'+I.x+'</button><b>Vestiaire</b><span class="wgel">'+GEL+'<span id="wgel">'+fmtN(S.gel)+'</span></span></div>'+
+    '<div class="wstage" id="wstage" style="--wc:'+(sel?TIERS[sel.t].col:'#FF4760')+'">'+wardStage(m)+'</div>'+
+    '<div class="winfo" id="winfo">'+wardInfo(m)+'</div>'+
+    '<div class="wcats" id="wcats" role="tablist" aria-label="Catégories">'+wardCats(m)+'</div>'+
+    '<div class="wgrid" id="wgrid">'+wardGrid(m)+'</div>'+
+  '</div></div>';
+}
+/* Repaint only what changed: 0 = selection, 1 = the grid too (keeps its scroll), 2 = new category */
+function wardPaint(level){
+  var m=R.modal; if(!m || m.type!=='wardrobe') return;
+  var sel=m.sel ? ITEM[m.sel] : null, st=document.getElementById('wstage'), inf=document.getElementById('winfo'), gr=document.getElementById('wgrid'), g=document.getElementById('wgel'), cats=document.getElementById('wcats');
+  if(st){ st.style.setProperty('--wc', sel?TIERS[sel.t].col:'#FF4760'); st.innerHTML=wardStage(m); }
+  if(inf) inf.innerHTML=wardInfo(m);
+  if(g) g.textContent=fmtN(S.gel);
+  if(gr){
+    if(level>=1){ var y=gr.scrollTop; gr.innerHTML=wardGrid(m); gr.scrollTop = level===2 ? 0 : y; }
+    else gr.querySelectorAll('.wcard').forEach(function(b){ var on=b.getAttribute('data-v')===m.sel; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on); });
+  }
+  if(cats && level>=1) cats.innerHTML=wardCats(m);
+}
+function wardOpen(cat){
+  var c=cat||'corps';
+  R.pop=null; R.modal={type:'wardrobe', cat:c, sel:S.wear[c]||null};
+  SFX.page(); render();
+}
+function wardCat(v, i){ var m=R.modal; if(!m || m.type!=='wardrobe') return; m.cat=v; m.sel=S.wear[v]||null; SFX.tab(i||0); wardPaint(2); }
+function wardSel(v){ var m=R.modal; if(!m || m.type!=='wardrobe' || !ITEM[v]) return; m.sel=v; SFX.pop(); buzz(8); wardPaint(0); }
+function wardFx(it){
+  var p=center(document.querySelector('#wstage .boum'));
+  if(p){ fxSparks(p.x,p.y,30,[TIERS[it.t].col,'#FFFFFF','#FFE27A'],{speed:7,life:800,star:true}); fxRing(p.x,p.y,TIERS[it.t].ray,150,{w:10}); }
+}
+function buyItem(id){
+  var it=ITEM[id]; if(!it || it.x || S.owned[id] || S.gel<it.p) return;
+  S.gel-=it.p; S.owned[id]=1; S.wear[it.s]=id; save();
+  SFX.buy(); later(140, function(){ SFX.reward(it.t); }); buzz([30,40,60]);
+  wardPaint(1); wardFx(it);
+  toast(GEL+esc(it.n)+' : à toi !');
+}
+function wearItem(id, on){
+  var it=ITEM[id]; if(!it || !S.owned[id]) return;
+  if(on) S.wear[it.s]=id;
+  else if(it.s==='peau') S.wear.peau='rouge';
+  else delete S.wear[it.s];
+  save(); if(on){ SFX.unlock(); buzz(20); } else SFX.pop();
+  wardPaint(1); if(on) wardFx(it);
+}
 function vModal(){
   var m=R.modal, h='';
   if(m.type==='labo') return vLaboModal(m);
   if(m.type==='fiches') return vFiches(m);
+  if(m.type==='wardrobe') return vWardrobe(m);
   if(m.type==='quit'){
     h='<div class="mascot">'+boum({size:96, mood:'sad'})+'</div><h2>Tu t\'en vas déjà ?</h2><p>Si tu quittes, ta progression dans cette leçon sera perdue.</p>'+
       '<button class="btn" data-act="m-close">Continuer la leçon</button><button class="linkbtn" data-act="quit-yes" style="color:var(--ko)">Quitter</button>';
@@ -3069,7 +3940,7 @@ function vModal(){
     h='<div class="mascot">'+boum({size:100, mood:S.streak? 'happy':'sad'})+'</div><div class="bignum" style="font-size:64px">'+S.streak+'</div><h2 style="font-size:20px">'+(S.streak>1?'battements d\'affilée':'battement')+'</h2>'+
       '<p>'+(doneToday()?'Battement du jour validé.':'Fais une leçon aujourd\'hui pour ne pas perdre ta série.')+' Record : '+S.best+'.</p>'+
       '<div style="display:flex; justify-content:center">'+weekStrip()+'</div>'+
-      '<h3 class="rt-title">Trousses du jour de ta série</h3>'+rewardTrack(streakDay())+'<p class="rt-note">Rare tous les 3 jours, épique tous les 7, légendaire tous les 10.</p>'+
+      '<h3 class="rt-title">Trousses du jour de ta série</h3>'+dailyGrid(streakDay(), !dailyReady())+'<p class="rt-note">Rare les jours 3, 6 et 9, épique le jour 7, légendaire le jour 10, puis ça recommence. Les épiques et légendaires peuvent cacher un objet pour Boum.</p>'+
       '<div class="defibs">'+I.defib+S.defib+' / 2 défibrillateurs</div><button class="btn" data-act="m-close">OK</button>';
   } else if(m.type==='reset'){
     h='<div class="mascot">'+boum({size:96, mood:'sad'})+'</div><h2>Tout réinitialiser ?</h2><p>Série, XP, gélules et leçons finies seront effacés sur cet appareil.</p><button class="btn red" data-act="d-reset-yes">Oui, tout effacer</button><button class="linkbtn" data-act="m-close">Annuler</button>';
@@ -3112,7 +3983,7 @@ function bindAfter(){
   }
   if(R.screen==='streak' && !R._counted){ R._counted=true; countUp(); }
   if(R.screen==='end') endSequence();
-  if(R.screen==='chest') chestSequence();
+  if(R.screen==='chest'){ chestBind(); chestSequence(); }
   if(R.screen==='defib' && !R._defibFx){ R._defibFx=true; defibFx(); }
   try{ V3.sync(); }catch(e){}
   bindSwipe();
@@ -3278,8 +4149,15 @@ document.addEventListener('click', function(e){
       if(it && chestState(it)==='ready'){ openChest(v); }
       else { R.pop = (R.pop===v ? null : v); SFX.pop(); render(); }
       break;
-    case 'chest-done': R.tab = (R.chest && R.chest.demo) ? 'profile' : 'learn'; go('home'); break;
-    case 'kit-tap': kitTap(); break;
+    case 'chest-done': R.tab = (R.chest && R.chest.demo) ? 'profile' : (R.chest && R.chest.shop ? 'shop' : 'learn'); go('home'); break;
+    case 'buy-chest': buyChest(+v); break;
+    case 'win-wear': winWear(v, t); break;
+    case 'w-open': wardOpen(v); break;
+    case 'w-cat': wardCat(v, +t.getAttribute('data-i')); break;
+    case 'w-sel': wardSel(v); break;
+    case 'w-buy': buyItem(v); break;
+    case 'w-wear': wearItem(v, true); break;
+    case 'w-off': wearItem(v, false); break;
     case 'd-chest': openChest(null, +v); break;
     case 'buy': buy(v, false); break;
     case 'buy-modal': buy(v, true); break;
@@ -3311,12 +4189,13 @@ document.addEventListener('click', function(e){
     case 'fiche-back': ficheBack(); break;
     case 'fiche-node': R.pop=null; R.modal={type:'fiches', ui:ORDER[+v].ui, li:ORDER[+v].li}; SFX.page(); render(); break;
     case 'daily-open': if(dailyReady()){ openChest('daily'); } break;
-    case 'sound': S.sound=!S.sound; save(); render(); if(S.sound) SFX.good(3); break;
+    case 'sound': S.sound=!S.sound; save(); if(!S.sound) ambStop(.2); render(); if(S.sound) SFX.good(3); break;
     case 'goal': S.goal=+v; save(); render(); break;
     case 'd-next': S.dayOffset+=1; save(); onOpen(); break;
     case 'd-skip': S.dayOffset+=2; save(); onOpen(); break;
     case 'd-empty': S.lives=0; S.livesTs=now(); save(); render(); break;
     case 'd-gel': S.gel+=200; save(); R.bump={gel:true}; render(); SFX.coin(5); later(1200,function(){ R.bump=null; }); break;
+    case 'd-gel2': S.gel+=2000; save(); R.bump={gel:true}; render(); SFX.coin(8); later(1200,function(){ R.bump=null; }); break;
     case 'd-unlock': ORDER.forEach(function(o){ S.done[o.l.id]=true; }); save(); render(); break;
     case 'd-skit': R.after={xp:15, gel:8, goalBonus:0, acc:100, secs:74, maxCombo:6, practice:false, streakUp:false, demo:true, entrance:v}; go('end'); break;
     case 'd-reset': R.modal={type:'reset'}; render(); break;
