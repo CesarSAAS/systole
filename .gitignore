@@ -1,0 +1,7 @@
+.DS_Store
+__pycache__/
+dist/
+
+# Fichiers 3D d'origine : trop lourds, et l'un d'eux contient un maillage sous licence non commerciale
+tools/models/*.glb
+tools/models/m_*.json
