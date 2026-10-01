@@ -993,6 +993,22 @@ button,[data-act]{touch-action:manipulation}
 .ctab tbody th{text-align:left; font-weight:900}
 .ctab td{font-weight:800}
 .chances p{font-size:13px; color:var(--muted); margin-top:8px}
+/* ---------- Sauvegarde en ligne et compte ---------- */
+.card.cloud{display:grid; gap:12px}
+.cloud-h{display:flex; gap:12px; align-items:flex-start}
+.cloud-h p{font-weight:700; font-size:15px; line-height:1.4}
+.cloud-ico{flex:none; width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:var(--soft); color:var(--muted)}
+.cloud.on .cloud-ico{background:var(--ok-soft); color:var(--ok-ink)}
+.cloud-ico svg{width:18px; height:18px}
+.cloud-b{display:grid; gap:4px}
+.sheet.account h2,.sheet.account > p{text-align:center}
+.accf{display:grid; gap:12px; text-align:left}
+.accf label{display:grid; gap:6px; font-weight:900; font-size:14px; color:var(--ink)}
+.accf input{font:inherit; font-size:16px; font-weight:700; padding:12px 14px; border-radius:14px; border:2px solid var(--line-2); background:var(--panel); color:var(--ink); width:100%; -webkit-user-select:text; user-select:text}
+.accf input:focus{outline:none; border-color:var(--u4)}
+.accerr{min-height:1.3em; font-size:14px; font-weight:800; color:var(--ko-ink)}
+.accerr.ok{color:var(--ok-ink)}
+.accnote{font-size:12px; color:var(--muted); text-align:center}
 </style>
 
 <div id="app"></div>
@@ -1017,7 +1033,7 @@ var MAXL = 5, REGEN = 30*60*1000;
 function fresh(){ return {v:1, onboarded:false, goal:10, xp:0, xpByDay:{}, streak:0, best:0, lastDay:null, lostStreak:0, defib:1, lives:MAXL, livesTs:Date.now(), done:{}, days:[], frozen:[], sound:true, dayOffset:0, gel:50, chests:{}, subject:0, boostUntil:0, lastSkit:null, wrong:{}, owned:{rouge:1}, wear:{peau:'rouge'}, dailyHist:[]}; }
 var S = (function(){ try{ var s = JSON.parse(localStorage.getItem(KEY)); if(s && s.v===1) return Object.assign(fresh(), s); }catch(e){} return fresh(); })();
 S.owned=S.owned||{}; S.owned.rouge=1; S.wear=S.wear||{peau:'rouge'}; S.dailyHist=S.dailyHist||[];
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function save(){ try{ S.updatedAt=Date.now(); localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} if(typeof CLOUD!=='undefined' && CLOUD) cloudSoon(); }
 
 function now(){ return Date.now() + S.dayOffset*864e5; }
 function pad(n){ return (n<10?'0':'')+n; }
@@ -2905,7 +2921,7 @@ function vOnboard1(){
     '<div id="obboum">'+boum({size:170, mood:'happy', bpm:72})+'</div>'+
     '<div class="bubble up" style="max-width:360px">Salut, moi c\'est <b>Boum</b>. Chaque jour où tu révises, je bats un peu plus vite. Si tu m\'oublies, je m\'arrête.</div>'+
     '<h1>Systole</h1><p class="lead">5 minutes par jour pour arriver en santé avec une longueur d\'avance.</p>'+
-    '</div></div><div class="foot"><div class="foot-in"><button class="btn" data-act="ob-next">C\'est parti</button></div></div></div>';
+    '</div></div><div class="foot"><div class="foot-in"><button class="btn" data-act="ob-next">C\'est parti</button>'+(cloudOn()?'<button class="linkbtn" data-act="acc-open" data-v="login">J\'ai déjà un compte</button>':'')+'</div></div></div>';
 }
 function vOnboard2(){
   var opts=[[10,'Tranquille','1 leçon par jour'],[20,'Sérieux','2 leçons par jour'],[30,'Intense','3 leçons par jour']];
@@ -3147,6 +3163,7 @@ function vProfile(){
       '<div class="tile" style="color:var(--go)">'+I.check+'<div><b style="color:var(--ink)">'+nDone+' / '+ORDER.length+'</b><span>Leçons finies</span></div></div>'+
       '<div class="tile">'+kit(false,0,38)+'<div><b>'+nChest+' / '+totalChest+'</b><span>Trousses ouvertes</span></div></div>'+
     '</div>'+
+    cloudCard()+
     '<div class="section-t">Vestiaire</div>'+wardCard()+
     '<div class="section-t">Défibrillateurs</div>'+
     '<div class="card" style="display:flex; gap:14px; align-items:center">'+I.defib.replace('<svg','<svg style="width:46px;height:46px;flex:none"')+'<div><b>'+S.defib+' / 2 équipés</b><p style="color:var(--muted); font-size:14px">Si tu rates un jour, un défibrillateur sauve ta série. Tu en gagnes un tous les 7 battements, ou tu l\'achètes à la pharmacie.</p></div></div>'+
@@ -4093,6 +4110,7 @@ function vModal(){
   if(m.type==='labo') return vLaboModal(m);
   if(m.type==='fiches') return vFiches(m);
   if(m.type==='wardrobe') return vWardrobe(m);
+  if(m.type==='account') return vAccount(m);
   if(m.type==='quit'){
     h='<div class="mascot">'+boum({size:96, mood:'sad'})+'</div><h2>Tu t\'en vas déjà ?</h2><p>Si tu quittes, ta progression dans cette leçon sera perdue.</p>'+
       '<button class="btn" data-act="m-close">Continuer la leçon</button><button class="linkbtn" data-act="quit-yes" style="color:var(--ko)">Quitter</button>';
@@ -4111,6 +4129,9 @@ function vModal(){
       '<div style="display:flex; justify-content:center">'+weekStrip()+'</div>'+
       '<h3 class="rt-title">Trousses du jour de ta série</h3>'+dailyGrid(streakDay(), !dailyReady())+'<p class="rt-note">Rare les jours 3, 6 et 9, épique le jour 7, légendaire le jour 10, puis ça recommence. Les épiques et légendaires peuvent cacher un objet pour Boum.</p>'+
       '<div class="defibs">'+I.defib+S.defib+' / 2 défibrillateurs</div><button class="btn" data-act="m-close">OK</button>';
+  } else if(m.type==='accout'){
+    h='<div class="mascot">'+boum({size:96, mood:'sad'})+'</div><h2>Se déconnecter ?</h2><p>Ta progression reste dans ton compte. Sur ce téléphone, tu repartiras de zéro jusqu\'à ta prochaine connexion.</p>'+
+      '<button class="btn red" data-act="acc-out-yes">Me déconnecter</button><button class="linkbtn" data-act="m-close">Annuler</button>';
   } else if(m.type==='reset'){
     h='<div class="mascot">'+boum({size:96, mood:'sad'})+'</div><h2>Tout réinitialiser ?</h2><p>Série, XP, gélules et leçons finies seront effacés sur cet appareil.</p><button class="btn red" data-act="d-reset-yes">Oui, tout effacer</button><button class="linkbtn" data-act="m-close">Annuler</button>';
   }
@@ -4367,6 +4388,10 @@ document.addEventListener('click', function(e){
     case 'd-gel2': S.gel+=2000; save(); R.bump={gel:true}; render(); SFX.coin(8); later(1200,function(){ R.bump=null; }); break;
     case 'd-unlock': ORDER.forEach(function(o){ S.done[o.l.id]=true; }); save(); render(); break;
     case 'd-skit': R.after={xp:15, gel:8, goalBonus:0, acc:100, secs:74, maxCombo:6, practice:false, streakUp:false, demo:true, entrance:v}; go('end'); break;
+    case 'acc-open': if(!CLOUD.sb){ toast('Connexion au serveur, réessaie dans un instant.'); cloudInit(); break; }
+      if(CLOUD.sb){ R.modal={type:'account', mode:v==='login'?'login':'signup'}; SFX.page(); render(); setTimeout(function(){ var ie=document.getElementById('acc-email'); if(ie) try{ ie.focus(); }catch(e){} }, 80); } break;
+    case 'acc-out': R.modal={type:'accout'}; render(); break;
+    case 'acc-out-yes': R.modal=null; render(); cloudSignOut().then(function(){ R.tab='learn'; go('onboard1'); }).catch(function(){ toast('Déconnexion impossible pour le moment.'); }); break;
     case 'd-reset': R.modal={type:'reset'}; render(); break;
     case 'd-reset-yes': S=fresh(); save(); R.tab='learn'; go('onboard1'); splash(false); break;
   }
@@ -4382,6 +4407,143 @@ document.addEventListener('keydown', function(e){
   if(e.key==='Enter'){ var b=document.getElementById('primary'); if(b && !b.disabled){ e.preventDefault(); ac(); b.click(); } }
 });
 
+/* ================= Sauvegarde en ligne (Supabase) ================= */
+/* Every player gets an account at first launch, anonymous and without e-mail, and the progress
+   is copied to the server a moment after each change. Creating an account with an e-mail and a
+   password lets a player find the same progress on another phone.
+   Without the two values below, or if the server can't be reached, the app works offline as before.
+   The key is the project's public key: it is meant to sit in the page, the database rules
+   (row level security) make sure each player only ever reads and writes their own progress. */
+var SUPA={url:'https://xwoytievugeccmuqabuk.supabase.co', key:'sb_publishable_Y9hPE_ko0GaAtqhPY1yZ9w_Op1FnnF7'};
+var CLOUD={sb:null, user:null, state:'off', timer:0, err:''};
+function cloudOn(){ return !!(SUPA.url && SUPA.key); }
+function cloudLib(){
+  return new Promise(function(res, rej){
+    if(window.supabase && window.supabase.createClient) return res(window.supabase);
+    var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'; s.async=true;
+    s.onload=function(){ if(window.supabase && window.supabase.createClient) res(window.supabase); else rej(new Error('lib')); };
+    s.onerror=function(){ rej(new Error('lib')); };
+    document.head.appendChild(s);
+  });
+}
+function cloudInit(){
+  if(!cloudOn() || CLOUD.sb || CLOUD.state==='loading') return;
+  CLOUD.state='loading'; cloudUI();
+  cloudLib().then(function(lib){
+    CLOUD.sb=lib.createClient(SUPA.url, SUPA.key, {auth:{persistSession:true, autoRefreshToken:true, storageKey:'systole-auth'}});
+    return CLOUD.sb.auth.getSession();
+  }).then(function(r){
+    var ses=r && r.data && r.data.session;
+    if(ses) return ses.user;
+    return CLOUD.sb.auth.signInAnonymously().then(function(a){ if(a.error) throw a.error; return a.data.user; });
+  }).then(function(u){
+    CLOUD.user=u; return cloudPull(false);
+  }).then(function(){ CLOUD.state='on'; CLOUD.err=''; cloudUI(); })
+  .catch(function(e){ CLOUD.state='error'; CLOUD.err=(e && e.message)||''; cloudUI(); });
+}
+/* Which progress to keep when the phone and the server disagree: never the one with less XP */
+function progressScore(s){ return (s.xp||0)*1000 + Object.keys(s.done||{}).length; }
+function cloudBetter(c, l){
+  if(!l.onboarded) return !!c.onboarded;
+  var a=progressScore(c), b=progressScore(l);
+  return a>b || (a===b && (c.updatedAt||0)>(l.updatedAt||0));
+}
+function cloudPull(force){
+  return CLOUD.sb.from('progress').select('state').eq('user_id', CLOUD.user.id).maybeSingle().then(function(r){
+    if(r.error) throw r.error;
+    var c=r.data && r.data.state;
+    if(c && (force || cloudBetter(c, S))) return cloudAdopt(c);
+    if(S.onboarded) return cloudPush();
+  });
+}
+function cloudAdopt(c){
+  S=Object.assign(fresh(), c); S.owned=S.owned||{}; S.owned.rouge=1; S.wear=S.wear||{peau:'rouge'}; S.dailyHist=S.dailyHist||[];
+  try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){}
+  if(!R.screen || R.screen==='home' || R.screen.indexOf('onboard')===0){ R.modal=null; onOpen(); }
+}
+function cloudPush(){
+  if(!CLOUD.sb || !CLOUD.user) return Promise.resolve();
+  clearTimeout(CLOUD.timer);
+  return CLOUD.sb.from('progress').upsert({user_id:CLOUD.user.id, state:S, updated_at:new Date().toISOString()}).then(function(r){
+    CLOUD.err = r.error ? r.error.message : '';
+  });
+}
+function cloudSoon(){ if(CLOUD.user && CLOUD.state==='on'){ clearTimeout(CLOUD.timer); CLOUD.timer=setTimeout(cloudPush, 1500); } }
+document.addEventListener('visibilitychange', function(){ if(document.hidden && CLOUD.user && CLOUD.state==='on') cloudPush(); });
+/* Keep this phone's progress and move it to a real account (e-mail and password) */
+function cloudSignUp(email, pass){
+  return CLOUD.sb.auth.signUp({email:email, password:pass}).then(function(r){
+    if(r.error) throw r.error;
+    if(!r.data.session) return {confirm:true};
+    CLOUD.user=r.data.user; return cloudPush().then(function(){ return {ok:true}; });
+  });
+}
+function cloudSignIn(email, pass){
+  return CLOUD.sb.auth.signInWithPassword({email:email, password:pass}).then(function(r){
+    if(r.error) throw r.error;
+    CLOUD.user=r.data.user; return cloudPull(false).then(function(){ return {ok:true}; });
+  });
+}
+function cloudSignOut(){
+  return CLOUD.sb.auth.signOut().then(function(){
+    CLOUD.user=null; S=fresh(); try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){}
+    return CLOUD.sb.auth.signInAnonymously().then(function(a){ CLOUD.user=(a.data && a.data.user)||null; });
+  });
+}
+function cloudUI(){ if(R.screen==='home' && R.tab==='profile' && !R.modal) render(); }
+function cloudCard(){
+  if(!cloudOn()) return '';
+  var u=CLOUD.user, anon=!u || u.is_anonymous, st=CLOUD.state, line, btns='';
+  if(st==='on' && anon){ line='Ta progression est sauvegardée en ligne. Crée ton compte pour la retrouver sur un autre téléphone.'; btns='<button class="btn" data-act="acc-open" data-v="signup">Créer mon compte</button><button class="linkbtn" data-act="acc-open" data-v="login">J\'ai déjà un compte</button>'; }
+  else if(st==='on'){ line='Connecté avec <b>'+esc(u.email||'')+'</b>. Ta progression te suit sur tous tes appareils.'; btns='<button class="btn ghost small" data-act="acc-out">Se déconnecter</button>'; }
+  else if(st==='loading'){ line='Connexion à la sauvegarde en ligne…'; }
+  else { line='Sauvegarde en ligne indisponible pour le moment. Ta progression reste enregistrée sur ce téléphone.'; }
+  return '<div class="section-t">Sauvegarde</div><div class="card cloud'+(st==='on'?' on':'')+'"><div class="cloud-h"><span class="cloud-ico">'+(st==='on'?I.check:I.clock)+'</span><p>'+line+'</p></div>'+(btns?'<div class="cloud-b">'+btns+'</div>':'')+'</div>';
+}
+function vAccount(m){
+  var up=m.mode==='signup';
+  return '<div class="scrim" data-act="scrim"><div class="sheet account" role="dialog" aria-modal="true" aria-label="'+(up?'Créer mon compte':'Me connecter')+'">'+
+    '<div class="mascot">'+boum({size:84, mood:up?'happy':'wink'})+'</div>'+
+    '<h2>'+(up?'Créer mon compte':'Me connecter')+'</h2>'+
+    '<p>'+(up?'Tu gardes toute ta progression, et tu la retrouves sur un autre téléphone.':'Retrouve la progression de ton compte sur ce téléphone.')+'</p>'+
+    '<form id="accform" class="accf" novalidate>'+
+      '<label>E-mail<input type="email" id="acc-email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required></label>'+
+      '<label>Mot de passe<input type="password" id="acc-pass" name="password" autocomplete="'+(up?'new-password':'current-password')+'" minlength="8" required></label>'+
+      '<p class="accerr" id="accerr" role="alert"></p>'+
+      '<button class="btn" type="submit" id="accgo">'+(up?'Créer mon compte':'Me connecter')+'</button>'+
+    '</form>'+
+    '<button class="linkbtn" data-act="acc-open" data-v="'+(up?'login':'signup')+'">'+(up?'J\'ai déjà un compte':'Créer un compte')+'</button>'+
+    '<p class="accnote">Ton e-mail sert seulement à retrouver ta progression. Elle est hébergée en Europe et n\'est jamais revendue.</p>'+
+  '</div></div>';
+}
+function accMsg(t, ok){ var e=document.getElementById('accerr'); if(e){ e.textContent=t||''; e.classList.toggle('ok', !!ok); } }
+function accBusy(b){ var g=document.getElementById('accgo'); if(g){ g.disabled=b; g.textContent = b ? 'Un instant…' : (R.modal && R.modal.mode==='signup' ? 'Créer mon compte' : 'Me connecter'); } }
+function accErr(e){
+  var s=String((e && (e.message||e.error_description))||'').toLowerCase();
+  if(/already|registered|exists/.test(s)) return 'Un compte existe déjà avec cet e-mail. Connecte-toi plutôt.';
+  if(/invalid login|invalid credentials/.test(s)) return 'E-mail ou mot de passe incorrect.';
+  if(/not confirmed/.test(s)) return 'Confirme d\'abord ton e-mail avec le lien reçu.';
+  if(/password/.test(s)) return 'Mot de passe trop faible : au moins 8 caractères.';
+  if(/rate|too many|security purposes/.test(s)) return 'Trop d\'essais. Réessaie dans quelques minutes.';
+  if(/fetch|network|failed/.test(s)) return 'Pas de connexion. Réessaie quand tu as du réseau.';
+  return 'Ça n\'a pas marché. Réessaie dans un instant.';
+}
+function accSubmit(){
+  var m=R.modal; if(!m || m.type!=='account' || m.busy || !CLOUD.sb) return;
+  var em=(document.getElementById('acc-email').value||'').trim(), pw=document.getElementById('acc-pass').value||'';
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return accMsg('Cet e-mail ne semble pas valide.');
+  if(pw.length<8) return accMsg('Choisis un mot de passe d\'au moins 8 caractères.');
+  m.busy=true; accBusy(true); accMsg('');
+  (m.mode==='signup' ? cloudSignUp(em,pw) : cloudSignIn(em,pw)).then(function(r){
+    m.busy=false;
+    if(r && r.confirm){ accBusy(false); accMsg('Compte créé. Clique sur le lien reçu par e-mail, puis connecte-toi.', true); return; }
+    var up=m.mode==='signup';
+    R.modal=null; R.tab='profile'; SFX.unlock(); buzz(30); go('home');
+    toast(I.check+(up?'Compte créé, progression sauvegardée !':'Connecté, progression récupérée !'));
+  }).catch(function(e){ m.busy=false; accBusy(false); accMsg(accErr(e)); });
+}
+document.addEventListener('submit', function(e){ if(e.target && e.target.id==='accform'){ e.preventDefault(); accSubmit(); } });
+
 function onOpen(){
   tickLives();
   R._defibFx=false;
@@ -4395,5 +4557,6 @@ try{ if(document.fonts) document.fonts.load('700 44px Caveat'); }catch(e){}
 setInterval(function(){ var before=S.lives; tickLives(); if(S.lives!==before && R.screen==='home' && !R.modal) render(); }, 30000);
 onOpen();
 splash(false);
+setTimeout(cloudInit, 800);
 })();
 </script>
